@@ -24,77 +24,79 @@ The research design for Eventify follows a mixed-method approach, combining elem
 
 1. User Management
 
-   - User registration and authentication
-   - User profile management
-   - Role-based access control (Organizer, Attendee, Sponsor)
+   - The system shall provide user registration and authentication capabilities.
+   - The system shall allow users to create and manage their profiles.
+   - The system shall implement role-based access control for Organizers, Attendees, and Sponsors.
 
 2. Event Management
 
-   - Event creation and editing
-   - Multi-session event support
-   - Event categorization and tagging
+   - The system shall enable organizers to create and edit events.
+   - The system shall support multiple sessions within a single event.
+   - The system shall provide event categorization and tagging functionality.
 
 3. Ticketing and Registration
 
-   - Multiple ticket types and pricing tiers
-   - Registration process handling
-   - QR code generation for tickets
+   - The system shall support multiple ticket types and pricing tiers.
+   - The system shall handle the complete registration process.
+   - The system shall generate unique QR codes for each ticket.
 
 4. Event Discovery
 
-   - Basic search functionality
-   - Simple event recommendations based on categories and tags
+   - The system shall provide search functionality for events.
+   - The system shall recommend events based on categories and tags.
 
 5. Attendee Engagement
 
-   - Basic in-app messaging system
-   - Simple networking features (attendee profiles, connection requests)
+   - The system shall provide an in-app messaging system.
+   - The system shall enable networking through attendee profiles and connection requests.
+     .
 
 6. Organizer Tools
 
-   - Event dashboard with basic statistics
-   - Team collaboration features
+   - The system shall provide an event dashboard with statistics.
+   - The system shall support team collaboration features.
 
 7. Virtual Event Support
 
-   - Integration with external video conferencing platforms (e.g., providing Zoom links)
-   - Basic virtual session management
+   - The system shall integrate with external video conferencing platforms.
+   - The system shall provide virtual session management capabilities.
 
 8. Feedback and Surveys
-   - Post-event survey creation and distribution
-   - Basic feedback analysis tools
+   - The system shall enable creation and distribution of post-event surveys.
+   - The system shall provide basic feedback analysis tools.
 
 ### 3.3.2 Non-Functional Requirements
 
 1. Performance
 
-   - Page load times under 5 seconds
-   - Support for up to 100 concurrent users initially, with a roadmap for scaling to 500
+   - The system shall load pages in under 5 seconds.
+   - The system shall support 100 concurrent users initially.
+   - The system shall be scalable to support 500 concurrent users.
 
 2. Security
 
-   - Data encryption in transit and at rest
-   - Secure authentication using JWT
-   - Implementation of basic security best practices
+   - The system shall encrypt all data in transit and at rest.
+   - The system shall implement JWT for secure authentication.
+   - The system shall follow security best practices.
 
 3. Scalability
 
-   - Modular architecture for future feature additions
-   - Database design optimized for gradual growth
+   - The system shall utilize a modular architecture.
+   - The system shall implement database optimization for growth.
 
 4. Usability
 
-   - Intuitive, responsive user interface
-   - Basic accessibility compliance
+   - The system shall provide an intuitive, responsive user interface.
+   - The system shall comply with basic accessibility standards.
 
 5. Reliability
 
-   - 99% system uptime during development and testing phases
-   - Regular data backups
+   - The system shall maintain 99% uptime during development and testing.
+   - The system shall perform regular data backups.
 
 6. Compatibility
-   - Cross-browser support (Chrome, Firefox, Safari, Edge)
-   - Mobile responsiveness
+   - The system shall function on major browsers (Chrome, Firefox, Safari, Edge).
+   - The system shall be responsive on mobile devices.
 
 ## 3.4 Proposed Model Diagram
 

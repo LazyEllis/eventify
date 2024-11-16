@@ -8,15 +8,15 @@ This chapter outlines the system analysis and design phase of the Eventify proje
 
 The research design for Eventify follows a mixed-method approach, combining elements of both qualitative and quantitative research:
 
-1. Literature Review: A comprehensive review of existing event management systems and relevant technologies was conducted to inform the design decisions.
+1. **Literature Review**: A comprehensive review of existing event management systems and relevant technologies will be conducted to inform the design decisions.
 
-2. User Surveys: Quantitative data was collected through surveys of potential users (event organizers and attendees) to gather specific requirements and preferences.
+2. **User Surveys**: Quantitative data will be collected through surveys of potential users (event organizers and attendees) to gather specific requirements and preferences.
 
-3. Expert Interviews: Qualitative data was obtained through semi-structured interviews with experienced event managers to gain insights into industry needs and challenges.
+3. **Expert Interviews**: Qualitative data will be obtained through semi-structured interviews with experienced event managers to gain insights into industry needs and challenges.
 
-4. Prototyping: An iterative prototyping approach was used to refine the user interface and system features based on user feedback.
+4. **Prototyping**: An iterative prototyping approach will be used to refine the user interface and system features based on user feedback.
 
-5. System Modeling: Various UML diagrams were created to model the system's structure and behavior, facilitating a clear understanding of the system design.
+5. **System Modeling**: Various UML diagrams were created to model the system's structure and behavior, facilitating a clear understanding of the system design.
 
 ## 3.3 Functional and Non-Functional Requirements
 
@@ -535,47 +535,47 @@ The following tools and technologies will be used in the development of Eventify
 
 1. Frontend Development
 
-   - **React.js**: Core UI framework
-   - **Vite**: Fast, modern build tool and dev server
-   - **React Router**: Client-side routing
-   - **React Query**: Data fetching and caching
-   - **React Hook Form**: Form handling with validation
-   - **Tailwind CSS**: Utility-first CSS framework
-   - **Material-UI**: Component library
-   - **Chart.js**: Basic analytics visualization
-   - **QRCode.js**: QR code generation
+   - **React.js**
+   - **Vite**
+   - **React Router**
+   - **React Query**
+   - **React Hook Form**
+   - **Tailwind CSS**
+   - **Material-UI**
+   - **Chart.js**
+   - **QRCode.js**
 
 2. Backend Development
 
-   - **Node.js/Express.js**: Server framework
-   - **Prisma**: Type-safe ORM
-   - **JWT**: Authentication
-   - **Bcrypt**: Password hashing
-   - **Multer**: Local file uploads
-   - **Winston**: Basic logging
-   - **Socket.io**: Basic real-time features
+   - **Node.js/Express.js**
+   - **Prisma**
+   - **JWT**
+   - **Bcrypt**
+   - **Multer**
+   - **Winston**
+   - **Socket.io**
 
 3. External Services
 
-   - **Cloudinary**: Media storage
-   - **Stripe**: Secure payment processing integration
-   - **SendGrid**: Reliable email delivery service
-   - **Zoom API**: Virtual events
-   - **Netlify**: Frontend hosting
-   - **Railway**: Backend hosting
+   - **Cloudinary**
+   - **Stripe**
+   - **SendGrid**
+   - **Zoom API**
+   - **Netlify**
+   - **Railway**
 
 4. Development Environment
 
-   - **VS Code**: Primary IDE
-   - **Git**: Version control
-   - **npm**: Package management
-   - **Postman**: API testing
+   - **VS Code**
+   - **Git**
+   - **npm**
+   - **Postman**
 
 5. Testing and Quality
 
-   - **Jest**: Testing framework
-   - **React Testing Library**: Component testing
-   - **Supertest**: API testing
-   - **ESLint/Prettier**: Code formatting
+   - **Jest**
+   - **React Testing Library**
+   - **Supertest**
+   - **ESLint/Prettier**
 
 This set of tools and technologies will enable efficient development and deployment of the Eventify system as an MVP (Minimum Viable Product), providing a live, accessible version for demonstration and testing.

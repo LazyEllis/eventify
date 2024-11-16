@@ -62,6 +62,7 @@ The research design for Eventify follows a mixed-method approach, combining elem
    - The system shall provide virtual session management capabilities.
 
 8. Feedback and Surveys
+
    - The system shall enable creation and distribution of post-event surveys.
    - The system shall provide basic feedback analysis tools.
 
@@ -397,46 +398,45 @@ The following tools and technologies will be used in the development of Eventify
 
 1. Frontend Development
 
-   - React.js: JavaScript library for building user interfaces
-   - Vite: Tool for setting up a new React project
-   - React Router: Declarative routing for React applications
+   - **React.js**: Core UI framework
+   - **Vite**: Fast, modern build tool and dev server
+   - **React Router**: Client-side routing
+   - **React Query**: Data fetching and caching
+   - **React Hook Form**: Form handling with validation
+   - **Tailwind CSS**: Utility-first CSS framework
+   - **Material-UI**: Component library
+   - **Chart.js**: Basic analytics visualization
+   - **QRCode.js**: QR code generation
 
 2. Backend Development
 
-   - Node.js: JavaScript runtime built on Chrome's V8 JavaScript engine
-   - Express.js: Web application framework for Node.js
-   - Prisma: Next-generation ORM for Node.js and TypeScript
+   - **Node.js/Express.js**: Server framework
+   - **Prisma**: Type-safe ORM
+   - **JWT**: Authentication
+   - **Bcrypt**: Password hashing
+   - **Multer**: Local file uploads
+   - **Winston**: Basic logging
+   - **Socket.io**: Basic real-time features
 
-3. Database
+3. Testing and Quality
 
-   - PostgreSQL: Open-source relational database
+   - **Jest**: Testing framework
+   - **React Testing Library**: Component testing
+   - **Supertest**: API testing
+   - **ESLint/Prettier**: Code formatting
 
-4. Version Control and Collaboration
+4. External Services
 
-   - Git: Distributed version control system
-   - GitHub: Web-based hosting service for version control using Git
+   - **Cloudinary**: Media storage
+   - **Stripe**: Secure payment processing integration
+   - **SendGrid**: Reliable email delivery service
+   - **Netlify**: Frontend hosting
+   - **Railway**: Backend hosting
 
-5. API Testing
-
-   - Postman: API development and testing tool
-
-6. Development Environment
-
-   - Visual Studio Code: Source code editor
-   - npm (Node Package Manager): Package manager for JavaScript
-
-7. Design and Prototyping
-
-   - Figma: Collaborative interface design tool (for mockups and UI design)
-
-8. Additional Libraries (as needed)
-
-   - Chart.js: Simple yet flexible JavaScript charting library for basic analytics
-   - Socket.io: Library for real-time web applications (if implementing real-time features)
-   - QRCode.js: Library for generating QR codes for tickets
-
-9. Deployment
-
-   - Render: Cloud hosting platform for deploying web applications
+5. Development Environment
+   - **VS Code**: Primary IDE
+   - **Git**: Version control
+   - **npm**: Package management
+   - **Postman**: API testing
 
 This set of tools and technologies will enable efficient development and deployment of the Eventify system as an MVP (Minimum Viable Product), providing a live, accessible version for demonstration and testing.

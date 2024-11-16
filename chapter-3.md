@@ -22,82 +22,106 @@ The research design for Eventify follows a mixed-method approach, combining elem
 
 ### 3.3.1 Functional Requirements
 
-1. User Management
+1. **User Management**
 
-   - The system shall provide user registration and authentication capabilities.
-   - The system shall allow users to create and manage their profiles.
-   - The system shall implement role-based access control for Organizers, Attendees, and Sponsors.
+   - The system shall authenticate users through email and password.
+   - The system shall store user profiles with name, email, and contact information.
+   - The system shall assign user roles of Organizer, Attendee, or Sponsor.
+   - The system shall restrict access to features based on assigned user roles.
 
-2. Event Management
+2. **Event Management**
 
-   - The system shall enable organizers to create and edit events.
-   - The system shall support multiple sessions within a single event.
-   - The system shall provide event categorization and tagging functionality.
+   - The system shall store event details including title, date, time, location, and description.
+   - The system shall validate event dates against the calendar system.
+   - The system shall categorize events by predefined types.
+   - The system shall support media attachments up to 10MB per event.
 
-3. Ticketing and Registration
+3. **Ticketing Management**
 
-   - The system shall support multiple ticket types and pricing tiers.
-   - The system shall handle the complete registration process.
-   - The system shall generate unique QR codes for each ticket.
+   - The system shall generate unique ticket identifiers.
+   - The system shall limit ticket sales to available capacity.
+   - The system shall process ticket payments through the payment gateway.
+   - The system shall deliver tickets electronically to purchasers.
 
-4. Event Discovery
+4. **Event Discovery**
 
-   - The system shall provide search functionality for events.
-   - The system shall recommend events based on categories and tags.
+   - The system shall display events in chronological order.
+   - The system shall filter events by category.
+   - The system shall filter events by date range.
+   - The system shall return search results within 3 seconds.
 
-5. Attendee Engagement
+5. **Communication**
 
-   - The system shall provide an in-app messaging system.
-   - The system shall enable networking through attendee profiles and connection requests.
-     .
+   - The system shall send confirmation emails for registrations.
+   - The system shall send reminder emails 24 hours before events.
+   - The system shall notify organizers of new registrations.
+   - The system shall maintain message logs for 30 days.
 
-6. Organizer Tools
+6. **Analytics**
 
-   - The system shall provide an event dashboard with statistics.
-   - The system shall support team collaboration features.
+   - The system shall track ticket sales quantities.
+   - The system shall calculate daily revenue totals.
+   - The system shall record event attendance numbers.
+   - The system shall generate attendance reports in CSV format.
 
-7. Virtual Event Support
+7. **Attendee Engagement**
 
-   - The system shall integrate with external video conferencing platforms.
-   - The system shall provide virtual session management capabilities.
+   - The system shall deliver messages between attendees in real-time.
+   - The system shall display attendee profiles with professional information.
+   - The system shall record connection requests between attendees.
+   - The system shall maintain an attendee directory for each event.
 
-8. Feedback and Surveys
+8. **Virtual Event Support**
 
-   - The system shall enable creation and distribution of post-event surveys.
-   - The system shall provide basic feedback analysis tools.
+   - The system shall authenticate virtual event access through single-use tokens.
+   - The system shall transmit event joining links to registered attendees via email.
+   - The system shall record virtual event attendance status.
+   - The system shall maintain virtual event schedules in UTC timezone.
+   - The system shall validate virtual event capacity against registration limits.
 
 ### 3.3.2 Non-Functional Requirements
 
-1. Performance
+1. **Performance**
 
-   - The system shall load pages in under 5 seconds.
-   - The system shall support 100 concurrent users initially.
-   - The system shall be scalable to support 500 concurrent users.
+   - The system shall process user requests within 3 seconds.
+   - The system shall support 100 concurrent users.
+   - The system shall maintain 99% uptime.
+   - The system shall complete database queries within 1 second.
 
-2. Security
+2. **Security**
 
-   - The system shall encrypt all data in transit and at rest.
-   - The system shall implement JWT for secure authentication.
-   - The system shall follow security best practices.
+   - The system shall encrypt all user passwords.
+   - The system shall enforce HTTPS for all connections.
+   - The system shall timeout inactive sessions after 30 minutes.
+   - The system shall log all authentication attempts.
 
-3. Scalability
+3. **Usability**
 
-   - The system shall utilize a modular architecture.
-   - The system shall implement database optimization for growth.
+   - The system shall display error messages in plain English.
+   - The system shall provide keyboard navigation.
+   - The system shall conform to WCAG 2.1 Level AA standards.
+   - The system shall support screen readers.
 
-4. Usability
+4. **Reliability**
 
-   - The system shall provide an intuitive, responsive user interface.
-   - The system shall comply with basic accessibility standards.
+   - The system shall backup data daily.
+   - The system shall restore from backup within 4 hours.
+   - The system shall handle input validation errors gracefully.
+   - The system shall maintain data integrity during concurrent operations.
 
-5. Reliability
+5. **Compatibility**
 
-   - The system shall maintain 99% uptime during development and testing.
-   - The system shall perform regular data backups.
+   - The system shall support Chrome version 90 and above.
+   - The system shall support Firefox version 88 and above.
+   - The system shall support Safari version 14 and above.
+   - The system shall support Edge version 90 and above.
 
-6. Compatibility
-   - The system shall function on major browsers (Chrome, Firefox, Safari, Edge).
-   - The system shall be responsive on mobile devices.
+6. **Maintainability**
+
+   - The system shall log all errors with timestamps.
+   - The system shall provide API documentation.
+   - The system shall implement database migrations.
+   - The system shall follow REST architectural principles.
 
 ## 3.4 Proposed Model Diagram
 
@@ -112,10 +136,6 @@ Eventify follows a modern, three-tier architecture:
 2. Application Layer: Node.js and Express.js-based back-end, handling business logic and API endpoints.
 
 3. Data Layer: PostgreSQL database for data storage, with Prisma ORM for database operations.
-
-Additional components:
-
-- Socket.io for basic real-time features (optional, if time permits)
 
 ```
 @startuml System Architecture
@@ -418,25 +438,27 @@ The following tools and technologies will be used in the development of Eventify
    - **Winston**: Basic logging
    - **Socket.io**: Basic real-time features
 
-3. Testing and Quality
+3. External Services
+
+   - **Cloudinary**: Media storage
+   - **Stripe**: Secure payment processing integration
+   - **SendGrid**: Reliable email delivery service
+   - **Zoom API**: Virtual events
+   - **Netlify**: Frontend hosting
+   - **Railway**: Backend hosting
+
+4. Development Environment
+
+   - **VS Code**: Primary IDE
+   - **Git**: Version control
+   - **npm**: Package management
+   - **Postman**: API testing
+
+5. Testing and Quality
 
    - **Jest**: Testing framework
    - **React Testing Library**: Component testing
    - **Supertest**: API testing
    - **ESLint/Prettier**: Code formatting
-
-4. External Services
-
-   - **Cloudinary**: Media storage
-   - **Stripe**: Secure payment processing integration
-   - **SendGrid**: Reliable email delivery service
-   - **Netlify**: Frontend hosting
-   - **Railway**: Backend hosting
-
-5. Development Environment
-   - **VS Code**: Primary IDE
-   - **Git**: Version control
-   - **npm**: Package management
-   - **Postman**: API testing
 
 This set of tools and technologies will enable efficient development and deployment of the Eventify system as an MVP (Minimum Viable Product), providing a live, accessible version for demonstration and testing.

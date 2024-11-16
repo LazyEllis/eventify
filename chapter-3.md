@@ -531,51 +531,86 @@ package "Backend" {
 
 ## 3.7 Development Tools
 
-The following tools and technologies will be used in the development of Eventify:
+The following tools and technologies will be utilized in the development of Eventify, each serving specific purposes in creating a robust event management system:
 
 1. Frontend Development
 
-   - **React.js**
-   - **Vite**
-   - **React Router**
-   - **React Query**
-   - **React Hook Form**
-   - **Tailwind CSS**
-   - **Material-UI**
-   - **Chart.js**
-   - **QRCode.js**
+   - **React.js**: A JavaScript library for building user interfaces, chosen for its component-based architecture and efficient DOM manipulation through virtual DOM. It will be used as the primary frontend framework.
+
+   - **Vite**: A modern frontend build tool that offers significantly faster build times through native ES modules. It will serve as the development server and build tool for the project.
+
+   - **React Router**: A standard routing library for React, handling navigation and URL management in the single-page application.
+
+   - **React Query**: A data-fetching and state management library that will handle server state, caching, and real-time updates efficiently.
+
+   - **React Hook Form**: A performant form management library that will handle form validation and submission with minimal re-renders.
+
+   - **Tailwind CSS**: A utility-first CSS framework that will enable rapid UI development through composable utility classes.
+
+   - **Material-UI**: A comprehensive React UI framework that will provide pre-built, customizable components adhering to Material Design principles.
+
+   - **Chart.js**: A flexible charting library that will be used to create interactive analytics dashboards and data visualizations.
+
+   - **QRCode.js**: A QR code generation library that will create scannable codes for event check-ins and ticket validation.
 
 2. Backend Development
 
-   - **Node.js/Express.js**
-   - **Prisma**
-   - **JWT**
-   - **Bcrypt**
-   - **Multer**
-   - **Winston**
-   - **Socket.io**
+   - **Node.js/Express.js**: The server runtime and web framework that will power the backend API, chosen for its non-blocking I/O and extensive ecosystem.
 
-3. External Services
+   - **Prisma**: A modern ORM that provides type-safe database access and automatic migrations, simplifying database operations.
 
-   - **Cloudinary**
-   - **Stripe**
-   - **SendGrid**
-   - **Zoom API**
-   - **Netlify**
-   - **Railway**
+   - **JWT**: JSON Web Tokens will handle secure authentication and authorization between client and server.
 
-4. Development Environment
+   - **Bcrypt**: A password hashing function that will ensure secure storage of user credentials.
 
-   - **VS Code**
-   - **Git**
-   - **npm**
-   - **Postman**
+   - **Multer**: A middleware for handling multipart/form-data, managing file uploads in the application.
 
-5. Testing and Quality
+   - **Winston**: A versatile logging library that will maintain comprehensive system logs for monitoring and debugging.
 
-   - **Jest**
-   - **React Testing Library**
-   - **Supertest**
-   - **ESLint/Prettier**
+   - **Socket.io**: A real-time event-based communication library enabling features like live updates and chat functionality.
+
+3. Infrastructure
+
+   - **PostgreSQL**: A powerful open-source relational database that will store structured data with ACID compliance.
+
+   - **Redis**: An in-memory data structure store that will handle caching and real-time data requirements.
+
+   - **Netlify**: A modern hosting platform that will deploy and serve the frontend application with CDN benefits.
+
+   - **Railway**: A deployment platform that will host the backend services with automated deployment pipelines.
+
+4. External Services
+
+   - **Cloudinary**: A cloud-based image and video management service that will handle media storage and transformations.
+
+   - **Stripe**: A payment processing platform that will handle secure payment transactions for ticket sales.
+
+   - **SendGrid**: An email delivery service that will manage all transactional emails and notifications.
+
+   - **Zoom API**: A video conferencing API that will enable virtual event functionality and integrations.
+
+5. Development Environment
+
+   - **VS Code**: The primary code editor, chosen for its extensive extensions and integrated development features.
+
+   - **Git**: The version control system that will track code changes and facilitate team collaboration.
+
+   - **npm**: The Node.js package manager that will handle dependency management and script execution.
+
+   - **ESLint/Prettier**: Code quality and formatting tools that will maintain consistent code style across the project.
+
+   - **Postman**: An API testing tool that will help develop and test API endpoints.
+
+6. Testing
+
+   - **Jest**: A JavaScript testing framework that will handle unit and integration testing of backend services.
+
+   - **Vitest**: A Vite-native testing framework that will enable frontend unit testing with modern features.
+
+   - **React Testing Library**: A testing utility that will facilitate testing React components in a user-centric way.
+
+   - **Supertest**: An HTTP assertion library that will enable API endpoint testing with readable syntax.
+
+These tools and technologies have been carefully selected to create a modern, scalable, and maintainable event management system. Each tool serves a specific purpose in the development workflow, from local development to production deployment.
 
 This set of tools and technologies will enable efficient development and deployment of the Eventify system as an MVP (Minimum Viable Product), providing a live, accessible version for demonstration and testing.

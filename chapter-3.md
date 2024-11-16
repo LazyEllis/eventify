@@ -350,6 +350,8 @@ services --> zoom : Virtual Events
 
 ### 3.6.1 Use Case Diagram
 
+The following use case diagram illustrates the primary actors (Admin, Event Organizer, Attendee, and Sponsor) and their interactions with the Eventify system. It shows the main functionalities available to each user role, from basic authentication to complex event management tasks. The diagram helps visualize the system boundaries and the relationships between different user types and system features.
+
 ```plantuml
 @startuml Use Case Diagram
 
@@ -426,6 +428,8 @@ analytics .> reports : includes
 
 ### 3.6.2 Sequence Diagram
 
+This sequence diagram demonstrates the core interactions between system components during two key processes: event creation and event registration. It shows the flow of data and control between the user interface, various backend services, and the database, highlighting how different system components collaborate to accomplish these essential tasks.
+
 ```plantuml
 @startuml Sequence Diagram
 
@@ -477,6 +481,8 @@ ui --> attendee: Show Ticket
 ```
 
 ### 3.6.3 Activity Diagram
+
+The activity diagram below maps out the complete lifecycle of an event within the Eventify system, from creation through execution to post-event activities. It illustrates parallel processes, decision points, and the flow of activities across different stages of event management, helping to understand the operational workflow of the system.
 
 ```plantuml
 @startuml Activity Diagram
@@ -562,6 +568,8 @@ stop
 
 ### 3.6.4 Entity-Relationship Diagram (ERD)
 
+The ERD represents the database structure of Eventify, showing the relationships between key entities such as Users, Events, Tickets, and Registrations. It defines the data model that supports all system operations, including primary and foreign key relationships, ensuring data integrity and proper storage of all system information.
+
 ```plantuml
 @startuml Entity Relationship Diagram
 
@@ -645,6 +653,8 @@ Events ||--o| VirtualEvents : extends
 
 ### 3.6.5 System Component Diagram
 
+This component diagram provides a high-level view of Eventify's architecture, showing how different components interact across the frontend, backend, data storage, and external services. It illustrates the system's modular design and the integration points between various services and third-party components.
+
 ```plantuml
 @startuml System Component Diagram
 
@@ -708,6 +718,8 @@ WSClient ..> WSServer : WebSocket
 ```
 
 ### 3.6.6 Package Diagram
+
+The package diagram depicts the logical grouping of Eventify's codebase into distinct modules and layers. It shows the organization of the system's components into packages, their dependencies, and the overall structure of the application, helping developers understand the system's architecture and maintain code organization.
 
 ```plantuml
 @startuml Package Diagram

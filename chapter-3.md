@@ -116,29 +116,280 @@ Additional components:
 
 - Socket.io for basic real-time features (optional, if time permits)
 
-[Include a detailed system architecture diagram here]
+```
+@startuml System Architecture
+skinparam componentStyle uml2
+
+cloud "Client Layer" {
+    [Web Browser]
+}
+
+node "Presentation Layer" {
+    [React Frontend]
+    [React Router]
+}
+
+node "Application Layer" {
+    [Express.js API]
+    [Authentication]
+    [Event Management]
+    [Ticket Management]
+}
+
+database "Data Layer" {
+    [PostgreSQL]
+}
+
+[Web Browser] --> [React Frontend]
+[React Frontend] --> [React Router]
+[React Frontend] --> [Express.js API]
+[Express.js API] --> [Authentication]
+[Express.js API] --> [Event Management]
+[Express.js API] --> [Ticket Management]
+[Authentication] --> [PostgreSQL]
+[Event Management] --> [PostgreSQL]
+[Ticket Management] --> [PostgreSQL]
+@enduml
+```
 
 ## 3.6 Flow Charts, Use Case Diagram, Sequence Diagram and all other diagrams
 
 ### 3.6.1 Use Case Diagram
 
-[Include a use case diagram showing the main actors (Organizer, Attendee, Sponsor) and their interactions with the system]
+```
+@startuml Use Case
+left to right direction
+actor Organizer
+actor Attendee
+actor Sponsor
+
+rectangle Eventify {
+    usecase "Create Event" as CE
+    usecase "Manage Event" as ME
+    usecase "Register for Event" as RE
+    usecase "View Event" as VE
+    usecase "Purchase Ticket" as PT
+    usecase "Sponsor Event" as SE
+    usecase "Network" as NT
+    usecase "Manage Profile" as MP
+}
+
+Organizer --> CE
+Organizer --> ME
+Attendee --> RE
+Attendee --> VE
+Attendee --> PT
+Attendee --> NT
+Sponsor --> SE
+Organizer --> MP
+Attendee --> MP
+Sponsor --> MP
+@enduml
+```
 
 ### 3.6.2 Event Creation Sequence Diagram
 
-[Include a sequence diagram illustrating the process of an organizer creating a new event]
+```
+@startuml Event Creation
+actor Organizer
+participant Frontend
+participant "API Server" as API
+database Database
+
+Organizer -> Frontend: Access event creation form
+Frontend -> API: GET /api/event/create
+API --> Frontend: Return form template
+Organizer -> Frontend: Fill event details
+Frontend -> API: POST /api/event
+API -> Database: Create event record
+Database --> API: Confirm creation
+API --> Frontend: Return success status
+Frontend --> Organizer: Show success message
+@enduml
+```
 
 ### 3.6.3 Event Registration Activity Diagram
 
-[Include an activity diagram showing the flow of the event registration process for an attendee]
+```
+@startuml Event Registration Activity
+start
+:User Browses Events;
+:Select Event;
+:View Event Details;
+if (Tickets Available?) then (yes)
+  :Select Ticket Type;
+  :Enter Registration Details;
+  :Process Payment;
+  if (Payment Successful?) then (yes)
+    :Generate QR Code;
+    :Send Confirmation Email;
+    :Registration Complete;
+  else (no)
+    :Show Payment Error;
+    :Return to Payment;
+  endif
+else (no)
+  :Show Waitlist Option;
+  :Join Waitlist;
+endif
+stop
+@enduml
+```
 
 ### 3.6.4 System Component Diagram
 
-[Include a component diagram showing the major components of the Eventify system and their dependencies]
+```
+@startuml Component Diagram
+package "Frontend Components" {
+    [Event List]
+    [Event Details]
+    [Registration Form]
+    [User Dashboard]
+    [Admin Panel]
+}
+
+package "Backend Services" {
+    [Auth Service]
+    [Event Service]
+    [Ticket Service]
+    [User Service]
+}
+
+package "External Services" {
+    [Email Service]
+    [Payment Gateway]
+}
+
+database "Database" {
+    [PostgreSQL]
+}
+
+[Event List] --> [Event Service]
+[Event Details] --> [Event Service]
+[Registration Form] --> [Ticket Service]
+[User Dashboard] --> [User Service]
+[Admin Panel] --> [Auth Service]
+
+[Event Service] --> [PostgreSQL]
+[Ticket Service] --> [PostgreSQL]
+[User Service] --> [PostgreSQL]
+[Auth Service] --> [PostgreSQL]
+
+[Ticket Service] --> [Payment Gateway]
+[Event Service] --> [Email Service]
+@enduml
+```
+
+### 3.6.5 Package Diagram
+
+```
+@startuml Package Diagram
+package "Frontend" {
+    package "Components" {
+        [UI Components]
+        [Forms]
+        [Pages]
+    }
+    package "Services" {
+        [API Client]
+        [Auth Helper]
+    }
+    package "Utils" {
+        [Validators]
+        [Formatters]
+    }
+}
+
+package "Backend" {
+    package "API" {
+        [Routes]
+        [Controllers]
+        [Middleware]
+    }
+    package "Services" {
+        [Business Logic]
+        [External Services]
+    }
+    package "Data" {
+        [Models]
+        [Repository]
+    }
+}
+
+[Components] ..> [Services]
+[API] ..> [Services]
+[Services] ..> [Data]
+@enduml
+```
 
 ### 3.6.5 Entity-Relationship Diagram (ERD)
 
-[Include an ERD showing the main entities in the Eventify database and their relationships. Key entities should include User, Event, Ticket, Session, and Message]
+```
+@startuml ERD
+!define Table(name,desc) class name as "desc" << (T,#FFAAAA) >>
+!define primary_key(x) <u>x</u>
+!define foreign_key(x) <i>x</i>
+
+Table(User, "users") {
+  primary_key(id): UUID
+  email: STRING
+  password_hash: STRING
+  name: STRING
+  role: ENUM
+  created_at: TIMESTAMP
+}
+
+Table(Event, "events") {
+  primary_key(id): UUID
+  foreign_key(organizer_id): UUID
+  title: STRING
+  description: TEXT
+  start_date: TIMESTAMP
+  end_date: TIMESTAMP
+  location: STRING
+  category: STRING
+  status: ENUM
+  created_at: TIMESTAMP
+}
+
+Table(Ticket, "tickets") {
+  primary_key(id): UUID
+  foreign_key(event_id): UUID
+  type: STRING
+  price: DECIMAL
+  quantity: INTEGER
+  description: STRING
+}
+
+Table(Registration, "registrations") {
+  primary_key(id): UUID
+  foreign_key(user_id): UUID
+  foreign_key(ticket_id): UUID
+  foreign_key(event_id): UUID
+  status: ENUM
+  qr_code: STRING
+  created_at: TIMESTAMP
+}
+
+Table(Session, "sessions") {
+  primary_key(id): UUID
+  foreign_key(event_id): UUID
+  title: STRING
+  description: TEXT
+  start_time: TIMESTAMP
+  end_time: TIMESTAMP
+  location: STRING
+}
+
+User ||--o{ Event : organizes
+Event ||--o{ Ticket : has
+Event ||--o{ Session : contains
+User ||--o{ Registration : makes
+Ticket ||--o{ Registration : includes
+Event ||--o{ Registration : belongs_to
+
+@enduml
+```
 
 ## 3.7 Development Tools
 

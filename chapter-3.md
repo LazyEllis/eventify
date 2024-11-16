@@ -123,7 +123,80 @@ The research design for Eventify follows a mixed-method approach, combining elem
    - The system shall implement database migrations.
    - The system shall follow REST architectural principles.
 
-## 3.4 Proposed Model
+## 3.4 Development Model
+
+For the development of Eventify, we adopted an Agile development methodology, specifically using Scrum, due to its alignment with our project requirements and constraints:
+
+### 3.4.1 Understanding Agile and Scrum
+
+Agile is an iterative approach to software development that emphasizes flexibility, continuous improvement, and rapid delivery. The methodology focuses on breaking projects into small, manageable chunks called iterations or sprints. Scrum, a popular Agile framework, provides a specific structure for implementing Agile principles through defined roles (Scrum Master, Product Owner, Development Team), ceremonies (Sprint Planning, Daily Standups, Sprint Review, Retrospectives), and artifacts (Product Backlog, Sprint Backlog, Increment).
+
+Key principles of Agile include:
+
+- Customer collaboration over contract negotiation
+- Responding to change over following a plan
+- Working software over comprehensive documentation
+- Individuals and interactions over processes and tools
+
+Scrum enhances these principles by providing:
+
+- Fixed-length iterations (sprints) typically 2-4 weeks long
+- Clear roles and responsibilities
+- Regular inspection and adaptation
+- Empirical process control
+
+### 3.4.2 Why Agile for Eventify
+
+1. **Iterative Development**
+
+   - Enables gradual rollout of features, starting with core event management
+   - Allows early testing of critical components like payment processing and ticket generation
+   - Facilitates rapid adaptation to user feedback, especially for UI/UX improvements
+
+2. **Sprint-Based Delivery**
+
+   - 2-week sprints align with our 4-month development timeline
+   - Sprint 1-2: Core user and event management
+   - Sprint 3-4: Ticketing and payment systems
+   - Sprint 5-6: Virtual event integration
+   - Sprint 7-8: Analytics and reporting features
+
+3. **Risk Management**
+   - Early identification of technical challenges in payment gateway integration
+   - Continuous security testing throughout development
+   - Regular stakeholder reviews to ensure alignment with requirements
+
+### 3.4.3 Agile Practices in Eventify
+
+1. **Daily Standups**
+
+   - Track progress on feature development
+   - Identify blocking issues, especially for dependent components
+   - Ensure coordination between frontend and backend teams
+
+2. **Sprint Planning**
+
+   - Prioritize features based on user value
+   - Estimate story points for complex features like real-time notifications
+   - Plan integration points between system components
+
+3. **Continuous Integration/Deployment**
+   - Automated testing for each component
+   - Regular deployments to staging environment
+   - Feature flags for gradual rollout
+
+### 3.4.4 Adaptation to Project Needs
+
+1. **Modified Reviews**
+
+   - Weekly stakeholder demos instead of end-of-sprint only
+   - Combined code reviews with security audits
+   - User testing sessions after each major feature release
+
+2. **Documentation Integration**
+   - API documentation updated in parallel with development
+   - User guides created incrementally
+   - Technical documentation maintained as living documents
 
 ## 3.5 System Architecture
 
@@ -282,7 +355,7 @@ Application_Layer -[hidden]-> Data_Layer
 
 This architecture enables Eventify to handle complex event management workflows while maintaining performance, scalability, and reliability. The separation of concerns allows for independent scaling of components and easier maintenance of the codebase.
 
-## 3.6 Development Diagrams
+## 3.6 System Design
 
 ### 3.6.1 Use Case Diagram
 

@@ -38,21 +38,13 @@ The specific objectives are to:
 
 3. Evaluate the developed event system.
 
-## 1.4 Methodology
+## 1.4 Methodology Overview
 
-The development of Eventify will follow an Agile methodology, specifically utilizing the Scrum framework. This approach allows for iterative development, regular stakeholder feedback, and flexibility in adapting to changing requirements. The key components of the methodology include:
+The design of the event management system model involves comprehensive requirements analysis through literature review and industry research. The system architecture is modeled using various UML diagrams including Use Case diagrams to capture system functionality, Activity diagrams to illustrate workflows, Sequence diagrams to show component interactions, and Entity-Relationship diagrams to design the data model. Package and Component diagrams are employed to visualize the system's modular structure and dependencies.
 
-1. **Requirements Analysis**: Gathering and analyzing user requirements through surveys and interviews with potential users (event organizers and attendees).
+Implementation of the designed model utilizes modern web development tools and frameworks. The frontend is built with React.js, Vite, React Router, and Material-UI, while the backend employs Node.js/Express.js with Prisma ORM for database operations. The system follows an Agile development methodology using 2-week sprints, with continuous integration practices supported by Git for version control. Infrastructure components include PostgreSQL for data storage, Redis for caching, and deployment on Netlify (frontend) and Railway (backend).
 
-2. **System Design**: Creating a detailed system architecture, database schema, and user interface designs.
-
-3. **Iterative Development**: Implementing features in two-week sprint cycles, with regular sprint planning, review, and retrospective meetings.
-
-4. **Testing**: Conducting unit testing, integration testing, and user acceptance testing throughout the development process.
-
-5. **Evaluation**: Gathering user feedback and conducting performance analysis to assess the system's effectiveness and identify areas for improvement.
-
-6. **MVP Approach**: Focusing on delivering a Minimum Viable Product (MVP) that includes core functionalities, with the potential for future enhancements.
+Evaluation of the developed system employs a comprehensive testing strategy using Jest for backend unit testing, Vitest for frontend testing, and React Testing Library for component testing. System performance is assessed through metrics tracking with Winston logging and real-world usage data. The evaluation phase also includes security testing of authentication mechanisms using JWT tokens and bcrypt for password hashing. User acceptance testing is conducted to validate the system against initial requirements, with feedback collected through structured testing sessions.
 
 ## 1.5 Scope of the Study
 

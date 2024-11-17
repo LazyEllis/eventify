@@ -32,11 +32,11 @@ The aim of this project is to develop a comprehensive web-based event management
 
 The specific objectives are to:
 
-1. Design a model of an integrated event management system that incorporates core functionalities for event creation, ticketing, engagement, and analytics while supporting both traditional and virtual event formats.
+1. Design a model of an event management system.
 
-2. Implement the design model through an extensible web-based application using modern technologies and following industry best practices for security, scalability, and user experience.
+2. Implement the designed model of the event management system.
 
-3. Evaluate the developed system through comprehensive testing, user feedback analysis, and performance assessment to validate its effectiveness in meeting the needs of event organizers and participants.
+3. Evaluate the developed event system.
 
 ## 1.4 Methodology
 

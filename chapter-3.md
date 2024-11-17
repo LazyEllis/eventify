@@ -286,22 +286,22 @@ The Eventify system employs a modern three-tier architecture designed to provide
 
 ### System Architecture Diagram
 
-<div hidden="hidden">
-  
+<!-- <div hidden="hidden">
+
   ```plantuml
   @startuml System Architecture
-  
+
   !define RECTANGLE class
-  
+
   skinparam componentStyle uml2
-  
+
   rectangle "Client Layer" {
     [React SPA] as client
     [Material UI] as mui
     [React Query] as rquery
     [WebSocket Client] as wsclient
   }
-  
+
   rectangle "Application Layer" {
     [Express API] as api
     [Auth Middleware] as auth
@@ -309,45 +309,45 @@ The Eventify system employs a modern three-tier architecture designed to provide
     [WebSocket Server] as wsserver
     [Service Integrations] as services
   }
-  
+
   rectangle "Data Layer" {
     database "PostgreSQL" as db
     database "Redis Cache" as redis
     database "Cloudinary" as cloud
   }
-  
+
   rectangle "External Services" {
     [Stripe] as stripe
     [SendGrid] as mail
     [Zoom] as zoom
   }
-  
+
   ' Client Layer connections
-  client --> mui
-  client --> rquery
-  client --> wsclient
-  
+  client -[dotted]-> mui
+  client -[dotted]-> rquery
+  client -[dotted]-> wsclient
+
   ' Application Layer internal connections
-  api --> auth
-  api --> logic
-  logic --> services
-  logic --> wsserver
-  
+  api -[dotted]-> auth
+  api -[dotted]-> logic
+  logic -[dotted]-> services
+  logic -[dotted]-> wsserver
+
   ' Layer connections
   client ..> api : HTTPS
   wsclient ..> wsserver : WebSocket
-  api --> db : Prisma ORM
-  api --> redis : Cache
-  api --> cloud : Media Storage
-  
+  api -[dotted]-> db : Prisma ORM
+  api -[dotted]-> redis : Cache
+  api -[dotted]-> cloud : Media Storage
+
   ' External service connections
-  services --> stripe : Payments
-  services --> mail : Email
-  services --> zoom : Virtual Events
-  
+  services -[dotted]-> stripe : Payments
+  services -[dotted]-> mail : Email
+  services -[dotted]-> zoom : Virtual Events
+
   @enduml
   ```
-</div>
+</div> -->
 
 ![](./diagrams/architecture.svg)
 
@@ -357,7 +357,7 @@ The Eventify system employs a modern three-tier architecture designed to provide
 
 The following use case diagram illustrates the primary actors (Admin, Event Organizer, Attendee, and Sponsor) and their interactions with the Eventify system. It shows the main functionalities available to each user role, from basic authentication to complex event management tasks. The diagram helps visualize the system boundaries and the relationships between different user types and system features.
 
-<div hidden="hidden">
+<!-- <div hidden="hidden">
 
 ```plantuml
 @startuml Use Case Diagram
@@ -401,28 +401,28 @@ rectangle Eventify {
 }
 
 ' Relationships
-admin --> manageUsers
-admin --> configSystem
+admin -[dotted]-> manageUsers
+admin -[dotted]-> configSystem
 
-organizer --> auth
-organizer --> profile
-organizer --> createEvent
-organizer --> manageEvent
-organizer --> analytics
-organizer --> reports
-organizer --> checkin
-organizer --> hostVirtual
+organizer -[dotted]-> auth
+organizer -[dotted]-> profile
+organizer -[dotted]-> createEvent
+organizer -[dotted]-> manageEvent
+organizer -[dotted]-> analytics
+organizer -[dotted]-> reports
+organizer -[dotted]-> checkin
+organizer -[dotted]-> hostVirtual
 
-attendee --> auth
-attendee --> profile
-attendee --> viewEvent
-attendee --> registerEvent
-attendee --> buyTicket
-attendee --> joinVirtual
+attendee -[dotted]-> auth
+attendee -[dotted]-> profile
+attendee -[dotted]-> viewEvent
+attendee -[dotted]-> registerEvent
+attendee -[dotted]-> buyTicket
+attendee -[dotted]-> joinVirtual
 
-sponsor --> auth
-sponsor --> profile
-sponsor --> viewEvent
+sponsor -[dotted]-> auth
+sponsor -[dotted]-> profile
+sponsor -[dotted]-> viewEvent
 
 ' Include/Extend relationships
 manageEvent .> createEvent : includes
@@ -433,7 +433,7 @@ analytics .> reports : includes
 @enduml
 ```
 
-</div>
+</div> -->
 
 ![](./diagrams/usecase.svg)
 
@@ -441,11 +441,11 @@ analytics .> reports : includes
 
 This sequence diagram illustrates the event registration flow in Eventify, showing interactions between an attendee, frontend, backend services, and database. It details the validation, payment processing, and confirmation steps involved in registering for an event, including error handling for failed payments.
 
-<div hidden="hidden">
-  
+<!-- <div hidden="hidden">
+
   ```plantuml
   @startuml Event Registration Sequence
-  
+
   actor "Attendee" as attendee
   participant "Frontend" as ui
   participant "API Gateway" as api
@@ -453,39 +453,39 @@ This sequence diagram illustrates the event registration flow in Eventify, showi
   participant "Payment Service" as payment
   participant "Email Service" as email
   database "Database" as db
-  
+
   title Event Registration Process
-  
+
   attendee -> ui: Click "Register for Event"
   ui -> api: POST /registration/validate
   api -> event: Check Event Availability
   event -> db: Query Available Tickets
-  db --> event: Return Ticket Status
-  event --> api: Availability Status
-  api --> ui: Show Ticket Options
-  
+  db -[dotted]-> event: Return Ticket Status
+  event -[dotted]-> api: Availability Status
+  api -[dotted]-> ui: Show Ticket Options
+
   attendee -> ui: Select Ticket & Submit Payment
   ui -> api: POST /registration/purchase
   api -> payment: Process Payment
-  payment --> api: Payment Status
-  
+  payment -[dotted]-> api: Payment Status
+
   alt Payment Successful
       api -> event: Create Registration
       event -> db: Store Registration
-      db --> event: Confirm Storage
+      db -[dotted]-> event: Confirm Storage
       event -> email: Send Confirmation
-      email --> event: Email Sent
-      event --> api: Registration Complete
-      api --> ui: Success Response
-      ui --> attendee: Show Ticket Confirmation
+      email -[dotted]-> event: Email Sent
+      event -[dotted]-> api: Registration Complete
+      api -[dotted]-> ui: Success Response
+      ui -[dotted]-> attendee: Show Ticket Confirmation
   else Payment Failed
-      api --> ui: Error Response
-      ui --> attendee: Show Error Message
+      api -[dotted]-> ui: Error Response
+      ui -[dotted]-> attendee: Show Error Message
   end
-  
+
   @enduml
   ```
-</div>
+</div> -->
 
 ![](./diagrams/sequence.svg)
 
@@ -493,32 +493,32 @@ This sequence diagram illustrates the event registration flow in Eventify, showi
 
 The activity diagram outlines the event registration workflow, from initial event selection through ticket purchase and confirmation. It shows decision points for event availability and payment validation, parallel processing of payment and registration records, and includes error handling paths when events are unavailable or payments fail.
 
-<div hidden="hidden">
-  
+<!-- <div hidden="hidden">
+
   ```plantuml
   @startuml Event Registration Activity
-  
+
   title Event Registration Process
-  
+
   start
-  
+
   :Select Event;
-  
+
   :Click Register Button;
-  
+
   if (Event Available?) then (yes)
       :Show Ticket Options;
       :Select Ticket Type;
       :Enter Registration Details;
       :Proceed to Payment;
-  
+
       if (Payment Valid?) then (yes)
           fork
               :Process Payment;
           fork again
               :Create Registration Record;
           end fork
-  
+
           :Generate Ticket;
           :Send Confirmation Email;
           :Display Success Message;
@@ -530,13 +530,13 @@ The activity diagram outlines the event registration workflow, from initial even
       :Show Unavailable Message;
       :Suggest Similar Events;
   endif
-  
+
   stop
-  
+
   @enduml
   ```
-  
-</div>
+
+</div> -->
 
 ![](./diagrams/activity.svg)
 
@@ -544,18 +544,18 @@ The activity diagram outlines the event registration workflow, from initial even
 
 The ERD represents the database structure of Eventify, showing the relationships between key entities such as Users, Events, Tickets, and Registrations. It defines the data model that supports all system operations, including primary and foreign key relationships, ensuring data integrity and proper storage of all system information.
 
-<div hidden>
-  
+<!-- <div hidden>
+
   ```plantuml
   @startuml Entity Relationship Diagram
-  
+
   !define table(x) class x << (T,#FFAAAA) >>
   !define primary_key(x) <b>x</b>
   !define foreign_key(x) <i>x</i>
-  
+
   hide methods
   hide stereotypes
-  
+
   table(Users) {
       primary_key(user_id): UUID
       email: VARCHAR
@@ -564,7 +564,7 @@ The ERD represents the database structure of Eventify, showing the relationships
       role: ENUM
       created_at: TIMESTAMP
   }
-  
+
   table(Events) {
       primary_key(event_id): UUID
       foreign_key(organizer_id): UUID
@@ -578,7 +578,7 @@ The ERD represents the database structure of Eventify, showing the relationships
       status: ENUM
       created_at: TIMESTAMP
   }
-  
+
   table(Tickets) {
       primary_key(ticket_id): UUID
       foreign_key(event_id): UUID
@@ -588,7 +588,7 @@ The ERD represents the database structure of Eventify, showing the relationships
       status: ENUM
       purchase_date: TIMESTAMP
   }
-  
+
   table(Registrations) {
       primary_key(registration_id): UUID
       foreign_key(event_id): UUID
@@ -596,7 +596,7 @@ The ERD represents the database structure of Eventify, showing the relationships
       status: ENUM
       registered_at: TIMESTAMP
   }
-  
+
   table(Payments) {
       primary_key(payment_id): UUID
       foreign_key(ticket_id): UUID
@@ -607,7 +607,7 @@ The ERD represents the database structure of Eventify, showing the relationships
       transaction_id: VARCHAR
       created_at: TIMESTAMP
   }
-  
+
   table(VirtualEvents) {
       primary_key(virtual_event_id): UUID
       foreign_key(event_id): UUID
@@ -615,7 +615,7 @@ The ERD represents the database structure of Eventify, showing the relationships
       meeting_url: VARCHAR
       access_code: VARCHAR
   }
-  
+
   Users ||--o{ Events : organizes
   Events ||--o{ Tickets : contains
   Users ||--o{ Tickets : purchases
@@ -623,10 +623,10 @@ The ERD represents the database structure of Eventify, showing the relationships
   Users ||--o{ Registrations : registers
   Tickets ||--o{ Payments : generates
   Events ||--o| VirtualEvents : extends
-  
+
   @enduml
-  ```  
-</div>
+  ```
+</div> -->
 
 ![](./diagrams/erd.svg)
 
@@ -634,22 +634,22 @@ The ERD represents the database structure of Eventify, showing the relationships
 
 This component diagram provides a high-level view of Eventify's architecture, showing how different components interact across the frontend, backend, data storage, and external services. It illustrates the system's modular design and the integration points between various services and third-party components.
 
-<div hidden>
-  
+<!-- <div hidden>
+
   ```plantuml
   @startuml System Component Diagram
-  
+
   package "Frontend" {
       [User Interface] as UI
       [State Management] as State
       [API Client] as APIClient
       [WebSocket Client] as WSClient
-  
-      UI --> State
-      UI --> APIClient
-      UI --> WSClient
+
+      UI -[dotted]-> State
+      UI -[dotted]-> APIClient
+      UI -[dotted]-> WSClient
   }
-  
+
   package "Backend API" {
       [API Gateway] as Gateway
       [Auth Service] as Auth
@@ -658,46 +658,46 @@ This component diagram provides a high-level view of Eventify's architecture, sh
       [Payment Service] as Payment
       [Notification Service] as Notification
       [WebSocket Server] as WSServer
-  
-      Gateway --> Auth
-      Gateway --> Event
-      Gateway --> User
-      Gateway --> Payment
-      Gateway --> Notification
-      Gateway --> WSServer
+
+      Gateway -[dotted]-> Auth
+      Gateway -[dotted]-> Event
+      Gateway -[dotted]-> User
+      Gateway -[dotted]-> Payment
+      Gateway -[dotted]-> Notification
+      Gateway -[dotted]-> WSServer
   }
-  
+
   package "Data Storage" {
       database "PostgreSQL" as DB
       database "Redis Cache" as Cache
       database "File Storage" as Files
-  
-      Event --> DB
-      User --> DB
-      Payment --> DB
-      Auth --> Cache
-      Event --> Files
+
+      Event -[dotted]-> DB
+      User -[dotted]-> DB
+      Payment -[dotted]-> DB
+      Auth -[dotted]-> Cache
+      Event -[dotted]-> Files
   }
-  
+
   package "External Services" {
       [Payment Gateway] as Stripe
       [Email Service] as Email
       [Virtual Meeting] as Meeting
       [Cloud Storage] as CloudStorage
-  
+
       Payment ..> Stripe
       Notification ..> Email
       Event ..> Meeting
       Files ..> CloudStorage
   }
-  
+
   ' Main connections
   APIClient ..> Gateway : HTTPS
   WSClient ..> WSServer : WebSocket
-  
+
   @enduml
-  ```  
-</div>
+  ```
+</div> -->
 
 ![](./diagrams/component.svg)
 
@@ -705,13 +705,14 @@ This component diagram provides a high-level view of Eventify's architecture, sh
 
 The package diagram depicts the logical grouping of Eventify's codebase into distinct modules and layers. It shows the organization of the system's components into packages, their dependencies, and the overall structure of the application, helping developers understand the system's architecture and maintain code organization.
 
+<!--
 <div hidden>
-  
+
   ```plantuml
   @startuml Package Diagram
-  
+
   skinparam packageStyle rectangle
-  
+
   package "Eventify" {
       package "Presentation Layer" {
           package "UI Components" {
@@ -719,33 +720,33 @@ The package diagram depicts the logical grouping of Eventify's codebase into dis
               package "Shared" {}
               package "Forms" {}
           }
-  
+
           package "State Management" {
               package "Store" {}
               package "Actions" {}
               package "Reducers" {}
           }
-  
+
           package "Services" {
               package "API" {}
               package "WebSocket" {}
               package "Auth" {}
           }
       }
-  
+
       package "Core" {
           package "Domain" {
               package "Entities" {}
               package "ValueObjects" {}
               package "Interfaces" {}
           }
-  
+
           package "Application" {
               package "UseCases" {}
               package "Services" {}
               package "DTOs" {}
           }
-  
+
           package "Infrastructure" {
               package "Persistence" {}
               package "External" {}
@@ -753,14 +754,14 @@ The package diagram depicts the logical grouping of Eventify's codebase into dis
           }
       }
   }
-  
+
   package "External Dependencies" {
       package "React" {}
       package "Express" {}
       package "Prisma" {}
       package "Third Party APIs" {}
   }
-  
+
   ' Dependencies
   "UI Components" ..> "State Management"
   "State Management" ..> "Services"
@@ -771,10 +772,10 @@ The package diagram depicts the logical grouping of Eventify's codebase into dis
   "UI Components" ..> "React"
   "Infrastructure" ..> "Express"
   "Infrastructure" ..> "Prisma"
-  
+
   @enduml
-  ```  
-</div>
+  ```
+</div> -->
 
 ![](./diagrams/package.svg)
 

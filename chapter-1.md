@@ -40,7 +40,7 @@ The specific objectives are to:
 
 ## 1.4 Methodology Overview
 
-The design of the event management system model involves comprehensive requirements analysis through literature review and industry research. The system architecture is modeled using various UML diagrams including Use Case diagrams to capture system functionality, Activity diagrams to illustrate workflows, Sequence diagrams to show component interactions, and Entity-Relationship diagrams to design the data model. Package and Component diagrams are employed to visualize the system's modular structure and dependencies.
+The design of the event management system model involves comprehensive requirements analysis through literature review and industry research. The system architecture is modeled using various UML diagrams including Use Case diagrams to capture system functionality, Activity diagrams to illustrate workflows, Sequence diagrams to show component interactions, and Entity-Relationship diagrams to design the data model. A Component diagram will be employed to visualize the system's modular structure and dependencies.
 
 Implementation of the designed model utilizes modern web development tools and frameworks. The frontend is built with React.js, Vite, React Router, and Material-UI, while the backend employs Node.js/Express.js with Prisma ORM for database operations. The system follows an Agile development methodology using 2-week sprints, with continuous integration practices supported by Git for version control. Infrastructure components include PostgreSQL for data storage, Redis for caching, and deployment on Netlify (frontend) and Railway (backend).
 

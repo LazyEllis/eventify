@@ -202,7 +202,7 @@ Scrum enhances these principles by providing:
 
 The Eventify system employs a modern three-tier architecture designed to provide scalability, maintainability, and separation of concerns. Each layer serves specific functions while maintaining loose coupling for flexibility and easy updates.
 
-### 1. Presentation Layer (Client Tier)
+### 3.5.1 Presentation Layer (Client Tier)
 
 - **Core Components**:
 
@@ -219,7 +219,7 @@ The Eventify system employs a modern three-tier architecture designed to provide
   - Real-time updates via WebSocket connections
   - Client-side caching for improved performance
 
-### 2. Application Layer (Business Logic Tier)
+### 3.5.2 Application Layer (Business Logic Tier)
 
 - **Core Components**:
 
@@ -238,7 +238,7 @@ The Eventify system employs a modern three-tier architecture designed to provide
   - Data transformation and aggregation
   - Event processing and queuing
 
-### 3. Data Layer (Persistence Tier)
+### 3.5.3 Data Layer (Persistence Tier)
 
 - **Core Components**:
 
@@ -255,7 +255,7 @@ The Eventify system employs a modern three-tier architecture designed to provide
   - Cache management
   - Media file handling
 
-### Information Flow
+### 3.5.4 Information Flow
 
 1. **User Interactions**:
 
@@ -276,7 +276,7 @@ The Eventify system employs a modern three-tier architecture designed to provide
    - File operations route through Cloudinary
    - Results propagate back through the layers
 
-### Cross-Cutting Concerns
+### 3.5.5 Cross-Cutting Concerns
 
 - **Security**: JWT authentication, HTTPS, CORS policies
 - **Logging**: Winston for application logs across layers
@@ -284,7 +284,7 @@ The Eventify system employs a modern three-tier architecture designed to provide
 - **Caching**: Multi-level caching strategy
 - **Error Handling**: Consistent error responses and recovery
 
-### System Architecture Diagram
+### 3.5.6 System Architecture Diagram
 
 <!-- <div hidden="hidden">
 
@@ -301,7 +301,7 @@ The Eventify system employs a modern three-tier architecture designed to provide
     [React Query] as rquery
     [WebSocket Client] as wsclient
   }
-
+5.
   rectangle "Application Layer" {
     [Express API] as api
     [Auth Middleware] as auth

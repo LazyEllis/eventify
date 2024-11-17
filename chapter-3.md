@@ -286,71 +286,78 @@ The Eventify system employs a modern three-tier architecture designed to provide
 
 ### System Architecture Diagram
 
-```plantuml
-@startuml System Architecture
+<div hidden="hidden">
+  
+  ```plantuml
+  @startuml System Architecture
+  
+  !define RECTANGLE class
+  
+  skinparam componentStyle uml2
+  
+  rectangle "Client Layer" {
+    [React SPA] as client
+    [Material UI] as mui
+    [React Query] as rquery
+    [WebSocket Client] as wsclient
+  }
+  
+  rectangle "Application Layer" {
+    [Express API] as api
+    [Auth Middleware] as auth
+    [Business Logic] as logic
+    [WebSocket Server] as wsserver
+    [Service Integrations] as services
+  }
+  
+  rectangle "Data Layer" {
+    database "PostgreSQL" as db
+    database "Redis Cache" as redis
+    database "Cloudinary" as cloud
+  }
+  
+  rectangle "External Services" {
+    [Stripe] as stripe
+    [SendGrid] as mail
+    [Zoom] as zoom
+  }
+  
+  ' Client Layer connections
+  client --> mui
+  client --> rquery
+  client --> wsclient
+  
+  ' Application Layer internal connections
+  api --> auth
+  api --> logic
+  logic --> services
+  logic --> wsserver
+  
+  ' Layer connections
+  client ..> api : HTTPS
+  wsclient ..> wsserver : WebSocket
+  api --> db : Prisma ORM
+  api --> redis : Cache
+  api --> cloud : Media Storage
+  
+  ' External service connections
+  services --> stripe : Payments
+  services --> mail : Email
+  services --> zoom : Virtual Events
+  
+  @enduml
+  ```
+</div>
 
-!define RECTANGLE class
-
-skinparam componentStyle uml2
-
-rectangle "Client Layer" {
-  [React SPA] as client
-  [Material UI] as mui
-  [React Query] as rquery
-  [WebSocket Client] as wsclient
-}
-
-rectangle "Application Layer" {
-  [Express API] as api
-  [Auth Middleware] as auth
-  [Business Logic] as logic
-  [WebSocket Server] as wsserver
-  [Service Integrations] as services
-}
-
-rectangle "Data Layer" {
-  database "PostgreSQL" as db
-  database "Redis Cache" as redis
-  database "Cloudinary" as cloud
-}
-
-rectangle "External Services" {
-  [Stripe] as stripe
-  [SendGrid] as mail
-  [Zoom] as zoom
-}
-
-' Client Layer connections
-client --> mui
-client --> rquery
-client --> wsclient
-
-' Application Layer internal connections
-api --> auth
-api --> logic
-logic --> services
-logic --> wsserver
-
-' Layer connections
-client ..> api : HTTPS
-wsclient ..> wsserver : WebSocket
-api --> db : Prisma ORM
-api --> redis : Cache
-api --> cloud : Media Storage
-
-' External service connections
-services --> stripe : Payments
-services --> mail : Email
-services --> zoom : Virtual Events
-
-@enduml
-```
+![](./diagrams/architecture.svg)
 
 ## 3.6 System Design
 
 ### 3.6.1 Use Case Diagram
 
 The following use case diagram illustrates the primary actors (Admin, Event Organizer, Attendee, and Sponsor) and their interactions with the Eventify system. It shows the main functionalities available to each user role, from basic authentication to complex event management tasks. The diagram helps visualize the system boundaries and the relationships between different user types and system features.
+
+<div hidden="hidden">
 
 ```plantuml
 @startuml Use Case Diagram
@@ -426,368 +433,397 @@ analytics .> reports : includes
 @enduml
 ```
 
+</div>
+
+![](./diagrams/usecase.svg)
+
 ### 3.6.2 Sequence Diagram
 
 This sequence diagram demonstrates the core interactions between system components during two key processes: event creation and event registration. It shows the flow of data and control between the user interface, various backend services, and the database, highlighting how different system components collaborate to accomplish these essential tasks.
 
-```plantuml
-@startuml Sequence Diagram
+<div hidden>
+  
+  ```plantuml
+  @startuml Sequence Diagram
+  
+  skinparam sequenceMessageAlign center
+  
+  actor "Event Organizer" as organizer
+  actor "Attendee" as attendee
+  participant "Frontend" as ui
+  participant "API Gateway" as api
+  participant "Auth Service" as auth
+  participant "Event Service" as event
+  participant "Payment Service" as payment
+  participant "Email Service" as email
+  database "Database" as db
+  
+  == Event Creation ==
+  organizer -> ui: Create Event
+  ui -> auth: Verify Token
+  auth -> ui: Token Valid
+  ui -> api: POST /events
+  api -> event: Create Event
+  event -> db: Store Event Data
+  db --> event: Confirm Storage
+  event --> api: Event Created
+  api --> ui: Success Response
+  ui --> organizer: Show Success
+  
+  == Event Registration ==
+  attendee -> ui: View Event
+  ui -> api: GET /events/{id}
+  api -> db: Fetch Event
+  db --> api: Event Data
+  api --> ui: Event Details
+  
+  attendee -> ui: Register for Event
+  ui -> api: POST /registration
+  api -> payment: Process Payment
+  payment --> api: Payment Confirmed
+  api -> event: Create Registration
+  event -> db: Store Registration
+  db --> event: Confirm Storage
+  event -> email: Send Confirmation
+  email --> event: Email Sent
+  event --> api: Registration Complete
+  api --> ui: Success Response
+  ui --> attendee: Show Ticket
+  
+  @enduml
+  ```
+</div>
 
-skinparam sequenceMessageAlign center
-
-actor "Event Organizer" as organizer
-actor "Attendee" as attendee
-participant "Frontend" as ui
-participant "API Gateway" as api
-participant "Auth Service" as auth
-participant "Event Service" as event
-participant "Payment Service" as payment
-participant "Email Service" as email
-database "Database" as db
-
-== Event Creation ==
-organizer -> ui: Create Event
-ui -> auth: Verify Token
-auth -> ui: Token Valid
-ui -> api: POST /events
-api -> event: Create Event
-event -> db: Store Event Data
-db --> event: Confirm Storage
-event --> api: Event Created
-api --> ui: Success Response
-ui --> organizer: Show Success
-
-== Event Registration ==
-attendee -> ui: View Event
-ui -> api: GET /events/{id}
-api -> db: Fetch Event
-db --> api: Event Data
-api --> ui: Event Details
-
-attendee -> ui: Register for Event
-ui -> api: POST /registration
-api -> payment: Process Payment
-payment --> api: Payment Confirmed
-api -> event: Create Registration
-event -> db: Store Registration
-db --> event: Confirm Storage
-event -> email: Send Confirmation
-email --> event: Email Sent
-event --> api: Registration Complete
-api --> ui: Success Response
-ui --> attendee: Show Ticket
-
-@enduml
-```
+![](./diagrams/sequence.svg)
 
 ### 3.6.3 Activity Diagram
 
 The activity diagram below maps out the complete lifecycle of an event within the Eventify system, from creation through execution to post-event activities. It illustrates parallel processes, decision points, and the flow of activities across different stages of event management, helping to understand the operational workflow of the system.
 
-```plantuml
-@startuml Activity Diagram
-
-start
-
-partition "Event Creation" {
-  :Login as Organizer;
-  :Fill Event Details;
-  if (Form Valid?) then (yes)
-    :Save Event;
+<div hidden>
+  
+  ```plantuml
+  @startuml Activity Diagram
+  
+  start
+  
+  partition "Event Creation" {
+    :Login as Organizer;
+    :Fill Event Details;
+    if (Form Valid?) then (yes)
+      :Save Event;
+      fork
+        :Generate Event URL;
+      fork again
+        :Send Confirmation Email;
+      end fork
+    else (no)
+      :Show Validation Errors;
+      :Return to Form;
+    endif
+  }
+  
+  partition "Event Management" {
     fork
-      :Generate Event URL;
-    fork again
-      :Send Confirmation Email;
+      partition "Ticket Sales" {
+        :Open Ticket Sales;
+        while (Tickets Available?) is (yes)
+          :Process Purchase;
+          :Update Inventory;
+        endwhile (no)
+        :Close Ticket Sales;
+      }
+  
+      fork again
+      partition "Attendee Management" {
+        while (Event Active?) is (yes)
+          :Monitor Registrations;
+          if (New Registration?) then (yes)
+            :Send Welcome Email;
+            :Update Attendee List;
+          endif
+        endwhile (no)
+      }
     end fork
-  else (no)
-    :Show Validation Errors;
-    :Return to Form;
-  endif
-}
-
-partition "Event Management" {
-  fork
-    partition "Ticket Sales" {
-      :Open Ticket Sales;
-      while (Tickets Available?) is (yes)
-        :Process Purchase;
-        :Update Inventory;
-      endwhile (no)
-      :Close Ticket Sales;
-    }
-
+  }
+  
+  partition "Event Execution" {
+    if (Virtual Event?) then (yes)
+      :Setup Virtual Room;
+      :Send Access Links;
+    else (no)
+      :Prepare Venue;
+      :Generate Check-in QR;
+    endif
+  
+    :Start Event;
+  
+    fork
+      :Track Attendance;
     fork again
-    partition "Attendee Management" {
-      while (Event Active?) is (yes)
-        :Monitor Registrations;
-        if (New Registration?) then (yes)
-          :Send Welcome Email;
-          :Update Attendee List;
-        endif
-      endwhile (no)
-    }
-  end fork
-}
+      :Manage Sessions;
+    fork again
+      :Handle Support;
+    end fork
+  
+    :End Event;
+  }
+  
+  partition "Post Event" {
+    fork
+      :Send Feedback Forms;
+    fork again
+      :Generate Reports;
+    fork again
+      :Archive Event Data;
+    end fork
+  }
+  
+  stop
+  
+  @enduml
+  ```  
+</div>
 
-partition "Event Execution" {
-  if (Virtual Event?) then (yes)
-    :Setup Virtual Room;
-    :Send Access Links;
-  else (no)
-    :Prepare Venue;
-    :Generate Check-in QR;
-  endif
-
-  :Start Event;
-
-  fork
-    :Track Attendance;
-  fork again
-    :Manage Sessions;
-  fork again
-    :Handle Support;
-  end fork
-
-  :End Event;
-}
-
-partition "Post Event" {
-  fork
-    :Send Feedback Forms;
-  fork again
-    :Generate Reports;
-  fork again
-    :Archive Event Data;
-  end fork
-}
-
-stop
-
-@enduml
-```
+![](./diagrams/activity.svg)
 
 ### 3.6.4 Entity-Relationship Diagram (ERD)
 
 The ERD represents the database structure of Eventify, showing the relationships between key entities such as Users, Events, Tickets, and Registrations. It defines the data model that supports all system operations, including primary and foreign key relationships, ensuring data integrity and proper storage of all system information.
 
-```plantuml
-@startuml Entity Relationship Diagram
+<div hidden>
+  
+  ```plantuml
+  @startuml Entity Relationship Diagram
+  
+  !define table(x) class x << (T,#FFAAAA) >>
+  !define primary_key(x) <b>x</b>
+  !define foreign_key(x) <i>x</i>
+  
+  hide methods
+  hide stereotypes
+  
+  table(Users) {
+      primary_key(user_id): UUID
+      email: VARCHAR
+      password_hash: VARCHAR
+      full_name: VARCHAR
+      role: ENUM
+      created_at: TIMESTAMP
+  }
+  
+  table(Events) {
+      primary_key(event_id): UUID
+      foreign_key(organizer_id): UUID
+      title: VARCHAR
+      description: TEXT
+      start_date: TIMESTAMP
+      end_date: TIMESTAMP
+      location: VARCHAR
+      capacity: INTEGER
+      event_type: ENUM
+      status: ENUM
+      created_at: TIMESTAMP
+  }
+  
+  table(Tickets) {
+      primary_key(ticket_id): UUID
+      foreign_key(event_id): UUID
+      foreign_key(user_id): UUID
+      ticket_type: VARCHAR
+      price: DECIMAL
+      status: ENUM
+      purchase_date: TIMESTAMP
+  }
+  
+  table(Registrations) {
+      primary_key(registration_id): UUID
+      foreign_key(event_id): UUID
+      foreign_key(user_id): UUID
+      status: ENUM
+      registered_at: TIMESTAMP
+  }
+  
+  table(Payments) {
+      primary_key(payment_id): UUID
+      foreign_key(ticket_id): UUID
+      foreign_key(user_id): UUID
+      amount: DECIMAL
+      status: ENUM
+      payment_method: VARCHAR
+      transaction_id: VARCHAR
+      created_at: TIMESTAMP
+  }
+  
+  table(VirtualEvents) {
+      primary_key(virtual_event_id): UUID
+      foreign_key(event_id): UUID
+      platform: VARCHAR
+      meeting_url: VARCHAR
+      access_code: VARCHAR
+  }
+  
+  Users ||--o{ Events : organizes
+  Events ||--o{ Tickets : contains
+  Users ||--o{ Tickets : purchases
+  Events ||--o{ Registrations : has
+  Users ||--o{ Registrations : registers
+  Tickets ||--o{ Payments : generates
+  Events ||--o| VirtualEvents : extends
+  
+  @enduml
+  ```  
+</div>
 
-!define table(x) class x << (T,#FFAAAA) >>
-!define primary_key(x) <b>x</b>
-!define foreign_key(x) <i>x</i>
-
-hide methods
-hide stereotypes
-
-table(Users) {
-    primary_key(user_id): UUID
-    email: VARCHAR
-    password_hash: VARCHAR
-    full_name: VARCHAR
-    role: ENUM
-    created_at: TIMESTAMP
-}
-
-table(Events) {
-    primary_key(event_id): UUID
-    foreign_key(organizer_id): UUID
-    title: VARCHAR
-    description: TEXT
-    start_date: TIMESTAMP
-    end_date: TIMESTAMP
-    location: VARCHAR
-    capacity: INTEGER
-    event_type: ENUM
-    status: ENUM
-    created_at: TIMESTAMP
-}
-
-table(Tickets) {
-    primary_key(ticket_id): UUID
-    foreign_key(event_id): UUID
-    foreign_key(user_id): UUID
-    ticket_type: VARCHAR
-    price: DECIMAL
-    status: ENUM
-    purchase_date: TIMESTAMP
-}
-
-table(Registrations) {
-    primary_key(registration_id): UUID
-    foreign_key(event_id): UUID
-    foreign_key(user_id): UUID
-    status: ENUM
-    registered_at: TIMESTAMP
-}
-
-table(Payments) {
-    primary_key(payment_id): UUID
-    foreign_key(ticket_id): UUID
-    foreign_key(user_id): UUID
-    amount: DECIMAL
-    status: ENUM
-    payment_method: VARCHAR
-    transaction_id: VARCHAR
-    created_at: TIMESTAMP
-}
-
-table(VirtualEvents) {
-    primary_key(virtual_event_id): UUID
-    foreign_key(event_id): UUID
-    platform: VARCHAR
-    meeting_url: VARCHAR
-    access_code: VARCHAR
-}
-
-Users ||--o{ Events : organizes
-Events ||--o{ Tickets : contains
-Users ||--o{ Tickets : purchases
-Events ||--o{ Registrations : has
-Users ||--o{ Registrations : registers
-Tickets ||--o{ Payments : generates
-Events ||--o| VirtualEvents : extends
-
-@enduml
-```
+![](./diagrams/erd.svg)
 
 ### 3.6.5 System Component Diagram
 
 This component diagram provides a high-level view of Eventify's architecture, showing how different components interact across the frontend, backend, data storage, and external services. It illustrates the system's modular design and the integration points between various services and third-party components.
 
-```plantuml
-@startuml System Component Diagram
+<div hidden>
+  
+  ```plantuml
+  @startuml System Component Diagram
+  
+  package "Frontend" {
+      [User Interface] as UI
+      [State Management] as State
+      [API Client] as APIClient
+      [WebSocket Client] as WSClient
+  
+      UI --> State
+      UI --> APIClient
+      UI --> WSClient
+  }
+  
+  package "Backend API" {
+      [API Gateway] as Gateway
+      [Auth Service] as Auth
+      [Event Service] as Event
+      [User Service] as User
+      [Payment Service] as Payment
+      [Notification Service] as Notification
+      [WebSocket Server] as WSServer
+  
+      Gateway --> Auth
+      Gateway --> Event
+      Gateway --> User
+      Gateway --> Payment
+      Gateway --> Notification
+      Gateway --> WSServer
+  }
+  
+  package "Data Storage" {
+      database "PostgreSQL" as DB
+      database "Redis Cache" as Cache
+      database "File Storage" as Files
+  
+      Event --> DB
+      User --> DB
+      Payment --> DB
+      Auth --> Cache
+      Event --> Files
+  }
+  
+  package "External Services" {
+      [Payment Gateway] as Stripe
+      [Email Service] as Email
+      [Virtual Meeting] as Meeting
+      [Cloud Storage] as CloudStorage
+  
+      Payment ..> Stripe
+      Notification ..> Email
+      Event ..> Meeting
+      Files ..> CloudStorage
+  }
+  
+  ' Main connections
+  APIClient ..> Gateway : HTTPS
+  WSClient ..> WSServer : WebSocket
+  
+  @enduml
+  ```  
+</div>
 
-package "Frontend" {
-    [User Interface] as UI
-    [State Management] as State
-    [API Client] as APIClient
-    [WebSocket Client] as WSClient
-
-    UI --> State
-    UI --> APIClient
-    UI --> WSClient
-}
-
-package "Backend API" {
-    [API Gateway] as Gateway
-    [Auth Service] as Auth
-    [Event Service] as Event
-    [User Service] as User
-    [Payment Service] as Payment
-    [Notification Service] as Notification
-    [WebSocket Server] as WSServer
-
-    Gateway --> Auth
-    Gateway --> Event
-    Gateway --> User
-    Gateway --> Payment
-    Gateway --> Notification
-    Gateway --> WSServer
-}
-
-package "Data Storage" {
-    database "PostgreSQL" as DB
-    database "Redis Cache" as Cache
-    database "File Storage" as Files
-
-    Event --> DB
-    User --> DB
-    Payment --> DB
-    Auth --> Cache
-    Event --> Files
-}
-
-package "External Services" {
-    [Payment Gateway] as Stripe
-    [Email Service] as Email
-    [Virtual Meeting] as Meeting
-    [Cloud Storage] as CloudStorage
-
-    Payment ..> Stripe
-    Notification ..> Email
-    Event ..> Meeting
-    Files ..> CloudStorage
-}
-
-' Main connections
-APIClient ..> Gateway : HTTPS
-WSClient ..> WSServer : WebSocket
-
-@enduml
-```
+![](./diagrams/component.svg)
 
 ### 3.6.6 Package Diagram
 
 The package diagram depicts the logical grouping of Eventify's codebase into distinct modules and layers. It shows the organization of the system's components into packages, their dependencies, and the overall structure of the application, helping developers understand the system's architecture and maintain code organization.
 
-```plantuml
-@startuml Package Diagram
+<div hidden>
+  
+  ```plantuml
+  @startuml Package Diagram
+  
+  skinparam packageStyle rectangle
+  
+  package "Eventify" {
+      package "Presentation Layer" {
+          package "UI Components" {
+              package "Pages" {}
+              package "Shared" {}
+              package "Forms" {}
+          }
+  
+          package "State Management" {
+              package "Store" {}
+              package "Actions" {}
+              package "Reducers" {}
+          }
+  
+          package "Services" {
+              package "API" {}
+              package "WebSocket" {}
+              package "Auth" {}
+          }
+      }
+  
+      package "Core" {
+          package "Domain" {
+              package "Entities" {}
+              package "ValueObjects" {}
+              package "Interfaces" {}
+          }
+  
+          package "Application" {
+              package "UseCases" {}
+              package "Services" {}
+              package "DTOs" {}
+          }
+  
+          package "Infrastructure" {
+              package "Persistence" {}
+              package "External" {}
+              package "Security" {}
+          }
+      }
+  }
+  
+  package "External Dependencies" {
+      package "React" {}
+      package "Express" {}
+      package "Prisma" {}
+      package "Third Party APIs" {}
+  }
+  
+  ' Dependencies
+  "UI Components" ..> "State Management"
+  "State Management" ..> "Services"
+  "Services" ..> "Application"
+  "Application" ..> "Domain"
+  "Infrastructure" ..> "Domain"
+  "Infrastructure" ..> "Third Party APIs"
+  "UI Components" ..> "React"
+  "Infrastructure" ..> "Express"
+  "Infrastructure" ..> "Prisma"
+  
+  @enduml
+  ```  
+</div>
 
-skinparam packageStyle rectangle
-
-package "Eventify" {
-    package "Presentation Layer" {
-        package "UI Components" {
-            package "Pages" {}
-            package "Shared" {}
-            package "Forms" {}
-        }
-
-        package "State Management" {
-            package "Store" {}
-            package "Actions" {}
-            package "Reducers" {}
-        }
-
-        package "Services" {
-            package "API" {}
-            package "WebSocket" {}
-            package "Auth" {}
-        }
-    }
-
-    package "Core" {
-        package "Domain" {
-            package "Entities" {}
-            package "ValueObjects" {}
-            package "Interfaces" {}
-        }
-
-        package "Application" {
-            package "UseCases" {}
-            package "Services" {}
-            package "DTOs" {}
-        }
-
-        package "Infrastructure" {
-            package "Persistence" {}
-            package "External" {}
-            package "Security" {}
-        }
-    }
-}
-
-package "External Dependencies" {
-    package "React" {}
-    package "Express" {}
-    package "Prisma" {}
-    package "Third Party APIs" {}
-}
-
-' Dependencies
-"UI Components" ..> "State Management"
-"State Management" ..> "Services"
-"Services" ..> "Application"
-"Application" ..> "Domain"
-"Infrastructure" ..> "Domain"
-"Infrastructure" ..> "Third Party APIs"
-"UI Components" ..> "React"
-"Infrastructure" ..> "Express"
-"Infrastructure" ..> "Prisma"
-
-@enduml
-```
+![](./diagrams/package.svg)
 
 ## 3.7 Development Tools
 

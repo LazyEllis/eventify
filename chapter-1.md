@@ -10,15 +10,15 @@ The global events industry was valued at $1,135.4 billion in 2019 and is project
 
 Despite the growth and potential of the events industry, several challenges persist:
 
-1. Fragmentation of Tools: Event organizers often use multiple, disconnected tools for different aspects of event management, leading to inefficiencies and potential errors.
+1. **Fragmentation of Tools**: Event organizers often use multiple, disconnected tools for different aspects of event management, leading to inefficiencies and potential errors.
 
-2. Limited Attendee Engagement: Traditional event management methods offer limited opportunities for attendee networking and engagement.
+2. **Limited Attendee Engagement**: Traditional event management methods offer limited opportunities for attendee networking and engagement.
 
-3. Basic Data Utilization: Many existing systems provide limited capabilities for capturing and utilizing attendee data to improve event experiences and inform future planning.
+3. **Basic Data Utilization**: Many existing systems provide limited capabilities for capturing and utilizing attendee data to improve event experiences and inform future planning.
 
-4. Scalability Issues: As events grow in size and complexity, manual processes and basic digital tools struggle to scale effectively, impacting the quality of event management.
-
-5. Limited Support for Virtual Elements: With the increasing prevalence of virtual and hybrid events, many existing systems lack features to support these formats effectively.
+4. **Scalability Issues**: As events grow in size and complexity, manual processes and basic digital tools struggle to scale effectively, impacting the quality of event management.
+   \*\*
+5. **Limited Support for Virtual Elements**: With the increasing prevalence of virtual and hybrid events, many existing systems lack features to support these formats effectively.
 
 These challenges underscore the need for an integrated, scalable, and feature-rich event management system that addresses the evolving needs of both event organizers and attendees.
 
@@ -40,17 +40,17 @@ The specific objectives are to:
 
 The development of Eventify will follow an Agile methodology, specifically utilizing the Scrum framework. This approach allows for iterative development, regular stakeholder feedback, and flexibility in adapting to changing requirements. The key components of the methodology include:
 
-1. Requirements Analysis: Gathering and analyzing user requirements through surveys and interviews with potential users (event organizers and attendees).
+1. **Requirements Analysis**: Gathering and analyzing user requirements through surveys and interviews with potential users (event organizers and attendees).
 
-2. System Design: Creating a detailed system architecture, database schema, and user interface designs.
+2. **System Design**: Creating a detailed system architecture, database schema, and user interface designs.
 
-3. Iterative Development: Implementing features in two-week sprint cycles, with regular sprint planning, review, and retrospective meetings.
+3. **Iterative Development**: Implementing features in two-week sprint cycles, with regular sprint planning, review, and retrospective meetings.
 
-4. Testing: Conducting unit testing, integration testing, and user acceptance testing throughout the development process.
+4. **Testing**: Conducting unit testing, integration testing, and user acceptance testing throughout the development process.
 
-5. Evaluation: Gathering user feedback and conducting performance analysis to assess the system's effectiveness and identify areas for improvement.
+5. **Evaluation**: Gathering user feedback and conducting performance analysis to assess the system's effectiveness and identify areas for improvement.
 
-6. MVP Approach: Focusing on delivering a Minimum Viable Product (MVP) that includes core functionalities, with the potential for future enhancements.
+6. **MVP Approach**: Focusing on delivering a Minimum Viable Product (MVP) that includes core functionalities, with the potential for future enhancements.
 
 ## 1.5 Scope of the Study
 
@@ -62,33 +62,33 @@ The project will encompass the full software development lifecycle, from require
 
 The development of Eventify holds significant value for various stakeholders:
 
-1. Event Organizers: Provides a comprehensive tool to streamline event management processes, potentially reducing costs and improving efficiency.
+1. **Event Organizers**: Provides a comprehensive tool to streamline event management processes, potentially reducing costs and improving efficiency.
 
-2. Event Attendees: Offers an enhanced event discovery and participation experience, with improved networking opportunities.
+2. **Event Attendees**: Offers an enhanced event discovery and participation experience, with improved networking opportunities.
 
-3. Academic Community: Contributes to the body of knowledge in web application development, particularly in the context of event management systems.
+3. **Academic Community**: Contributes to the body of knowledge in web application development, particularly in the context of event management systems.
 
-4. Software Development Industry: Demonstrates the application of modern web technologies and development methodologies in creating a complex, user-centric application.
+4. **Software Development Industry**: Demonstrates the application of modern web technologies and development methodologies in creating a complex, user-centric application.
 
-5. Events Industry: Addresses current challenges in event management, potentially influencing future directions in event technology.
+5. **Events Industry**: Addresses current challenges in event management, potentially influencing future directions in event technology.
 
 ## 1.7 Definition of Terms
 
-- Eventify: The name of the comprehensive event management system being developed in this project.
-- User Interface (UI): The graphical layout of an application through which a user interacts with the software.
-- User Experience (UX): The overall experience of a person using a product, especially in terms of how easy or pleasing it is to use.
-- API (Application Programming Interface): A set of protocols and tools for building software applications.
-- ORM (Object-Relational Mapping): A programming technique for converting data between incompatible type systems using object-oriented programming languages.
-- JWT (JSON Web Token): A compact and self-contained way for securely transmitting information between parties as a JSON object.
-- Agile: An iterative approach to software delivery that builds software incrementally from the start of the project, instead of trying to deliver it all at once near the end.
-- MVP (Minimum Viable Product): A version of a product with just enough features to satisfy early customers and provide feedback for future product development.
+- **Eventify**: The name of the comprehensive event management system being developed in this project.
+- **User Interface (UI)**: The graphical layout of an application through which a user interacts with the software.
+- **User Experience (UX)**: The overall experience of a person using a product, especially in terms of how easy or pleasing it is to use.
+- **API (Application Programming Interface)**: A set of protocols and tools for building software applications.
+- **ORM (Object-Relational Mapping)**: A programming technique for converting data between incompatible type systems using object-oriented programming languages.
+- **JWT (JSON Web Token)**: A compact and self-contained way for securely transmitting information between parties as a JSON object.
+- **Agile**: An iterative approach to software delivery that builds software incrementally from the start of the project, instead of trying to deliver it all at once near the end.
+- **MVP (Minimum Viable Product)**: A version of a product with just enough features to satisfy early customers and provide feedback for future product development.
 
 ## 1.8 Organization of the Project
 
 This project report is organized into the following five chapters:
 
-- Chapter 1: Introduction - Provides an overview of the project, its objectives, and significance.
-- Chapter 2: Literature Review - Examines existing research and solutions in the field of event management systems.
-- Chapter 3: System Analysis and Design - Details the requirements analysis, system architecture, and design considerations.
-- Chapter 4: Implementation - Describes the development process, technologies used, key features implemented, outlines the testing strategies employed, and evaluates the system's performance.
-- Chapter 5: Summary, Conclusion and Recommendations - Summarizes the project outcomes and suggests potential areas for future development.
+- **Chapter 1: Introduction** - Provides an overview of the project, its objectives, and significance.
+- **Chapter 2: Literature Review** - Examines existing research and solutions in the field of event management systems.
+- **Chapter 3: System Analysis and Design** - Details the requirements analysis, system architecture, and design considerations.
+- **Chapter 4: Implementation** - Describes the development process, technologies used, key features implemented, outlines the testing strategies employed, and evaluates the system's performance.
+- **Chapter 5: Summary, Conclusion and Recommendations** - Summarizes the project outcomes and suggests potential areas for future development.

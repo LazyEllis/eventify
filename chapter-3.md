@@ -439,56 +439,49 @@ analytics .> reports : includes
 
 ### 3.6.2 Sequence Diagram
 
-This sequence diagram demonstrates the core interactions between system components during two key processes: event creation and event registration. It shows the flow of data and control between the user interface, various backend services, and the database, highlighting how different system components collaborate to accomplish these essential tasks.
+This sequence diagram illustrates the event registration flow in Eventify, showing interactions between an attendee, frontend, backend services, and database. It details the validation, payment processing, and confirmation steps involved in registering for an event, including error handling for failed payments.
 
-<div hidden>
+<div hidden="hidden">
   
   ```plantuml
-  @startuml Sequence Diagram
+  @startuml Event Registration Sequence
   
-  skinparam sequenceMessageAlign center
-  
-  actor "Event Organizer" as organizer
   actor "Attendee" as attendee
   participant "Frontend" as ui
   participant "API Gateway" as api
-  participant "Auth Service" as auth
   participant "Event Service" as event
   participant "Payment Service" as payment
   participant "Email Service" as email
   database "Database" as db
   
-  == Event Creation ==
-  organizer -> ui: Create Event
-  ui -> auth: Verify Token
-  auth -> ui: Token Valid
-  ui -> api: POST /events
-  api -> event: Create Event
-  event -> db: Store Event Data
-  db --> event: Confirm Storage
-  event --> api: Event Created
-  api --> ui: Success Response
-  ui --> organizer: Show Success
+  title Event Registration Process
   
-  == Event Registration ==
-  attendee -> ui: View Event
-  ui -> api: GET /events/{id}
-  api -> db: Fetch Event
-  db --> api: Event Data
-  api --> ui: Event Details
+  attendee -> ui: Click "Register for Event"
+  ui -> api: POST /registration/validate
+  api -> event: Check Event Availability
+  event -> db: Query Available Tickets
+  db --> event: Return Ticket Status
+  event --> api: Availability Status
+  api --> ui: Show Ticket Options
   
-  attendee -> ui: Register for Event
-  ui -> api: POST /registration
+  attendee -> ui: Select Ticket & Submit Payment
+  ui -> api: POST /registration/purchase
   api -> payment: Process Payment
-  payment --> api: Payment Confirmed
-  api -> event: Create Registration
-  event -> db: Store Registration
-  db --> event: Confirm Storage
-  event -> email: Send Confirmation
-  email --> event: Email Sent
-  event --> api: Registration Complete
-  api --> ui: Success Response
-  ui --> attendee: Show Ticket
+  payment --> api: Payment Status
+  
+  alt Payment Successful
+      api -> event: Create Registration
+      event -> db: Store Registration
+      db --> event: Confirm Storage
+      event -> email: Send Confirmation
+      email --> event: Email Sent
+      event --> api: Registration Complete
+      api --> ui: Success Response
+      ui --> attendee: Show Ticket Confirmation
+  else Payment Failed
+      api --> ui: Error Response
+      ui --> attendee: Show Error Message
+  end
   
   @enduml
   ```
@@ -498,91 +491,51 @@ This sequence diagram demonstrates the core interactions between system componen
 
 ### 3.6.3 Activity Diagram
 
-The activity diagram below maps out the complete lifecycle of an event within the Eventify system, from creation through execution to post-event activities. It illustrates parallel processes, decision points, and the flow of activities across different stages of event management, helping to understand the operational workflow of the system.
+The activity diagram outlines the event registration workflow, from initial event selection through ticket purchase and confirmation. It shows decision points for event availability and payment validation, parallel processing of payment and registration records, and includes error handling paths when events are unavailable or payments fail.
 
-<div hidden>
+<div hidden="hidden">
   
   ```plantuml
-  @startuml Activity Diagram
+  @startuml Event Registration Activity
+  
+  title Event Registration Process
   
   start
   
-  partition "Event Creation" {
-    :Login as Organizer;
-    :Fill Event Details;
-    if (Form Valid?) then (yes)
-      :Save Event;
-      fork
-        :Generate Event URL;
-      fork again
-        :Send Confirmation Email;
-      end fork
-    else (no)
-      :Show Validation Errors;
-      :Return to Form;
-    endif
-  }
+  :Select Event;
   
-  partition "Event Management" {
-    fork
-      partition "Ticket Sales" {
-        :Open Ticket Sales;
-        while (Tickets Available?) is (yes)
-          :Process Purchase;
-          :Update Inventory;
-        endwhile (no)
-        :Close Ticket Sales;
-      }
+  :Click Register Button;
   
-      fork again
-      partition "Attendee Management" {
-        while (Event Active?) is (yes)
-          :Monitor Registrations;
-          if (New Registration?) then (yes)
-            :Send Welcome Email;
-            :Update Attendee List;
-          endif
-        endwhile (no)
-      }
-    end fork
-  }
+  if (Event Available?) then (yes)
+      :Show Ticket Options;
+      :Select Ticket Type;
+      :Enter Registration Details;
+      :Proceed to Payment;
   
-  partition "Event Execution" {
-    if (Virtual Event?) then (yes)
-      :Setup Virtual Room;
-      :Send Access Links;
-    else (no)
-      :Prepare Venue;
-      :Generate Check-in QR;
-    endif
+      if (Payment Valid?) then (yes)
+          fork
+              :Process Payment;
+          fork again
+              :Create Registration Record;
+          end fork
   
-    :Start Event;
-  
-    fork
-      :Track Attendance;
-    fork again
-      :Manage Sessions;
-    fork again
-      :Handle Support;
-    end fork
-  
-    :End Event;
-  }
-  
-  partition "Post Event" {
-    fork
-      :Send Feedback Forms;
-    fork again
-      :Generate Reports;
-    fork again
-      :Archive Event Data;
-    end fork
-  }
+          :Generate Ticket;
+          :Send Confirmation Email;
+          :Display Success Message;
+      else (no)
+          :Show Payment Error;
+          :Return to Payment;
+      endif
+  else (no)
+      :Show Unavailable Message;
+      :Suggest Similar Events;
+  endif
   
   stop
   
   @enduml
-  ```  
+  ```
+  
 </div>
 
 ![](./diagrams/activity.svg)

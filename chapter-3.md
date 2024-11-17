@@ -295,7 +295,7 @@ The Eventify system employs a modern three-tier architecture designed to provide
 
   skinparam componentStyle uml2
 
-  rectangle "Client Layer" {
+  rectangle "Presentation Layer" {
     [React SPA] as client
     [Material UI] as mui
     [React Query] as rquery

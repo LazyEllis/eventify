@@ -50,7 +50,7 @@ Evaluation of the developed system employs a comprehensive testing strategy usin
 
 This study focuses on developing a web-based event management system accessible via desktop and mobile browsers. The system will cater to various types of events, including conferences, workshops, seminars, and social gatherings, supporting both in-person and basic virtual formats. The initial implementation will target small to medium-sized events (up to 100 attendees), with a roadmap for scaling to larger events in future iterations.
 
-The project will encompass the full software development lifecycle, from requirements gathering to system implementation, testing, and deployment. The system will be deployed on Render, a cloud hosting platform, to provide a live, accessible version of the application for demonstration and further testing purposes.
+The project will encompass the full software development lifecycle, from requirements gathering to system implementation, testing, and deployment. The system will be deployed on Netlify (frontend) and Railway (backend) cloud platforms to provide a live, accessible version of the application for demonstration and further testing purposes.
 
 ## 1.6 Significance of the Study
 

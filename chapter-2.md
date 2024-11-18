@@ -287,9 +287,9 @@ This analysis of existing systems reveals several gaps that Eventify aims to add
 4. Demand for integrated virtual event capabilities
 5. Need for flexible customization options
 
-## 2.4 Review of Related Work
+## 2.5 Review of Related Work
 
-### 2.4.1 Details of Reviewed Literatures
+### 2.5.1 Details of Reviewed Literatures
 
 1. **User Interface Design in Event Management Systems**
 
@@ -323,7 +323,7 @@ This analysis of existing systems reveals several gaps that Eventify aims to add
 
    Xiang et al. (2022) explored the concept of "smart events," integrating Internet of Things (IoT) technologies into event management systems. Their work demonstrated how IoT can enhance real-time data collection and improve the overall event experience.
 
-### 2.4.2 Summary of Reviewed Literatures
+### 2.5.2 Summary of Reviewed Literatures
 
 The reviewed literature reveals several key trends in event management systems:
 
@@ -336,7 +336,7 @@ The reviewed literature reveals several key trends in event management systems:
 7. Emerging applications of advanced technologies such as IoT in event management (Xiang et al., 2022).
 8. Growing integration of various event management functions into comprehensive platforms.
 
-## 2.5 Strengths and Weaknesses of the Existing System
+## 2.6 Strengths and Weaknesses of the Existing System
 
 ### Strengths:
 
@@ -360,16 +360,16 @@ The reviewed literature reveals several key trends in event management systems:
 7. Lack of robust integration between event management and long-term community building
 8. Challenges in providing seamless experiences across in-person and virtual attendees in hybrid events
 
-# 2.7 General Comments
+## 2.7 General Comments
 
 The literature review reveals that while significant advancements have been made in event management systems, several gaps remain. There is a clear need for more integrated, flexible solutions that can adapt to the changing nature of events in a post-pandemic world. The Eventify project aims to address some of these gaps in its initial MVP by:
 
-1. Developing an intuitive, user-centric interface for both organizers and attendees.
-2. Creating a system that supports basic in-person event management with the potential for future virtual event integration.
+1. Developing a more intuitive, user-centric interface that caters to both organizers and attendees (Bowdin et al., 2023; Huang et al., 2015).
+2. Creating a system that supports basic in-person event management with the potential for future virtual event integration. (Ludvigsen and Hayton, 2020).
 3. Implementing foundational attendee networking capabilities.
 4. Providing basic data collection and simple analytics while prioritizing user privacy and data security.
 5. Delivering a comprehensive solution that integrates core aspects of event management.
-6. Laying the groundwork for future enhancements in areas such as sustainability, accessibility, and advanced technology integration.
+6. Laying the groundwork for future enhancements in areas such as sustainability, accessibility, and advanced technology integration. (Jones, 2017; Darcy and Dickson, 2009; Raj et al., 2022; Xiang et al., 2022).
 
 By focusing on these areas, Eventify has the potential to contribute to the field of event management systems, addressing current limitations in a targeted manner and establishing a foundation for more advanced features in future iterations. The initial MVP will prioritize essential functionalities while designing the system architecture to accommodate future scalability and feature enhancements.
 

@@ -1,39 +1,41 @@
 # References
 
-Bowdin, G., Allen, J., O'Toole, W., Harris, R., & McDonnell, I. (2023). Events management (4th ed.). Routledge.
+- **Allied Market Research.** (2021). _Event industry by type, revenue source, organizer, age group, and platform: Global opportunity analysis and industry forecast, 2021–2028_. Allied Market Research.
 
-Darcy, S., & Dickson, T. J. (2009). A whole-of-life approach to tourism: The case for accessible tourism experiences. Journal of Hospitality and Tourism Management, 40, 114-126.
+- **Bowdin, G., Allen, J., O'Toole, W., Harris, R., & McDonnell, I.** (2023). _Events management_ (4th ed.). Routledge.
 
-EventMB. (2021). The Future of the Event Industry: 2021 Outlook.
+- **Darcy, S., & Dickson, T. J.** (2009). A whole-of-life approach to tourism: The case for accessible tourism experiences. _Journal of Hospitality and Tourism Management_, **16**(1), 32–44.
 
-Ferdinand, N., & Kitchin, P. J. (2017). Events management: An international approach (2nd ed.). SAGE Publications.
+- **EventMB.** (2021). _The future of the event industry: 2021 outlook_. Retrieved from [https://meetings.skift.com/2021/03/03/future-event-industry-2021-outlook-free-report/]
 
-Getz, D. (2008). Event tourism: Definition, evolution, and research. Tourism Management, 29(3), 403-428.
+- **Ferdinand, N., & Kitchin, P. J.** (2017). _Events management: An international approach_ (2nd ed.). SAGE Publications.
 
-Goldblatt, J. (2013). Special events: Creating and sustaining a new world for celebration (7th ed.). John Wiley & Sons.
+- **Getz, D.** (2008). Event tourism: Definition, evolution, and research. _Tourism Management_, **29**(3), 403–428.
 
-Huang, Y. C., Backman, K. F., Backman, S. J., & Chang, L. L. (2015). Exploring the implications of virtual reality technology in tourism marketing: An integrated research framework. International Journal of Tourism Research, 22(3), 317-328.
+- **Goldblatt, J.** (2013). _Special events: Creating and sustaining a new world for celebration_ (7th ed.). John Wiley & Sons.
 
-Jones, M. (2017). Sustainable event management: A practical guide (3rd ed.). Routledge.
+- **Huang, Y.-C., Backman, K. F., Backman, S. J., & Chang, L.-L.** (2016). Exploring the implications of virtual reality technology in tourism marketing: An integrated research framework. _International Journal of Tourism Research_, **18**(2), 116–128.
 
-Ludvigsen, M., & Hayton, J. (2020). Toward COVID-19 secure events: Considerations for organizing the safe resumption of major sporting events. Managing Sport and Leisure, 1-11.
+- **Jones, M.** (2017). _Sustainable event management: A practical guide_ (3rd ed.). Routledge.
 
-Mair, J., & Smith, A. (2021). Events and sustainability: Why making events more sustainable is not enough. Journal of Sustainable Tourism, 29(11-12), 1739-1755.
+- **Ludvigsen, M., & Hayton, J. W.** (2022). Toward COVID-19 secure events: Considerations for organizing the safe resumption of major sporting events. _Managing Sport and Leisure_, **27**(1–2), 1–11.
 
-Pearlman, D. M., & Gates, N. A. (2010). Hosting business meetings and special events in virtual worlds: A fad or the future? Journal of Convention & Event Tourism, 11(4), 247-265.
+- **Mair, J., & Smith, A.** (2021). Events and sustainability: Why making events more sustainable is not enough. _Journal of Sustainable Tourism_, **29**(11–12), 1739–1755.
 
-Raj, R., Walters, P., & Rashid, T. (2022). Events management: Principles and practice (4th ed.). SAGE Publications.
+- **Pearlman, D. M., & Gates, N. A.** (2010). Hosting business meetings and special events in virtual worlds: A fad or the future? _Journal of Convention & Event Tourism_, **11**(4), 247–265.
 
-Reinhold, S., Zach, F. J., & Krizaj, D. (2017). Business models in tourism: A review and research agenda. Tourism Review, 72(4), 462-482.
+- **Raj, R., Walters, P., & Rashid, T.** (2022). _Events management: Principles and practice_ (4th ed.). SAGE Publications.
 
-Rubinger, L., Gazendam, A., Ekhtiari, S., Nucci, N., Payne, A., Johal, H., Khanduja, V., & Bhandari, M. (2020). Maximizing virtual meetings and conferences: A review of best practices. International Orthopaedics, 44, 1461-1466.
+- **Reinhold, S., Zach, F. J., & Krizaj, D.** (2017). Business models in tourism: A review and research agenda. _Tourism Review_, **72**(4), 462–482.
 
-Silvers, J. R. (2012). Professional Event Coordination. John Wiley & Sons.
+- **Rubinger, L., Gazendam, A., Ekhtiari, S., Nucci, N., Payne, A., Johal, H., Khanduja, V., & Bhandari, M.** (2020). Maximizing virtual meetings and conferences: A review of best practices. _International Orthopaedics_, **44**(8), 1461–1466.
 
-Sivarajah, U., Kamal, M. M., Irani, Z., & Weerakkody, V. (2017). Critical analysis of Big Data challenges and analytical methods. Journal of Business Research, 70, 263-286.
+- **Silvers, J. R.** (2012). _Professional event coordination_. John Wiley & Sons.
 
-Solaris, J. (2018). The Event Tech Bible: The definitive guide to understanding, mastering and implementing technology at events. Julius Solaris.
+- **Sivarajah, U., Kamal, M. M., Irani, Z., & Weerakkody, V.** (2017). Critical analysis of big data challenges and analytical methods. _Journal of Business Research_, **70**, 263–286.
 
-Tum, J., Norton, P., & Wright, J. N. (2006). Management of event operations. Routledge.
+- **Solaris, J.** (2018). _The event tech bible: The definitive guide to understanding, mastering and implementing technology at events_. Julius Solaris.
 
-Xiang, Z., Fuchs, M., Gretzel, U., & Höpken, W. (2022). Handbook of e-Tourism. Springer International Publishing.
+- **Tum, J., Norton, P., & Wright, J. N.** (2006). _Management of event operations_. Routledge.
+
+- **Xiang, Z., Fuchs, M., Gretzel, U., & Höpken, W.** (Eds.). (2022). _Handbook of e-tourism_. Springer.

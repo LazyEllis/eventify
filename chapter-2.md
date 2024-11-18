@@ -22,13 +22,13 @@ The digital transformation of event management can be traced through several key
 
 6. **Virtual and Hybrid Events (2020-Present)**: The global COVID-19 pandemic accelerated the adoption of virtual and hybrid event technologies, reshaping the industry's approach to event hosting and attendee engagement (Rubinger et al., 2020; EventMB, 2021).
 
-## 2.3 EVENT MANAGEMENT SYSTEM
+## 2.3 Event Management Systems
 
-### 2.3.1 INTRODUCTION
+### 2.3.1 Introduction
 
 An Event Management System (EMS) is a comprehensive software platform designed to streamline the planning, coordination, execution, and analysis of events. It caters to various event types, including corporate meetings, conferences, workshops, exhibitions, concerts, weddings, and virtual events. The system provides centralized tools to enhance collaboration, optimize resource utilization, and improve attendee experiences.
 
-### 2.3.2 KEY COMPONENTS OF AN EVENT MANAGEMENT SYSTEM
+### 2.3.2 Key Components of an Event Management Systems
 
 1. **User Roles**
 
@@ -88,7 +88,7 @@ An Event Management System (EMS) is a comprehensive software platform designed t
      - Secure encryption for payment dat-
      - Compliance with regional data protection laws (GDPR, CCPA).
 
-## 2.3.3 FEATURES IN CURRENT EVENT MANAGEMENT SYSTEMS
+### 2.3.3 Features in Current Event Management Systems
 
 Examples of popular event management systems include:
 
@@ -116,7 +116,7 @@ Examples of popular event management systems include:
    - Collaboration within teams using Zoho suite apps.
    - Advanced multilingual options for global events.
 
-## 2.3.4 COMMONLY USED FEATURES
+### 2.3.4 Commonly Used Features
 
 1. **Customizable Event Pages**:
 
@@ -145,7 +145,7 @@ Examples of popular event management systems include:
    - Speaker and session-specific ratings.
    - Suggestions for future event topics.
 
-## 2.3.5 SYSTEM ARCHITECTURE
+### 2.3.5 System Architecture
 
 A robust EMS follows a 3-tier architecture:
 
@@ -164,9 +164,9 @@ A robust EMS follows a 3-tier architecture:
    - Stores event data, attendee records, and financial transactions.
    - Tools: MySQL, PostgreSQL, or MongoDB for high reliability.
 
-## 2.3.6 USE CASE EXAMPLE
+### 2.3.6 Use Case Example
 
-Scenario: Corporate Training Event
+**Scenario**: Corporate Training Event
 
 1. **Event Overview**: A 2-day technical workshop for software developers with 300 participants.
 
@@ -180,7 +180,7 @@ Scenario: Corporate Training Event
      - Distribute session materials via mobile app.
    - **Post-Event**: Send feedback forms and certification of completion.
 
-## 2.3.7 WORKFLOW OF EVENT MANAGEMENT SYSTEM
+### 2.3.7 Workflow of Event Management Systems
 
 1. **Pre-Event**:
 
@@ -200,7 +200,7 @@ Scenario: Corporate Training Event
    - Generate financial and engagement reports.
    - Analyse data to improve future events.
 
-## 2.3.8 ADVANTAGES OF USING EMS
+### 2.3.8 Advantages of Using EMS
 
 1. **Enhanced Collaboration**: Facilitates communication between event organizers, vendors, and attendees.
 2. **Cost Efficiency**: Reduces manual overheads and resource wastage.
@@ -211,21 +211,81 @@ Scenario: Corporate Training Event
 
 Current event management systems typically offer a range of features designed to streamline the event planning and execution process. Tum et al. (2006) provide a comprehensive overview of event management processes, which have since been adapted for digital platforms. These systems can be broadly categorized into three types:
 
-1. **Comprehensive Event Management Platforms**: All-in-one solutions that cover various aspects of event management, including:
-
-   - Event Creation and Customization
-   - Registration and Ticketing
-   - Attendee Management
-   - Marketing and Promotion
-   - Networking and Engagement
-   - Virtual Event Hosting
-   - Analytics and Reporting
-
-   Examples include Eventbrite, Cvent, and Bizzabo.
+1. **Comprehensive Event Management Platforms**: These are all-in-one solutions that cover various aspects of event management, including planning, registration, ticketing, and attendee engagement. Examples include Eventbrite, Cvent, and Bizzabo.
 
 2. **Specialized Tools**: These focus on specific aspects of event management, such as project management (e.g., Asana, Trello) or virtual event hosting (e.g., Hopin, Zoom Events).
 
 3. **Custom Solutions**: Some organizations develop bespoke event management systems tailored to their specific needs, often built on top of existing content management systems or customer relationship management platforms.
+
+### 2.4.1 COMPREHENSIVE EVENT MANAGEMENT SYSTEMS
+
+1. **Eventbrite**
+
+   **Overview**: Eventbrite is a widely used ticketing and event management platform that primarily caters to small and medium-sized events. It offers self-service tools for event creation, ticketing, and promotion.
+
+   **Strengths**:
+
+   1. User-friendly interface with intuitive event creation workflow
+   2. Strong social media integration and marketing tools
+   3. Mobile-optimized event pages and ticketing
+   4. Free tier available for free events
+   5. Built-in payment processing with multiple currency support
+
+   **Weaknesses**:
+
+   1. Limited customization options for event pages
+   2. Basic reporting capabilities
+   3. Limited features for complex, multi-track events
+   4. Higher fees compared to some competitors
+   5. Limited virtual event capabilities
+
+2. **Cvent**
+
+   **Overview**: Cvent is an enterprise-level event management platform offering comprehensive solutions for large-scale events and conferences. It provides extensive features for both in-person and virtual events.
+
+   **Strengths**:
+
+   1. Comprehensive event management capabilities
+   2. Advanced registration and attendance tracking
+   3. Robust reporting and analytics tools
+   4. Strong integration with hotel and venue sourcing
+   5. Extensive virtual and hybrid event features
+
+   **Weaknesses**:
+
+   1. Complex interface with steep learning curve
+   2. High cost making it less accessible for smaller organizations
+   3. Requires significant technical expertise to fully utilize
+   4. Over-complex workflows for simple events
+   5. Limited flexibility in customization without professional services
+
+3. **Bizzabo**
+
+   **Overview**: Bizzabo is a modern event management platform that focuses on delivering engaging experiences across in-person, virtual, and hybrid events. It emphasizes data-driven insights and attendee engagement.
+
+   **Strengths**:
+
+   1. Strong focus on attendee engagement and networking
+   2. Modern, responsive user interface
+   3. Comprehensive virtual event capabilities
+   4. Advanced analytics and ROI tracking
+   5. Robust API and integration options
+
+   **Weaknesses**:
+
+   1. Higher pricing point for full feature set
+   2. Limited customization for smaller events
+   3. Mobile app requires separate configuration
+   4. Complex setup process for first-time users
+   5. Limited support for multi-language events
+
+This analysis of existing systems reveals several gaps that Eventify aims to address:
+
+1. Need for a balanced solution between simplicity and functionality
+2. Importance of scalable pricing for different organization sizes
+3. Requirement for intuitive interfaces without sacrificing features
+4. Demand for integrated virtual event capabilities
+5. Need for flexible customization options
 
 ## 2.4 Review of Related Work
 

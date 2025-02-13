@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import AuthLayout from "../components/AuthLayout";
+import api from "../services/api-client";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -16,22 +17,14 @@ const Register = () => {
     setError("");
 
     try {
-      const response = await fetch("/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password, firstName, lastName }),
+      const data = await api.register({
+        email,
+        password,
+        firstName,
+        lastName,
       });
-
-      if (!response.ok) {
-        throw new Error("Registration failed. Please try again.");
-      }
-
-      const data = await response.json();
-      // Automatically log the user in after registration
       localStorage.setItem("token", data.token);
-      navigate("/dashboard"); // Redirect to dashboard on success
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message);
     }

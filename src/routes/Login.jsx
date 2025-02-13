@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import AuthLayout from "../components/AuthLayout";
+import api from "../services/api-client";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,22 +15,9 @@ const Login = () => {
     setError("");
 
     try {
-      const response = await fetch("/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Login failed. Please check your credentials.");
-      }
-
-      const data = await response.json();
-      // Store the JWT token in local storage or context
+      const data = await api.login({ email, password });
       localStorage.setItem("token", data.token);
-      navigate("/dashboard"); // Redirect to dashboard on success
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message);
     }

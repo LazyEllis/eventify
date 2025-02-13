@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import AuthLayout from "../components/AuthLayout";
-import api from "../services/api-client";
+import { useAuth } from "../hooks/useAuth";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -10,21 +10,14 @@ const Register = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
+  const { register } = useAuth();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const data = await api.register({
-        email,
-        password,
-        firstName,
-        lastName,
-      });
-      localStorage.setItem("token", data.token);
-      navigate("/dashboard");
+      await register({ email, password, firstName, lastName });
     } catch (err) {
       setError(err.message);
     }

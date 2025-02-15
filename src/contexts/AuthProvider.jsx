@@ -46,6 +46,10 @@ const AuthProvider = () => {
     navigate("/");
   };
 
+  const updateUser = (userData) => {
+    setUser((prev) => ({ ...prev, ...userData }));
+  };
+
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -55,7 +59,7 @@ const AuthProvider = () => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
+    <AuthContext.Provider value={{ user, login, register, logout, updateUser }}>
       <Outlet />
     </AuthContext.Provider>
   );

@@ -22,6 +22,12 @@ class ApiClient {
 
     try {
       const response = await fetch(url, config);
+
+      // Checks for a No Content response
+      if (response.status === 204) {
+        return null;
+      }
+
       const data = await response.json();
 
       if (!response.ok) {
@@ -75,6 +81,16 @@ class ApiClient {
     return this.request("/events", {
       method: "POST",
       body: JSON.stringify(eventData),
+    });
+  }
+
+  async getEvent(id) {
+    return this.request(`/events/${id}`);
+  }
+
+  async deleteEvent(id) {
+    return this.request(`/events/${id}`, {
+      method: "DELETE",
     });
   }
 }

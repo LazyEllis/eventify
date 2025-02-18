@@ -5,6 +5,7 @@ import Dashboard from "./routes/Dashboard";
 import Events from "./routes/Events";
 import CreateEvent from "./routes/CreateEvent";
 import EventDetails from "./routes/EventDetails";
+import EditEvent from "./routes/EditEvent";
 import Profile from "./routes/Profile";
 import Error from "./routes/Error";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -56,6 +57,14 @@ const routes = [
         element: (
           <ProtectedRoute>
             <EventDetails />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "events/:id/edit",
+        element: (
+          <ProtectedRoute>
+            <EditEvent />
           </ProtectedRoute>
         ),
       },

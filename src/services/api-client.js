@@ -88,6 +88,13 @@ class ApiClient {
     return this.request(`/events/${id}`);
   }
 
+  async updateEvent(id, eventData) {
+    return this.request(`/events/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(eventData),
+    });
+  }
+
   async deleteEvent(id) {
     return this.request(`/events/${id}`, {
       method: "DELETE",

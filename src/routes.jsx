@@ -2,6 +2,7 @@ import Home from "./routes/Home";
 import Login from "./routes/Login";
 import Register from "./routes/Register";
 import Dashboard from "./routes/Dashboard";
+import Events from "./routes/Events";
 import Profile from "./routes/Profile";
 import Error from "./routes/Error";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -29,6 +30,14 @@ const routes = [
         element: (
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "events",
+        element: (
+          <ProtectedRoute>
+            <Events />
           </ProtectedRoute>
         ),
       },

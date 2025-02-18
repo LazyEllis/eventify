@@ -8,6 +8,7 @@ import EventDetails from "./routes/EventDetails";
 import EditEvent from "./routes/EditEvent";
 import CreateTicketType from "./routes/CreateTicketType";
 import Profile from "./routes/Profile";
+import Tickets from "./routes/Tickets";
 import Error from "./routes/Error";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthProvider from "./contexts/AuthProvider";
@@ -82,6 +83,14 @@ const routes = [
         element: (
           <ProtectedRoute>
             <Profile />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "tickets",
+        element: (
+          <ProtectedRoute>
+            <Tickets />
           </ProtectedRoute>
         ),
       },

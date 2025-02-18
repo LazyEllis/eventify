@@ -121,6 +121,26 @@ class ApiClient {
       method: "DELETE",
     });
   }
+
+  // Ticket endpoints
+  async getUserTickets() {
+    return this.request("/tickets/user");
+  }
+
+  async getTicket(id) {
+    return this.request(`/tickets/${id}`);
+  }
+
+  async purchaseTickets(data) {
+    return this.request("/tickets/purchase", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async verifyPayment(reference) {
+    return this.request(`/tickets/verify?reference=${reference}`);
+  }
 }
 
 const api = new ApiClient();

@@ -100,6 +100,27 @@ class ApiClient {
       method: "DELETE",
     });
   }
+
+  // Ticket type endpoints
+  async createTicketType(eventId, ticketData) {
+    return this.request(`/events/${eventId}/ticket-types`, {
+      method: "POST",
+      body: JSON.stringify(ticketData),
+    });
+  }
+
+  async updateTicketType(eventId, ticketId, ticketData) {
+    return this.request(`/events/${eventId}/ticket-types/${ticketId}`, {
+      method: "PUT",
+      body: JSON.stringify(ticketData),
+    });
+  }
+
+  async deleteTicketType(eventId, ticketId) {
+    return this.request(`/events/${eventId}/ticket-types/${ticketId}`, {
+      method: "DELETE",
+    });
+  }
 }
 
 const api = new ApiClient();

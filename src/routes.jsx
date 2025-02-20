@@ -6,6 +6,7 @@ import Events from "./routes/Events";
 import CreateEvent from "./routes/CreateEvent";
 import EventDetails from "./routes/EventDetails";
 import EditEvent from "./routes/EditEvent";
+import CreateTicketType from "./routes/CreateTicketType";
 import Profile from "./routes/Profile";
 import Error from "./routes/Error";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -65,6 +66,14 @@ const routes = [
         element: (
           <ProtectedRoute>
             <EditEvent />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "events/:id/tickets/new",
+        element: (
+          <ProtectedRoute>
+            <CreateTicketType />
           </ProtectedRoute>
         ),
       },

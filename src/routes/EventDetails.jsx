@@ -11,6 +11,7 @@ import {
   Share,
   MessageCircle,
   BarChart2,
+  ShoppingCart,
 } from "lucide-react";
 import DashboardLayout from "../components/DashboardLayout";
 import { useAuth } from "../hooks/useAuth";
@@ -204,6 +205,18 @@ const EventDetails = () => {
                 Quick Actions
               </h2>
               <div className="mt-4 space-y-3">
+                <Link
+                  to={`/events/${id}/purchase`}
+                  className="flex items-center justify-between rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50"
+                >
+                  <div className="flex items-center gap-3">
+                    <ShoppingCart className="h-5 w-5 text-gray-400" />
+                    <span className="text-sm font-medium text-gray-700">
+                      Buy Tickets
+                    </span>
+                  </div>
+                  <span className="text-sm text-gray-500">Purchase now</span>
+                </Link>
                 <Link
                   to={`/events/${id}/messages`}
                   className="flex items-center justify-between rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50"

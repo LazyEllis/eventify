@@ -9,6 +9,8 @@ import EditEvent from "./routes/EditEvent";
 import CreateTicketType from "./routes/CreateTicketType";
 import Profile from "./routes/Profile";
 import Tickets from "./routes/Tickets";
+import PurchaseTickets from "./routes/PurchaseTickets";
+import PaymentVerification from "./routes/PaymentVerification";
 import Error from "./routes/Error";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthProvider from "./contexts/AuthProvider";
@@ -91,6 +93,22 @@ const routes = [
         element: (
           <ProtectedRoute>
             <Tickets />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "events/:id/purchase",
+        element: (
+          <ProtectedRoute>
+            <PurchaseTickets />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "payment/verify",
+        element: (
+          <ProtectedRoute>
+            <PaymentVerification />
           </ProtectedRoute>
         ),
       },

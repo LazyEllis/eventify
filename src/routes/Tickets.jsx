@@ -108,7 +108,7 @@ const Tickets = () => {
                     {ticket.status}
                   </span>
                   <p className="mt-2 text-sm font-medium text-gray-900">
-                    ${ticket.ticketType.price}
+                    ₦{ticket.ticketType.price}
                   </p>
                 </div>
               </div>

@@ -156,7 +156,7 @@ const TicketDetails = () => {
                   </div>
                   <div className="text-right">
                     <p className="font-medium text-gray-900">
-                      ${ticket?.ticketType?.price}
+                      ₦{ticket?.ticketType?.price}
                     </p>
                     <p className="text-sm text-gray-500">per ticket</p>
                   </div>

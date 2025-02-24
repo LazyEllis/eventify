@@ -112,7 +112,7 @@ const Dashboard = () => {
                   Total Revenue
                 </p>
                 <p className="text-2xl font-semibold text-gray-900">
-                  ${stats.totalRevenue}
+                  ₦{stats.totalRevenue}
                 </p>
               </div>
             </div>

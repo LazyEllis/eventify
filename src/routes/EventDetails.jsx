@@ -184,7 +184,7 @@ const EventDetails = () => {
                       </div>
                       <div className="text-right">
                         <p className="font-medium text-gray-900">
-                          ${ticket.price}
+                          ₦{ticket.price}
                         </p>
                         <p className="text-sm text-gray-500">
                           {ticket.quantity} available

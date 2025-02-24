@@ -124,7 +124,7 @@ const PurchaseTickets = () => {
                   <div className="ml-6 flex items-center gap-4">
                     <div className="text-right">
                       <p className="font-medium text-gray-900">
-                        ${ticketType.price}
+                        ₦{ticketType.price}
                       </p>
                       <p className="text-sm text-gray-500">
                         {ticketType.quantity} available
@@ -165,7 +165,7 @@ const PurchaseTickets = () => {
                     {ticketType?.name} × {quantity}
                   </span>
                   <span className="font-medium text-gray-900">
-                    ${(ticketType?.price || 0) * quantity}
+                    ₦{(ticketType?.price || 0) * quantity}
                   </span>
                 </div>
               );
@@ -176,7 +176,7 @@ const PurchaseTickets = () => {
                   Total
                 </span>
                 <span className="text-base font-medium text-gray-900">
-                  ${calculateTotal()}
+                  ₦{calculateTotal()}
                 </span>
               </div>
             </div>

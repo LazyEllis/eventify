@@ -10,6 +10,7 @@ import {
   Download,
   Share,
 } from "lucide-react";
+import { formatCurrency } from "../utils/formatters";
 import DashboardLayout from "../components/DashboardLayout";
 import api from "../services/api-client";
 
@@ -156,7 +157,7 @@ const TicketDetails = () => {
                   </div>
                   <div className="text-right">
                     <p className="font-medium text-gray-900">
-                      ₦{ticket?.ticketType?.price}
+                      {formatCurrency(ticket?.ticketType?.price)}
                     </p>
                     <p className="text-sm text-gray-500">per ticket</p>
                   </div>

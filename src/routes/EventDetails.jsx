@@ -13,6 +13,7 @@ import {
   BarChart2,
   ShoppingCart,
 } from "lucide-react";
+import { formatCurrency } from "../utils/formatters";
 import DashboardLayout from "../components/DashboardLayout";
 import { useAuth } from "../hooks/useAuth";
 import api from "../services/api-client";
@@ -184,7 +185,7 @@ const EventDetails = () => {
                       </div>
                       <div className="text-right">
                         <p className="font-medium text-gray-900">
-                          ₦{ticket.price}
+                          {formatCurrency(ticket.price)}
                         </p>
                         <p className="text-sm text-gray-500">
                           {ticket.quantity} available

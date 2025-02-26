@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Ticket, ShoppingCart } from "lucide-react";
+import { formatCurrency } from "../utils/formatters";
 import DashboardLayout from "../components/DashboardLayout";
 import api from "../services/api-client";
 
@@ -124,7 +125,7 @@ const PurchaseTickets = () => {
                   <div className="ml-6 flex items-center gap-4">
                     <div className="text-right">
                       <p className="font-medium text-gray-900">
-                        ₦{ticketType.price}
+                        {formatCurrency(ticketType.price)}
                       </p>
                       <p className="text-sm text-gray-500">
                         {ticketType.quantity} available
@@ -165,7 +166,7 @@ const PurchaseTickets = () => {
                     {ticketType?.name} × {quantity}
                   </span>
                   <span className="font-medium text-gray-900">
-                    ₦{(ticketType?.price || 0) * quantity}
+                    {formatCurrency((ticketType?.price || 0) * quantity)}
                   </span>
                 </div>
               );
@@ -176,7 +177,7 @@ const PurchaseTickets = () => {
                   Total
                 </span>
                 <span className="text-base font-medium text-gray-900">
-                  ₦{calculateTotal()}
+                  {formatCurrency(calculateTotal())}
                 </span>
               </div>
             </div>

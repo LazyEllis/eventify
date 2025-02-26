@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Ticket, Tag, Calendar, Clock, MapPin } from "lucide-react";
+import { formatCurrency } from "../utils/formatters";
 import DashboardLayout from "../components/DashboardLayout";
 import api from "../services/api-client";
 
@@ -108,7 +109,7 @@ const Tickets = () => {
                     {ticket.status}
                   </span>
                   <p className="mt-2 text-sm font-medium text-gray-900">
-                    ₦{ticket.ticketType.price}
+                    {formatCurrency(ticket?.ticketType?.price)}
                   </p>
                 </div>
               </div>

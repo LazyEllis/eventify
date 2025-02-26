@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Ticket, DollarSign, Users, BarChart2 } from "lucide-react";
+import { formatCurrency } from "../utils/formatters";
 import DashboardLayout from "../components/DashboardLayout";
 import AnalyticsCard from "../components/AnalyticsCard";
 import api from "../services/api-client";
@@ -57,7 +58,7 @@ const EventAnalytics = () => {
           />
           <AnalyticsCard
             title="Revenue"
-            value={`₦${analytics?.revenue?.toFixed(2) || "0.00"}`}
+            value={`${formatCurrency(analytics?.revenue)}`}
             icon={DollarSign}
           />
           <AnalyticsCard

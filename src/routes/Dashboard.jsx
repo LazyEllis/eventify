@@ -8,6 +8,7 @@ import {
   ArrowRight,
   Plus,
 } from "lucide-react";
+import { formatCurrency } from "../utils/formatters";
 import DashboardLayout from "../components/DashboardLayout";
 import api from "../services/api-client";
 
@@ -112,7 +113,7 @@ const Dashboard = () => {
                   Total Revenue
                 </p>
                 <p className="text-2xl font-semibold text-gray-900">
-                  ₦{stats.totalRevenue}
+                  {formatCurrency(stats.totalRevenue)}
                 </p>
               </div>
             </div>

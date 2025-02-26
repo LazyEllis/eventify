@@ -5,9 +5,7 @@ import {
   LayoutDashboard,
   Calendar,
   Ticket,
-  BarChart2,
   UserCircle,
-  MessageSquare,
   LogOut,
 } from "lucide-react";
 
@@ -15,9 +13,7 @@ const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Events", href: "/events", icon: Calendar },
   { name: "Tickets", href: "/tickets", icon: Ticket },
-  { name: "Analytics", href: "/analytics", icon: BarChart2 },
   { name: "Profile", href: "/profile", icon: UserCircle },
-  { name: "Messages", href: "/messages", icon: MessageSquare },
 ];
 
 const DashboardLayout = ({ children }) => {

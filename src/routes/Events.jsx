@@ -82,6 +82,8 @@ const Events = () => {
               <option value="Workshop">Workshop</option>
               <option value="Webinar">Webinar</option>
               <option value="Social">Social</option>
+              <option value="Concert">Concert</option>
+              <option value="Exhibition">Exhibition</option>
             </select>
           </div>
         </div>

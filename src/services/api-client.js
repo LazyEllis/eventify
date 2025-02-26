@@ -141,6 +141,18 @@ class ApiClient {
   async verifyPayment(reference) {
     return this.request(`/tickets/verify?reference=${reference}`);
   }
+
+  // Event message endpoints
+  async getEventMessages(eventId) {
+    return this.request(`/events/${eventId}/messages`);
+  }
+
+  async sendEventMessage(eventId, messageData) {
+    return this.request(`/events/${eventId}/messages`, {
+      method: "POST",
+      body: JSON.stringify(messageData),
+    });
+  }
 }
 
 const api = new ApiClient();

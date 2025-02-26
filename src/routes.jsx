@@ -12,6 +12,7 @@ import Tickets from "./routes/Tickets";
 import TicketDetails from "./routes/TicketDetails";
 import PurchaseTickets from "./routes/PurchaseTickets";
 import PaymentVerification from "./routes/PaymentVerification";
+import EventMessages from "./routes/EventMessages";
 import Error from "./routes/Error";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthProvider from "./contexts/AuthProvider";
@@ -118,6 +119,14 @@ const routes = [
         element: (
           <ProtectedRoute>
             <PaymentVerification />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "events/:id/messages",
+        element: (
+          <ProtectedRoute>
+            <EventMessages />
           </ProtectedRoute>
         ),
       },

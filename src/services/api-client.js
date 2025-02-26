@@ -153,6 +153,25 @@ class ApiClient {
       body: JSON.stringify(messageData),
     });
   }
+
+  // Analytics endpoints
+  async getEventAnalytics(eventId) {
+    return this.request(`/events/${eventId}/analytics`);
+  }
+
+  async getSalesAnalytics(startDate, endDate) {
+    const params = new URLSearchParams();
+    if (startDate) params.append("startDate", startDate);
+    if (endDate) params.append("endDate", endDate);
+    return this.request(`/sales?${params}`);
+  }
+
+  async getAttendanceAnalytics(startDate, endDate) {
+    const params = new URLSearchParams();
+    if (startDate) params.append("startDate", startDate);
+    if (endDate) params.append("endDate", endDate);
+    return this.request(`/attendance?${params}`);
+  }
 }
 
 const api = new ApiClient();

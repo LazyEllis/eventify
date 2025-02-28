@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { formatCurrency } from "../utils/formatters";
 import DashboardLayout from "../components/DashboardLayout";
+import EventFormModal from "../components/modals/EventFormModal";
 import api from "../services/api-client";
 
 const Dashboard = () => {
@@ -21,6 +22,9 @@ const Dashboard = () => {
   });
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Add state for modal
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -44,6 +48,17 @@ const Dashboard = () => {
     fetchDashboardData();
   }, []);
 
+  // Handle event creation success
+  const handleEventCreated = (newEvent) => {
+    // Add the new event to the events list if it's one of the most recent
+    setEvents((prev) => [newEvent, ...prev].slice(0, 5));
+    // Update stats to reflect new event
+    setStats((prev) => ({
+      ...prev,
+      upcomingEvents: prev.upcomingEvents + 1,
+    }));
+  };
+
   if (loading) {
     return (
       <DashboardLayout>
@@ -60,13 +75,13 @@ const Dashboard = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-          <Link
-            to="/events/new"
+          <button
+            onClick={() => setIsCreateModalOpen(true)}
             className="group inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700"
           >
             <Plus className="h-4 w-4" />
             Create Event
-          </Link>
+          </button>
         </div>
 
         {/* Stats */}
@@ -171,6 +186,14 @@ const Dashboard = () => {
               </div>
             ))}
           </div>
+
+          {/* CreateEventModal */}
+          <EventFormModal
+            isOpen={isCreateModalOpen}
+            onClose={() => setIsCreateModalOpen(false)}
+            mode="create"
+            onSuccess={handleEventCreated}
+          />
         </div>
       </div>
     </DashboardLayout>

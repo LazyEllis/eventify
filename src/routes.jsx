@@ -3,14 +3,10 @@ import Login from "./routes/Login";
 import Register from "./routes/Register";
 import Dashboard from "./routes/Dashboard";
 import Events from "./routes/Events";
-import CreateEvent from "./routes/CreateEvent";
 import EventDetails from "./routes/EventDetails";
-import EditEvent from "./routes/EditEvent";
-import CreateTicketType from "./routes/CreateTicketType";
 import Profile from "./routes/Profile";
 import Tickets from "./routes/Tickets";
 import TicketDetails from "./routes/TicketDetails";
-import PurchaseTickets from "./routes/PurchaseTickets";
 import PaymentVerification from "./routes/PaymentVerification";
 import EventMessages from "./routes/EventMessages";
 import EventAnalytics from "./routes/EventAnalytics";
@@ -53,34 +49,10 @@ const routes = [
         ),
       },
       {
-        path: "events/new",
-        element: (
-          <ProtectedRoute>
-            <CreateEvent />
-          </ProtectedRoute>
-        ),
-      },
-      {
         path: "events/:id",
         element: (
           <ProtectedRoute>
             <EventDetails />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "events/:id/edit",
-        element: (
-          <ProtectedRoute>
-            <EditEvent />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "events/:id/tickets/new",
-        element: (
-          <ProtectedRoute>
-            <CreateTicketType />
           </ProtectedRoute>
         ),
       },
@@ -105,14 +77,6 @@ const routes = [
         element: (
           <ProtectedRoute>
             <TicketDetails />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "events/:id/purchase",
-        element: (
-          <ProtectedRoute>
-            <PurchaseTickets />
           </ProtectedRoute>
         ),
       },

@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Plus, Search, Filter, Calendar } from "lucide-react";
+import { Calendar, Filter, Search, Plus } from "lucide-react";
 import DashboardLayout from "../components/DashboardLayout";
 import api from "../services/api-client";
+import EventFormModal from "../components/modals/EventFormModal";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("");
+
+  // Add state for modal
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -24,6 +28,12 @@ const Events = () => {
 
     fetchEvents();
   }, []);
+
+  // Handle event creation success
+  const handleEventCreated = (newEvent) => {
+    // Add the new event to the events list
+    setEvents((prev) => [newEvent, ...prev]);
+  };
 
   const filteredEvents = events.filter((event) => {
     const matchesSearch = event.title
@@ -49,13 +59,13 @@ const Events = () => {
         {/* Header */}
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-semibold text-gray-900">Events</h1>
-          <Link
-            to="/events/new"
-            className="group inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700"
+          <button
+            onClick={() => setIsCreateModalOpen(true)}
+            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700 hover:shadow-lg"
           >
             <Plus className="h-4 w-4" />
             Create Event
-          </Link>
+          </button>
         </div>
 
         {/* Search and Filters */}
@@ -147,6 +157,14 @@ const Events = () => {
             )}
           </div>
         )}
+
+        {/* CreateEventModal */}
+        <EventFormModal
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+          mode="create"
+          onSuccess={handleEventCreated}
+        />
       </div>
     </DashboardLayout>
   );

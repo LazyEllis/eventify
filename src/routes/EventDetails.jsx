@@ -12,11 +12,19 @@ import {
   MessageCircle,
   BarChart2,
   ShoppingCart,
+  UserPlus,
 } from "lucide-react";
 import { formatCurrency } from "../utils/formatters";
 import DashboardLayout from "../components/DashboardLayout";
 import { useAuth } from "../hooks/useAuth";
 import api from "../services/api-client";
+
+// Import modal components
+import DeleteConfirmationModal from "../components/modals/DeleteConfirmationModal";
+import TicketTypeModal from "../components/modals/TicketTypeModal";
+import PurchaseTicketsModal from "../components/modals/PurchaseTicketsModal";
+import InviteAttendeesModal from "../components/modals/InviteAttendeesModal";
+import EventFormModal from "../components/modals/EventFormModal";
 
 const EventDetails = () => {
   const { id } = useParams();
@@ -25,6 +33,13 @@ const EventDetails = () => {
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  // Modal state
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isTicketTypeModalOpen, setIsTicketTypeModalOpen] = useState(false);
+  const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
+  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -41,17 +56,49 @@ const EventDetails = () => {
     fetchEvent();
   }, [id]);
 
-  const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete this event?")) {
-      return;
-    }
+  const handleDeleteClick = () => {
+    setIsDeleteModalOpen(true);
+  };
 
+  const handleDeleteConfirm = async () => {
     try {
       await api.deleteEvent(id);
       navigate("/events", { replace: true });
     } catch (err) {
       setError(err.message);
+      setIsDeleteModalOpen(false);
     }
+  };
+
+  const handleTicketTypeCreated = (newTicket) => {
+    // Update the event with the new ticket type
+    setEvent((prev) => ({
+      ...prev,
+      ticketTypes: [...(prev.ticketTypes || []), newTicket],
+    }));
+  };
+
+  const handleInviteSubmit = async (inviteData) => {
+    try {
+      await api.inviteAttendees(id, inviteData);
+      // Optional: Show success message or update UI
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleEventUpdated = (updatedEvent) => {
+    // Make sure we have all necessary fields
+    const completeUpdatedEvent = {
+      ...event, // Start with existing event data
+      ...updatedEvent, // Apply updates
+      // Ensure these critical fields are preserved if they exist in the original event
+      organizerId: updatedEvent.organizerId || event?.organizerId,
+      organizer: updatedEvent.organizer || event?.organizer,
+      ticketTypes: updatedEvent.ticketTypes || event?.ticketTypes || [],
+    };
+
+    setEvent(completeUpdatedEvent);
   };
 
   if (loading) {
@@ -95,15 +142,15 @@ const EventDetails = () => {
           <div className="flex items-center gap-3">
             {isOrganizer && (
               <>
-                <Link
-                  to={`/events/${id}/edit`}
+                <button
+                  onClick={() => setIsEditModalOpen(true)}
                   className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-700"
                 >
                   <Edit className="h-4 w-4" />
                   Edit
-                </Link>
+                </button>
                 <button
-                  onClick={handleDelete}
+                  onClick={handleDeleteClick}
                   className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 hover:text-red-700"
                 >
                   <Trash2 className="h-4 w-4" />
@@ -163,12 +210,12 @@ const EventDetails = () => {
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-medium text-gray-900">Tickets</h2>
                 {isOrganizer && (
-                  <Link
-                    to={`/events/${id}/tickets/new`}
+                  <button
+                    onClick={() => setIsTicketTypeModalOpen(true)}
                     className="text-sm font-medium text-blue-600 hover:text-blue-700"
                   >
                     Add Ticket Type
-                  </Link>
+                  </button>
                 )}
               </div>
               <div className="mt-4 divide-y divide-gray-200">
@@ -206,10 +253,10 @@ const EventDetails = () => {
                 Quick Actions
               </h2>
               <div className="mt-4 space-y-3">
-                {!isOrganizer && ( // Only show Buy Tickets to non-organizers
-                  <Link
-                    to={`/events/${id}/purchase`}
-                    className="flex items-center justify-between rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50"
+                {!isOrganizer && (
+                  <button
+                    onClick={() => setIsPurchaseModalOpen(true)}
+                    className="flex w-full items-center justify-between rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50"
                   >
                     <div className="flex items-center gap-3">
                       <ShoppingCart className="h-5 w-5 text-gray-400" />
@@ -218,7 +265,7 @@ const EventDetails = () => {
                       </span>
                     </div>
                     <span className="text-sm text-gray-500">Purchase now</span>
-                  </Link>
+                  </button>
                 )}
                 <Link
                   to={`/events/${id}/messages`}
@@ -258,6 +305,20 @@ const EventDetails = () => {
                       </div>
                       <span className="text-sm text-gray-500">View list</span>
                     </Link>
+                    <button
+                      onClick={() => setIsInviteModalOpen(true)}
+                      className="flex w-full items-center justify-between rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50"
+                    >
+                      <div className="flex items-center gap-3">
+                        <UserPlus className="h-5 w-5 text-gray-400" />
+                        <span className="text-sm font-medium text-gray-700">
+                          Invite Attendees
+                        </span>
+                      </div>
+                      <span className="text-sm text-gray-500">
+                        Send invites
+                      </span>
+                    </button>
                   </>
                 )}
               </div>
@@ -281,6 +342,44 @@ const EventDetails = () => {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <DeleteConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleDeleteConfirm}
+        title="Delete Event"
+        message={`Are you sure you want to delete "${event?.title}"? This action cannot be undone.`}
+      />
+
+      <TicketTypeModal
+        isOpen={isTicketTypeModalOpen}
+        onClose={() => setIsTicketTypeModalOpen(false)}
+        eventId={id}
+        onSuccess={handleTicketTypeCreated}
+      />
+
+      <PurchaseTicketsModal
+        isOpen={isPurchaseModalOpen}
+        onClose={() => setIsPurchaseModalOpen(false)}
+        eventId={id}
+        event={event}
+      />
+
+      <InviteAttendeesModal
+        isOpen={isInviteModalOpen}
+        onClose={() => setIsInviteModalOpen(false)}
+        onSubmit={handleInviteSubmit}
+        eventTitle={event?.title || ""}
+      />
+
+      <EventFormModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        event={event}
+        mode="edit"
+        onSuccess={handleEventUpdated}
+      />
     </DashboardLayout>
   );
 };

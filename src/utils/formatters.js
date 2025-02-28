@@ -8,3 +8,7 @@ const currencyFormatter = new Intl.NumberFormat("en-NG", {
 export const formatCurrency = (amount) => {
   return currencyFormatter.format(amount);
 };
+
+export const formatDate = (date) => {
+  return date ? new Date(date).toISOString().slice(0, 16) : "";
+};

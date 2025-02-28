@@ -1,46 +1,34 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Ticket, ShoppingCart } from "lucide-react";
-import { formatCurrency } from "../utils/formatters";
-import DashboardLayout from "../components/DashboardLayout";
-import api from "../services/api-client";
+import PropTypes from "prop-types";
+import Modal from "../Modal";
+import { formatCurrency } from "../../utils/formatters";
+import api from "../../services/api-client";
 
-const PurchaseTickets = () => {
-  const { id: eventId } = useParams();
-  const navigate = useNavigate();
-  const [event, setEvent] = useState(null);
-  const [loading, setLoading] = useState(true);
+const PurchaseTicketsModal = ({ isOpen, onClose, eventId, event }) => {
   const [error, setError] = useState("");
   const [selectedTickets, setSelectedTickets] = useState({});
 
-  useEffect(() => {
-    const fetchEvent = async () => {
-      try {
-        const data = await api.getEvent(eventId);
-        setEvent(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEvent();
-  }, [eventId]);
+  // Handle both close and reset in one function
+  const handleClose = () => {
+    setSelectedTickets({});
+    setError("");
+    onClose();
+  };
 
   const handleQuantityChange = (ticketTypeId, quantity) => {
     setSelectedTickets((prev) => ({
       ...prev,
-      [ticketTypeId]: parseInt(quantity, 10) || 0,
+      [ticketTypeId]: parseInt(quantity, 10),
     }));
   };
 
   const calculateTotal = () => {
+    if (!event) return 0;
+
     return Object.entries(selectedTickets).reduce(
       (total, [ticketTypeId, quantity]) => {
-        const ticketType = event?.ticketTypes.find(
-          (t) => t.id === ticketTypeId,
-        );
+        const ticketType = event.ticketTypes.find((t) => t.id === ticketTypeId);
         return total + (ticketType?.price || 0) * quantity;
       },
       0,
@@ -53,7 +41,7 @@ const PurchaseTickets = () => {
         .filter(([, quantity]) => quantity > 0)
         .map(([ticketTypeId, quantity]) => ({
           ticketTypeId,
-          quantity,
+          quantity: parseInt(quantity, 10),
         }));
 
       if (tickets.length === 0) {
@@ -73,26 +61,15 @@ const PurchaseTickets = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <DashboardLayout>
-        <div className="flex h-96 items-center justify-center">
-          <div className="text-gray-500">Loading...</div>
-        </div>
-      </DashboardLayout>
-    );
-  }
-
   return (
-    <DashboardLayout>
+    <Modal
+      isOpen={isOpen}
+      onClose={handleClose}
+      title="Purchase Tickets"
+      size="large"
+    >
       <div className="space-y-6">
-        {/* Header */}
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-900">
-            Purchase Tickets
-          </h1>
-          <p className="mt-1 text-sm text-gray-600">{event?.title}</p>
-        </div>
+        <p className="text-sm text-gray-600">{event?.title}</p>
 
         {error && (
           <div className="rounded-lg bg-red-50 p-4 text-sm text-red-500">
@@ -101,8 +78,8 @@ const PurchaseTickets = () => {
         )}
 
         {/* Ticket Selection */}
-        <div className="rounded-lg bg-white p-6 shadow-sm">
-          <h2 className="text-lg font-medium text-gray-900">Select Tickets</h2>
+        <div>
+          <h3 className="text-md font-medium text-gray-900">Select Tickets</h3>
           <div className="mt-4 divide-y divide-gray-200">
             {event?.ticketTypes.map((ticketType) => (
               <div key={ticketType.id} className="py-4">
@@ -149,8 +126,8 @@ const PurchaseTickets = () => {
         </div>
 
         {/* Order Summary */}
-        <div className="rounded-lg bg-white p-6 shadow-sm">
-          <h2 className="text-lg font-medium text-gray-900">Order Summary</h2>
+        <div className="border-t border-gray-200 pt-4">
+          <h3 className="text-md font-medium text-gray-900">Order Summary</h3>
           <div className="mt-4 space-y-4">
             {Object.entries(selectedTickets).map(([ticketTypeId, quantity]) => {
               if (quantity <= 0) return null;
@@ -185,14 +162,16 @@ const PurchaseTickets = () => {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center justify-between">
+        <div className="flex justify-end gap-3 border-t border-gray-200 pt-4">
           <button
-            onClick={() => navigate(`/events/${eventId}`)}
-            className="text-sm font-medium text-gray-600 hover:text-gray-700"
+            type="button"
+            onClick={handleClose}
+            className="rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-700"
           >
-            Back to event
+            Cancel
           </button>
           <button
+            type="button"
             onClick={handlePurchase}
             disabled={calculateTotal() === 0}
             className="group inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700 disabled:bg-gray-300"
@@ -202,8 +181,15 @@ const PurchaseTickets = () => {
           </button>
         </div>
       </div>
-    </DashboardLayout>
+    </Modal>
   );
 };
 
-export default PurchaseTickets;
+PurchaseTicketsModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  eventId: PropTypes.string.isRequired,
+  event: PropTypes.object.isRequired,
+};
+
+export default PurchaseTicketsModal;

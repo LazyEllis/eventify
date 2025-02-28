@@ -231,18 +231,32 @@ const EventDetails = () => {
                   <span className="text-sm text-gray-500">View all</span>
                 </Link>
                 {isOrganizer && (
-                  <Link
-                    to={`/events/${id}/analytics`}
-                    className="flex items-center justify-between rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50"
-                  >
-                    <div className="flex items-center gap-3">
-                      <BarChart2 className="h-5 w-5 text-gray-400" />
-                      <span className="text-sm font-medium text-gray-700">
-                        Analytics
-                      </span>
-                    </div>
-                    <span className="text-sm text-gray-500">View stats</span>
-                  </Link>
+                  <>
+                    <Link
+                      to={`/events/${id}/analytics`}
+                      className="flex items-center justify-between rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50"
+                    >
+                      <div className="flex items-center gap-3">
+                        <BarChart2 className="h-5 w-5 text-gray-400" />
+                        <span className="text-sm font-medium text-gray-700">
+                          Analytics
+                        </span>
+                      </div>
+                      <span className="text-sm text-gray-500">View stats</span>
+                    </Link>
+                    <Link
+                      to={`/events/${id}/attendees`}
+                      className="flex items-center justify-between rounded-lg border border-gray-200 p-4 transition-colors hover:bg-gray-50"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Users className="h-5 w-5 text-gray-400" />
+                        <span className="text-sm font-medium text-gray-700">
+                          Attendees
+                        </span>
+                      </div>
+                      <span className="text-sm text-gray-500">View list</span>
+                    </Link>
+                  </>
                 )}
               </div>
             </div>

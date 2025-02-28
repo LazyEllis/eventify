@@ -14,6 +14,7 @@ import PurchaseTickets from "./routes/PurchaseTickets";
 import PaymentVerification from "./routes/PaymentVerification";
 import EventMessages from "./routes/EventMessages";
 import EventAnalytics from "./routes/EventAnalytics";
+import EventAttendees from "./routes/EventAttendees";
 import Error from "./routes/Error";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthProvider from "./contexts/AuthProvider";
@@ -136,6 +137,14 @@ const routes = [
         element: (
           <ProtectedRoute>
             <EventAnalytics />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "events/:id/attendees",
+        element: (
+          <ProtectedRoute>
+            <EventAttendees />
           </ProtectedRoute>
         ),
       },

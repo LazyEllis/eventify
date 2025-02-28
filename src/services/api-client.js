@@ -172,6 +172,18 @@ class ApiClient {
     if (endDate) params.append("endDate", endDate);
     return this.request(`/attendance?${params}`);
   }
+
+  // Event attendee endpoints
+  async getEventAttendees(eventId) {
+    return this.request(`/events/${eventId}/attendees`);
+  }
+
+  async inviteAttendees(eventId, invitations) {
+    return this.request(`/events/${eventId}/attendees/invite`, {
+      method: "POST",
+      body: JSON.stringify(invitations),
+    });
+  }
 }
 
 const api = new ApiClient();

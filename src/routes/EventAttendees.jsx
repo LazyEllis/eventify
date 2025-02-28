@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Search, UserPlus, Mail, Download } from "lucide-react";
 import DashboardLayout from "../components/DashboardLayout";
+import InviteAttendeesModal from "../components/modals/InviteAttendeesModal";
 import api from "../services/api-client";
 
 const EventAttendees = () => {
@@ -12,6 +13,7 @@ const EventAttendees = () => {
   const [error, setError] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const itemsPerPage = 10;
 
   useEffect(() => {
@@ -48,6 +50,17 @@ const EventAttendees = () => {
     currentPage * itemsPerPage,
   );
 
+  const handleInviteSubmit = async (inviteData) => {
+    try {
+      await api.inviteAttendees(eventId, inviteData);
+      // Optionally refresh the attendees list
+      const attendeesData = await api.getEventAttendees(eventId);
+      setAttendees(attendeesData);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   if (loading) {
     return (
       <DashboardLayout>
@@ -72,7 +85,10 @@ const EventAttendees = () => {
               <Download className="h-4 w-4" />
               Export
             </button>
-            <button className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700">
+            <button
+              onClick={() => setIsInviteModalOpen(true)}
+              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700"
+            >
               <UserPlus className="h-4 w-4" />
               Invite Attendees
             </button>
@@ -186,6 +202,13 @@ const EventAttendees = () => {
               </button>
             </div>
           )}
+
+          <InviteAttendeesModal
+            isOpen={isInviteModalOpen}
+            onClose={() => setIsInviteModalOpen(false)}
+            onSubmit={handleInviteSubmit}
+            eventTitle={event?.title || ""}
+          />
         </div>
       </div>
     </DashboardLayout>

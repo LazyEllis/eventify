@@ -7,6 +7,7 @@ import {
   Video,
   Users,
   Edit,
+  Plus,
   Trash2,
   Share,
   MessageCircle,
@@ -40,6 +41,8 @@ const EventDetails = () => {
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedTicketType, setSelectedTicketType] = useState(null);
+  const [ticketFormMode, setTicketFormMode] = useState("create");
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -70,11 +73,40 @@ const EventDetails = () => {
     }
   };
 
-  const handleTicketTypeCreated = (newTicket) => {
-    // Update the event with the new ticket type
+  const handleCreateTicketType = () => {
+    setSelectedTicketType(null);
+    setTicketFormMode("create");
+    setIsTicketTypeModalOpen(true);
+  };
+
+  const handleEditTicketType = (ticketType) => {
+    setSelectedTicketType(ticketType);
+    setTicketFormMode("edit");
+    setIsTicketTypeModalOpen(true);
+  };
+
+  const handleTicketTypeSuccess = (ticketType) => {
+    if (ticketFormMode === "create") {
+      setEvent((prev) => ({
+        ...prev,
+        ticketTypes: [...prev.ticketTypes, ticketType],
+      }));
+    } else {
+      setEvent((prev) => ({
+        ...prev,
+        ticketTypes: prev.ticketTypes.map((ticket) =>
+          ticket.id === ticketType.id ? ticketType : ticket,
+        ),
+      }));
+    }
+  };
+
+  const handleTicketTypeDeleted = (deletedTicketId) => {
     setEvent((prev) => ({
       ...prev,
-      ticketTypes: [...(prev.ticketTypes || []), newTicket],
+      ticketTypes: prev.ticketTypes.filter(
+        (ticket) => ticket.id !== deletedTicketId,
+      ),
     }));
   };
 
@@ -211,9 +243,10 @@ const EventDetails = () => {
                 <h2 className="text-lg font-medium text-gray-900">Tickets</h2>
                 {isOrganizer && (
                   <button
-                    onClick={() => setIsTicketTypeModalOpen(true)}
-                    className="text-sm font-medium text-blue-600 hover:text-blue-700"
+                    onClick={handleCreateTicketType}
+                    className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700"
                   >
+                    <Plus className="h-4 w-4" />
                     Add Ticket Type
                   </button>
                 )}
@@ -237,6 +270,14 @@ const EventDetails = () => {
                         <p className="text-sm text-gray-500">
                           {ticket.quantity} available
                         </p>
+                        {isOrganizer && (
+                          <button
+                            onClick={() => handleEditTicketType(ticket)}
+                            className="mt-2 text-sm font-medium text-blue-600 hover:text-blue-700"
+                          >
+                            Edit
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -356,7 +397,10 @@ const EventDetails = () => {
         isOpen={isTicketTypeModalOpen}
         onClose={() => setIsTicketTypeModalOpen(false)}
         eventId={id}
-        onSuccess={handleTicketTypeCreated}
+        ticketType={selectedTicketType}
+        onSuccess={handleTicketTypeSuccess}
+        onDelete={ticketFormMode === "edit" ? handleTicketTypeDeleted : null}
+        mode={ticketFormMode}
       />
 
       <PurchaseTicketsModal

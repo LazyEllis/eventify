@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { formatCurrency } from "../utils/formatters";
 import DashboardLayout from "../components/DashboardLayout";
-import EventFormModal from "../components/modals/EventFormModal";
+import EventModal from "../components/modals/EventModal";
 import api from "../services/api-client";
 
 const Dashboard = () => {
@@ -188,7 +188,7 @@ const Dashboard = () => {
           </div>
 
           {/* CreateEventModal */}
-          <EventFormModal
+          <EventModal
             isOpen={isCreateModalOpen}
             onClose={() => setIsCreateModalOpen(false)}
             mode="create"

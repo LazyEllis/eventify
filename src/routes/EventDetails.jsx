@@ -25,7 +25,7 @@ import DeleteConfirmationModal from "../components/modals/DeleteConfirmationModa
 import TicketTypeModal from "../components/modals/TicketTypeModal";
 import PurchaseTicketsModal from "../components/modals/PurchaseTicketsModal";
 import InviteAttendeesModal from "../components/modals/InviteAttendeesModal";
-import EventFormModal from "../components/modals/EventFormModal";
+import EventModal from "../components/modals/EventModal";
 
 const EventDetails = () => {
   const { id } = useParams();
@@ -394,6 +394,7 @@ const EventDetails = () => {
       />
 
       <TicketTypeModal
+        key={selectedTicketType?.id}
         isOpen={isTicketTypeModalOpen}
         onClose={() => setIsTicketTypeModalOpen(false)}
         eventId={id}
@@ -417,7 +418,7 @@ const EventDetails = () => {
         eventTitle={event?.title || ""}
       />
 
-      <EventFormModal
+      <EventModal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         event={event}

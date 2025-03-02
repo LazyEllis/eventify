@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Calendar, Filter, Search, Plus } from "lucide-react";
 import DashboardLayout from "../components/DashboardLayout";
 import api from "../services/api-client";
-import EventFormModal from "../components/modals/EventFormModal";
+import EventModal from "../components/modals/EventModal";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
@@ -159,7 +159,7 @@ const Events = () => {
         )}
 
         {/* CreateEventModal */}
-        <EventFormModal
+        <EventModal
           isOpen={isCreateModalOpen}
           onClose={() => setIsCreateModalOpen(false)}
           mode="create"

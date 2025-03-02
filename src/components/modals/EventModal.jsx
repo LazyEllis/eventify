@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Calendar, Clock, MapPin, Video, Users, Save } from "lucide-react";
+import { formatDate } from "../../utils/formatters";
 import PropTypes from "prop-types";
 import Modal from "../Modal";
 import api from "../../services/api-client";
-import { formatDate } from "../../utils/formatters";
 
-const EventFormModal = ({
+const EventModal = ({
   isOpen,
   onClose,
   onSuccess,
@@ -360,7 +360,7 @@ const EventFormModal = ({
   );
 };
 
-EventFormModal.propTypes = {
+EventModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSuccess: PropTypes.func.isRequired,
@@ -368,4 +368,4 @@ EventFormModal.propTypes = {
   mode: PropTypes.oneOf(["create", "edit"]),
 };
 
-export default EventFormModal;
+export default EventModal;

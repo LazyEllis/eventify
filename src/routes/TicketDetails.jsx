@@ -11,6 +11,7 @@ import {
   Share,
 } from "lucide-react";
 import { formatCurrency } from "../utils/formatters";
+import { QRCodeSVG } from "qrcode.react";
 import DashboardLayout from "../components/DashboardLayout";
 import api from "../services/api-client";
 
@@ -183,10 +184,11 @@ const TicketDetails = () => {
                 Ticket QR Code
               </h2>
               <div className="mt-4">
-                <img
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${ticket?.id}`}
-                  alt="Ticket QR Code"
-                  className="mx-auto h-48 w-48"
+                <QRCodeSVG
+                  value={ticket?.id || ""}
+                  size={200}
+                  className="mx-auto"
+                  level="H"
                 />
               </div>
               <p className="mt-4 text-sm text-gray-500">

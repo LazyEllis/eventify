@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { Send, UserCircle } from "lucide-react";
+import { Send, UserCircle, Edit3 } from "lucide-react";
 import io from "socket.io-client";
 import DashboardLayout from "../components/DashboardLayout";
 import { useAuth } from "../hooks/useAuth";
@@ -16,6 +16,8 @@ const EventMessages = () => {
   const [error, setError] = useState("");
   const messagesEndRef = useRef(null);
   const socketRef = useRef(null);
+  const [typingUsers, setTypingUsers] = useState({});
+  const typingTimeoutRef = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -39,12 +41,30 @@ const EventMessages = () => {
       setMessages((prev) => [...prev, message]);
     });
 
+    // Listen for typing status updates
+    socketRef.current.on(
+      "typing-update",
+      ({ userId, isTyping, firstName, lastName }) => {
+        if (userId === user?.id) return; // Don't show own typing status
+
+        setTypingUsers((prev) => {
+          if (isTyping) {
+            return { ...prev, [userId]: { firstName, lastName } };
+          } else {
+            const newTypingUsers = { ...prev };
+            delete newTypingUsers[userId];
+            return newTypingUsers;
+          }
+        });
+      },
+    );
+
     // Cleanup on unmount
     return () => {
       socketRef.current.emit("leave-event", eventId);
       socketRef.current.disconnect();
     };
-  }, [eventId]);
+  }, [eventId, user?.id]);
 
   // Fetch initial event and message data
   useEffect(() => {
@@ -71,6 +91,35 @@ const EventMessages = () => {
     scrollToBottom();
   }, [messages]);
 
+  // Handle typing indicator
+  const handleInputChange = (e) => {
+    setNewMessage(e.target.value);
+
+    // Clear previous timeout
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+
+    // Emit typing event
+    socketRef.current.emit("typing", {
+      eventId,
+      isTyping: true,
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+    });
+
+    // Set timeout to stop typing after 2 seconds of inactivity
+    typingTimeoutRef.current = setTimeout(() => {
+      socketRef.current.emit("typing", {
+        eventId,
+        isTyping: false,
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+      });
+    }, 2000);
+  };
+
+  // Update your handleSendMessage to reset typing status
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
@@ -79,6 +128,14 @@ const EventMessages = () => {
       // Send message through API
       await api.sendEventMessage(eventId, {
         content: newMessage.trim(),
+      });
+
+      // Reset typing indicator
+      socketRef.current.emit("typing", {
+        eventId,
+        isTyping: false,
+        firstName: user?.firstName,
+        lastName: user?.lastName,
       });
 
       // No need to manually update messages array as we'll receive it via WebSocket
@@ -159,6 +216,24 @@ const EventMessages = () => {
                 </div>
               ))
             )}
+
+            {/* Typing indicators */}
+            {Object.keys(typingUsers).length > 0 && (
+              <div className="flex animate-pulse items-center gap-2 text-sm text-gray-500">
+                <Edit3 className="h-4 w-4" />
+                {Object.keys(typingUsers).length === 1 ? (
+                  <span>
+                    {typingUsers[Object.keys(typingUsers)[0]].firstName} is
+                    typing...
+                  </span>
+                ) : (
+                  <span>
+                    {Object.keys(typingUsers).length} people are typing...
+                  </span>
+                )}
+              </div>
+            )}
+
             <div ref={messagesEndRef} />
           </div>
 
@@ -168,7 +243,7 @@ const EventMessages = () => {
               <input
                 type="text"
                 value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
+                onChange={handleInputChange}
                 placeholder="Type your message..."
                 className="flex-1 rounded-lg border border-gray-300 px-4 py-2 shadow-sm transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
               />

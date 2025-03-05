@@ -7,11 +7,13 @@ import {
   Ticket,
   UserCircle,
   LogOut,
+  User,
 } from "lucide-react";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Events", href: "/events", icon: Calendar },
+  { name: "My Events", href: "/my-events", icon: User },
   { name: "Tickets", href: "/tickets", icon: Ticket },
   { name: "Profile", href: "/profile", icon: UserCircle },
 ];

@@ -3,6 +3,7 @@ import Login from "./routes/Login";
 import Register from "./routes/Register";
 import Dashboard from "./routes/Dashboard";
 import Events from "./routes/Events";
+import MyEvents from "./routes/MyEvents";
 import EventDetails from "./routes/EventDetails";
 import Profile from "./routes/Profile";
 import Tickets from "./routes/Tickets";
@@ -45,6 +46,14 @@ const routes = [
         element: (
           <ProtectedRoute>
             <Events />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "my-events",
+        element: (
+          <ProtectedRoute>
+            <MyEvents />
           </ProtectedRoute>
         ),
       },

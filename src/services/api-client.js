@@ -77,6 +77,10 @@ class ApiClient {
     return this.request("/events");
   }
 
+  async getMyEvents() {
+    return this.request("/events/my-events");
+  }
+
   async createEvent(eventData) {
     return this.request("/events", {
       method: "POST",

@@ -167,7 +167,7 @@ const MyEvents = () => {
                 <div>
                   <p className="text-xs text-gray-500">Attendees</p>
                   <p className="text-sm font-medium text-gray-900">
-                    {event._count?.attendees || 0}
+                    {event._count?.TicketAssignee || 0}
                   </p>
                 </div>
                 <div>

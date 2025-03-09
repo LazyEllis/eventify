@@ -120,10 +120,18 @@ const TicketDetails = () => {
                     End: {formattedEndDate}
                   </div>
                   <div className="flex items-center gap-2 text-sm text-gray-600">
-                    {ticket?.event?.isVirtual ? (
+                    {ticket?.event?.eventType === "VIRTUAL" ? (
                       <>
                         <Video className="h-4 w-4 text-gray-400" />
                         Virtual Event
+                      </>
+                    ) : ticket?.event?.eventType === "HYBRID" ? (
+                      <>
+                        <div className="flex items-center gap-1">
+                          <MapPin className="h-4 w-4 text-gray-400" />
+                          <Video className="h-4 w-4 text-gray-400" />
+                        </div>
+                        Hybrid Event: {ticket?.event?.location}
                       </>
                     ) : (
                       <>
@@ -223,9 +231,11 @@ const TicketDetails = () => {
                 <UserCircle className="h-10 w-10 text-gray-400" />
                 <div>
                   <p className="font-medium text-gray-900">
-                    {ticket?.user?.firstName} {ticket?.user?.lastName}
+                    {ticket?.purchaser?.firstName} {ticket?.purchaser?.lastName}
                   </p>
-                  <p className="text-sm text-gray-500">{ticket?.user?.email}</p>
+                  <p className="text-sm text-gray-500">
+                    {ticket?.purchaser?.email}
+                  </p>
                 </div>
               </div>
             </div>

@@ -217,10 +217,18 @@ const EventDetails = () => {
                     End: {formattedEndDate}
                   </div>
                   <div className="flex items-center gap-2 text-sm text-gray-600">
-                    {event?.isVirtual ? (
+                    {event?.eventType === "VIRTUAL" ? (
                       <>
                         <Video className="h-4 w-4 text-gray-400" />
                         Virtual Event
+                      </>
+                    ) : event?.eventType === "HYBRID" ? (
+                      <>
+                        <div className="flex items-center gap-1">
+                          <MapPin className="h-4 w-4 text-gray-400" />
+                          <Video className="h-4 w-4 text-gray-400" />
+                        </div>
+                        Hybrid Event: {event?.location}
                       </>
                     ) : (
                       <>

@@ -121,10 +121,14 @@ const Events = () => {
                 <p className="line-clamp-2 text-sm text-gray-600">
                   {event.description}
                 </p>
-                <div className="flex items-center justify-between text-sm text-gray-500">
+                <div className="flex items-center gap-2 text-sm text-gray-500">
                   <span>{new Date(event.startDate).toLocaleDateString()}</span>
                   <span>
-                    {event.isVirtual ? "Virtual Event" : event.location}
+                    {event.eventType === "VIRTUAL"
+                      ? "Virtual Event"
+                      : event.eventType === "HYBRID"
+                        ? `Hybrid: ${event.location}`
+                        : event.location}
                   </span>
                 </div>
               </div>

@@ -22,7 +22,7 @@ const EventModal = ({
     startDate: formatDate(event?.startDate) || "",
     endDate: formatDate(event?.endDate) || "",
     location: event?.location || "",
-    isVirtual: event?.isVirtual || false,
+    eventType: event?.eventType || "PHYSICAL",
     virtualLink: event?.virtualLink || "",
     capacity: event?.capacity || "",
     category: event?.category || "",
@@ -37,10 +37,10 @@ const EventModal = ({
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
-      // Clear the opposite location field when switching isVirtual
-      ...(name === "isVirtual" && {
-        location: checked ? "" : prev.location,
-        virtualLink: checked ? prev.virtualLink : "",
+      // Clear unnecessary fields based on eventType
+      ...(name === "eventType" && {
+        location: value === "VIRTUAL" ? "" : prev.location,
+        virtualLink: value === "PHYSICAL" ? "" : prev.virtualLink,
       }),
     }));
   };
@@ -59,11 +59,15 @@ const EventModal = ({
       // Create a new object with transformed data
       const eventData = {
         ...formData,
-        // Convert capacity to number
         capacity: parseInt(formData.capacity, 10),
-        // Only include relevant location field
-        location: formData.isVirtual ? undefined : formData.location,
-        virtualLink: formData.isVirtual ? formData.virtualLink : undefined,
+        // Map the virtual/physical UI fields to the API expected format
+        eventType: formData.eventType,
+        // Only include virtualLink if it's a VIRTUAL or HYBRID event
+        virtualLink:
+          formData.eventType !== "PHYSICAL" ? formData.virtualLink : undefined,
+        // Only include location if it's a PHYSICAL or HYBRID event
+        location:
+          formData.eventType !== "VIRTUAL" ? formData.location : undefined,
       };
 
       // Remove undefined fields
@@ -200,35 +204,41 @@ const EventModal = ({
           </div>
         </div>
 
-        {/* Location */}
+        {/* Event Type */}
         <div>
-          <h3 className="text-md font-medium text-gray-900">Location</h3>
+          <h3 className="text-md font-medium text-gray-900">Event Type</h3>
           <div className="mt-2 space-y-3">
-            <div className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                id="isVirtual"
-                name="isVirtual"
-                checked={formData.isVirtual}
-                onChange={handleChange}
-                className="h-4 w-4 rounded border-gray-300 text-blue-600 transition-colors focus:ring-blue-500"
-              />
+            <div>
               <label
-                htmlFor="isVirtual"
-                className="flex items-center gap-2 text-sm font-medium text-gray-700"
+                htmlFor="eventType"
+                className="block text-sm font-medium text-gray-700"
               >
-                <Video className="h-4 w-4" />
-                This is a virtual event
+                Event Type
               </label>
+              <select
+                id="eventType"
+                name="eventType"
+                value={formData.eventType}
+                onChange={handleChange}
+                required
+                className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+              >
+                <option value="PHYSICAL">Physical</option>
+                <option value="VIRTUAL">Virtual</option>
+                <option value="HYBRID">Hybrid</option>
+              </select>
             </div>
 
-            {formData.isVirtual ? (
+            {formData.eventType !== "PHYSICAL" && (
               <div>
                 <label
                   htmlFor="virtualLink"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Virtual Event Link
+                  <div className="flex items-center gap-2">
+                    <Video className="h-4 w-4" />
+                    Virtual Event Link
+                  </div>
                 </label>
                 <input
                   type="url"
@@ -236,11 +246,13 @@ const EventModal = ({
                   name="virtualLink"
                   value={formData.virtualLink}
                   onChange={handleChange}
-                  required={formData.isVirtual}
+                  required={formData.eventType !== "PHYSICAL"}
                   className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
                 />
               </div>
-            ) : (
+            )}
+
+            {formData.eventType !== "VIRTUAL" && (
               <div>
                 <label
                   htmlFor="location"
@@ -257,7 +269,7 @@ const EventModal = ({
                   name="location"
                   value={formData.location}
                   onChange={handleChange}
-                  required={!formData.isVirtual}
+                  required={formData.eventType !== "VIRTUAL"}
                   className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
                 />
               </div>

@@ -171,9 +171,9 @@ const MyEvents = () => {
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">Type</p>
+                  <p className="text-xs text-gray-500">Event Type</p>
                   <p className="text-sm font-medium text-gray-900">
-                    {event.isVirtual ? "Virtual" : "In-Person"}
+                    {event.eventType}
                   </p>
                 </div>
               </div>

@@ -89,9 +89,11 @@ const Tickets = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <MapPin className="h-4 w-4 text-gray-400" />
-                      {ticket.event.isVirtual
+                      {ticket.event.eventType === "VIRTUAL"
                         ? "Virtual Event"
-                        : ticket.event.location}
+                        : ticket.event.eventType === "HYBRID"
+                          ? `Hybrid: ${ticket.event.location}`
+                          : ticket.event.location}
                     </div>
                   </div>
                 </div>

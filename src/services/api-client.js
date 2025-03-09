@@ -146,6 +146,19 @@ class ApiClient {
     return this.request(`/tickets/verify?reference=${reference}`);
   }
 
+  async assignTicket(ticketId, assigneeData) {
+    return this.request(`/tickets/${ticketId}/assign`, {
+      method: "POST",
+      body: JSON.stringify(assigneeData),
+    });
+  }
+
+  async removeTicketAssignment(ticketId) {
+    return this.request(`/tickets/${ticketId}/assign`, {
+      method: "DELETE",
+    });
+  }
+
   // Event message endpoints
   async getEventMessages(eventId) {
     return this.request(`/events/${eventId}/messages`);
@@ -180,6 +193,12 @@ class ApiClient {
   // Event attendee endpoints
   async getEventAttendees(eventId) {
     return this.request(`/events/${eventId}/attendees`);
+  }
+
+  async checkInAttendee(eventId, assigneeId) {
+    return this.request(`/events/${eventId}/attendees/${assigneeId}/check-in`, {
+      method: "POST",
+    });
   }
 
   async inviteAttendees(eventId, invitations) {

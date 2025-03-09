@@ -9,10 +9,12 @@ import {
   UserCircle,
   Download,
   Share,
+  UserPlus,
 } from "lucide-react";
 import { formatCurrency } from "../utils/formatters";
 import { QRCodeSVG } from "qrcode.react";
 import DashboardLayout from "../components/DashboardLayout";
+import AssignTicketModal from "../components/modals/AssignTicketModal";
 import api from "../services/api-client";
 
 const TicketDetails = () => {
@@ -20,6 +22,7 @@ const TicketDetails = () => {
   const [ticket, setTicket] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchTicket = async () => {
@@ -35,6 +38,14 @@ const TicketDetails = () => {
 
     fetchTicket();
   }, [id]);
+
+  const handleAssignSuccess = (assignee) => {
+    // Update the ticket data with new assignee
+    setTicket((prevTicket) => ({
+      ...prevTicket,
+      assignee,
+    }));
+  };
 
   if (loading) {
     return (
@@ -75,6 +86,13 @@ const TicketDetails = () => {
             </p>
           </div>
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setIsAssignModalOpen(true)}
+              className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-700"
+            >
+              <UserPlus className="h-4 w-4" />
+              {ticket?.assignee ? "Change Attendee" : "Assign Ticket"}
+            </button>
             <button className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-700">
               <Share className="h-4 w-4" />
               Share
@@ -227,21 +245,49 @@ const TicketDetails = () => {
               <h2 className="text-lg font-medium text-gray-900">
                 Attendee Information
               </h2>
-              <div className="mt-4 flex items-center gap-3">
-                <UserCircle className="h-10 w-10 text-gray-400" />
-                <div>
-                  <p className="font-medium text-gray-900">
-                    {ticket?.purchaser?.firstName} {ticket?.purchaser?.lastName}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    {ticket?.purchaser?.email}
-                  </p>
+              {ticket?.assignee ? (
+                <div className="mt-4 flex items-center gap-3">
+                  <UserCircle className="h-10 w-10 text-gray-400" />
+                  <div>
+                    <p className="font-medium text-gray-900">
+                      {ticket.assignee.firstName} {ticket.assignee.lastName}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {ticket.assignee.email}
+                    </p>
+                    {ticket.assignee.attendedAt && (
+                      <p className="mt-1 text-xs text-green-600">
+                        Checked in:{" "}
+                        {new Date(ticket.assignee.attendedAt).toLocaleString()}
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="mt-4 flex items-center justify-center">
+                  <button
+                    onClick={() => setIsAssignModalOpen(true)}
+                    className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-50"
+                  >
+                    <UserPlus className="h-4 w-4" />
+                    Assign Ticket
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Assign Ticket Modal */}
+      <AssignTicketModal
+        isOpen={isAssignModalOpen}
+        onClose={() => setIsAssignModalOpen(false)}
+        ticketId={ticket?.id}
+        ticketType={ticket?.ticketType}
+        currentAssignee={ticket?.assignee}
+        onSuccess={handleAssignSuccess}
+      />
     </DashboardLayout>
   );
 };

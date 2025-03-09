@@ -161,6 +161,14 @@ const PurchaseTicketsModal = ({ isOpen, onClose, eventId, event }) => {
           </div>
         </div>
 
+        {/* Info text about ticket assignment */}
+        <div className="rounded-lg bg-blue-50 p-4 text-sm text-blue-600">
+          <p>
+            After purchase, you can assign tickets to attendees from your
+            tickets page.
+          </p>
+        </div>
+
         {/* Actions */}
         <div className="flex justify-end gap-3 border-t border-gray-200 pt-4">
           <button

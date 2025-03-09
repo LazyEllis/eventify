@@ -207,6 +207,10 @@ class ApiClient {
       body: JSON.stringify(invitations),
     });
   }
+
+  async getDashboardData() {
+    return this.request("/dashboard");
+  }
 }
 
 const api = new ApiClient();

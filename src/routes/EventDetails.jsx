@@ -161,9 +161,9 @@ const EventDetails = () => {
     <DashboardLayout>
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">
+            <h1 className="pr-4 text-2xl font-semibold text-gray-900">
               {event?.title}
             </h1>
             <p className="mt-1 text-sm text-gray-500">
@@ -171,7 +171,7 @@ const EventDetails = () => {
               {event?.organizer.lastName}
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             {isOrganizer && (
               <>
                 <button
@@ -179,20 +179,20 @@ const EventDetails = () => {
                   className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-700"
                 >
                   <Edit className="h-4 w-4" />
-                  Edit
+                  <span className="hidden sm:inline">Edit</span>
                 </button>
                 <button
                   onClick={handleDeleteClick}
                   className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 hover:text-red-700"
                 >
                   <Trash2 className="h-4 w-4" />
-                  Delete
+                  <span className="hidden sm:inline">Delete</span>
                 </button>
               </>
             )}
             <button className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-700">
               <Share className="h-4 w-4" />
-              Share
+              <span className="hidden sm:inline">Share</span>
             </button>
           </div>
         </div>

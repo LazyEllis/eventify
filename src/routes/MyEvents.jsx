@@ -111,14 +111,16 @@ const MyEvents = () => {
               key={event.id}
               className="rounded-lg bg-white p-6 shadow-sm transition-all hover:shadow-md"
             >
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="rounded-lg bg-blue-50 p-3">
+                  <div className="shrink-0 rounded-lg bg-blue-50 p-3">
                     <Calendar className="h-6 w-6 text-blue-600" />
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h3 className="text-lg font-medium text-gray-900">
+                  <div className="min-w-0">
+                    {" "}
+                    {/* Prevent overflow */}
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 className="max-w-full truncate text-lg font-medium text-gray-900 sm:max-w-xs">
                         {event.title}
                       </h3>
                       <span
@@ -140,24 +142,28 @@ const MyEvents = () => {
                   <Link
                     to={`/events/${event.id}`}
                     className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-50 hover:text-gray-700"
+                    aria-label="View event"
                   >
                     <Eye className="h-5 w-5" />
                   </Link>
                   <button
                     onClick={() => handleEditClick(event)}
                     className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-50 hover:text-gray-700"
+                    aria-label="Edit event"
                   >
                     <Edit className="h-5 w-5" />
                   </button>
                   <button
                     onClick={() => handleDeleteClick(event)}
                     className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-50 hover:text-red-500"
+                    aria-label="Delete event"
                   >
                     <Trash2 className="h-5 w-5" />
                   </button>
                 </div>
               </div>
-              <div className="mt-4 grid grid-cols-3 gap-4">
+
+              <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
                 <div>
                   <p className="text-xs text-gray-500">Tickets Sold</p>
                   <p className="text-sm font-medium text-gray-900">
@@ -170,7 +176,7 @@ const MyEvents = () => {
                     {event._count?.TicketAssignee || 0}
                   </p>
                 </div>
-                <div>
+                <div className="col-span-2 sm:col-span-1">
                   <p className="text-xs text-gray-500">Event Type</p>
                   <p className="text-sm font-medium text-gray-900">
                     {event.eventType}

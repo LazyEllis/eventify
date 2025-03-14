@@ -18,6 +18,7 @@ class ApiClient {
     const config = {
       ...options,
       headers,
+      mode: "cors",
     };
 
     try {

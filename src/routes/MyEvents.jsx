@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Calendar, Plus, Edit, Eye, Trash2 } from "lucide-react";
-import DashboardLayout from "../components/DashboardLayout";
 import api from "../services/api-client";
+import DashboardLayout from "../components/DashboardLayout";
 import EventModal from "../components/modals/EventModal";
 import DeleteConfirmationModal from "../components/modals/DeleteConfirmationModal";
+import MyEventsSkeleton from "../components/skeletons/MyEventsSkeleton";
 
 const MyEvents = () => {
   const [events, setEvents] = useState([]);
@@ -76,9 +77,7 @@ const MyEvents = () => {
   if (loading) {
     return (
       <DashboardLayout>
-        <div className="flex h-96 items-center justify-center">
-          <div className="text-gray-500">Loading...</div>
-        </div>
+        <MyEventsSkeleton />
       </DashboardLayout>
     );
   }

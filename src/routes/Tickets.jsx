@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Ticket, Tag, Calendar, Clock, MapPin } from "lucide-react";
 import { formatCurrency } from "../utils/formatters";
-import DashboardLayout from "../components/DashboardLayout";
 import api from "../services/api-client";
+import DashboardLayout from "../components/DashboardLayout";
+import TicketCardSkeleton from "../components/skeletons/TicketCardSkeleton";
 
 const Tickets = () => {
   const [tickets, setTickets] = useState([]);
@@ -28,8 +29,15 @@ const Tickets = () => {
   if (loading) {
     return (
       <DashboardLayout>
-        <div className="flex h-96 items-center justify-center">
-          <div className="text-gray-500">Loading...</div>
+        <div className="space-y-6">
+          <h1 className="text-2xl font-semibold text-gray-900">My Tickets</h1>
+          <div className="space-y-4">
+            {Array(4)
+              .fill(0)
+              .map((_, i) => (
+                <TicketCardSkeleton key={i} />
+              ))}
+          </div>
         </div>
       </DashboardLayout>
     );

@@ -13,9 +13,10 @@ import {
 } from "lucide-react";
 import { formatCurrency } from "../utils/formatters";
 import { QRCodeSVG } from "qrcode.react";
+import api from "../services/api-client";
 import DashboardLayout from "../components/DashboardLayout";
 import AssignTicketModal from "../components/modals/AssignTicketModal";
-import api from "../services/api-client";
+import TicketDetailSkeleton from "../components/skeletons/TicketDetailsSkeleton";
 
 const TicketDetails = () => {
   const { id } = useParams();
@@ -50,9 +51,7 @@ const TicketDetails = () => {
   if (loading) {
     return (
       <DashboardLayout>
-        <div className="flex h-96 items-center justify-center">
-          <div className="text-gray-500">Loading...</div>
-        </div>
+        <TicketDetailSkeleton />
       </DashboardLayout>
     );
   }

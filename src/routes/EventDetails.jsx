@@ -15,10 +15,11 @@ import {
   ShoppingCart,
   UserPlus,
 } from "lucide-react";
-import { formatCurrency } from "../utils/formatters";
-import DashboardLayout from "../components/DashboardLayout";
 import { useAuth } from "../hooks/useAuth";
 import api from "../services/api-client";
+import { formatCurrency } from "../utils/formatters";
+import DashboardLayout from "../components/DashboardLayout";
+import EventDetailSkeleton from "../components/skeletons/EventDetailsSkeleton";
 
 // Import modal components
 import DeleteConfirmationModal from "../components/modals/DeleteConfirmationModal";
@@ -136,9 +137,7 @@ const EventDetails = () => {
   if (loading) {
     return (
       <DashboardLayout>
-        <div className="flex h-96 items-center justify-center">
-          <div className="text-gray-500">Loading...</div>
-        </div>
+        <EventDetailSkeleton />
       </DashboardLayout>
     );
   }

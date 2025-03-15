@@ -10,9 +10,10 @@ import {
 } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 import { formatCurrency } from "../utils/formatters";
+import api from "../services/api-client";
 import DashboardLayout from "../components/DashboardLayout";
 import EventModal from "../components/modals/EventModal";
-import api from "../services/api-client";
+import DashboardSkeleton from "../components/skeletons/DashboardSkeleton";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -45,9 +46,7 @@ const Dashboard = () => {
   if (loading) {
     return (
       <DashboardLayout>
-        <div className="flex h-96 items-center justify-center">
-          <div className="text-gray-500">Loading your dashboard...</div>
-        </div>
+        <DashboardSkeleton />
       </DashboardLayout>
     );
   }

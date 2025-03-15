@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Ticket, DollarSign, Users, BarChart2 } from "lucide-react";
 import { formatCurrency } from "../utils/formatters";
+import api from "../services/api-client";
 import DashboardLayout from "../components/DashboardLayout";
 import AnalyticsCard from "../components/AnalyticsCard";
-import api from "../services/api-client";
+import EventAnalyticsSkeleton from "../components/skeletons/EventAnalyticsSkeleton";
 
 const EventAnalytics = () => {
   const { id } = useParams();
@@ -30,9 +31,7 @@ const EventAnalytics = () => {
   if (loading) {
     return (
       <DashboardLayout>
-        <div className="flex h-96 items-center justify-center">
-          <div className="text-gray-500">Loading...</div>
-        </div>
+        <EventAnalyticsSkeleton />
       </DashboardLayout>
     );
   }

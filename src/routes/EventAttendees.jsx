@@ -7,9 +7,10 @@ import {
   CheckCircle,
   AlertCircle,
 } from "lucide-react";
+import api from "../services/api-client";
 import DashboardLayout from "../components/DashboardLayout";
 import InviteAttendeesModal from "../components/modals/InviteAttendeesModal";
-import api from "../services/api-client";
+import EventAttendeesSkeleton from "../components/skeletons/EventAttendeesSkeleton";
 
 const EventAttendees = () => {
   const { id: eventId } = useParams();
@@ -123,12 +124,11 @@ const EventAttendees = () => {
     currentPage * itemsPerPage,
   );
 
+  // In the EventAttendees component:
   if (loading) {
     return (
       <DashboardLayout>
-        <div className="flex h-96 items-center justify-center">
-          <div className="text-gray-500">Loading...</div>
-        </div>
+        <EventAttendeesSkeleton />
       </DashboardLayout>
     );
   }

@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Calendar, Filter, Search, Plus } from "lucide-react";
-import DashboardLayout from "../components/DashboardLayout";
 import api from "../services/api-client";
+import DashboardLayout from "../components/DashboardLayout";
 import EventModal from "../components/modals/EventModal";
+import EventCardSkeleton from "../components/skeletons/EventCardSkeleton";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
@@ -46,8 +47,57 @@ const Events = () => {
   if (loading) {
     return (
       <DashboardLayout>
-        <div className="flex h-96 items-center justify-center">
-          <div className="text-gray-500">Loading...</div>
+        <div className="space-y-6">
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-semibold text-gray-900">Events</h1>
+            <button
+              disabled
+              className="inline-flex items-center gap-2 rounded-lg bg-gray-300 px-4 py-2 text-sm font-medium text-white"
+            >
+              <Plus className="h-4 w-4" />
+              Create Event
+            </button>
+          </div>
+
+          {/* Search and filters - show actual UI even during loading */}
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+            <div className="relative flex-1">
+              <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search events..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full rounded-lg border border-gray-300 py-2 pr-4 pl-10 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <Filter className="h-4 w-4 text-gray-400" />
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="rounded-lg border border-gray-300 py-2 pr-8 pl-3 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+              >
+                <option value="">All Categories</option>
+                <option value="Conference">Conference</option>
+                <option value="Workshop">Workshop</option>
+                <option value="Webinar">Webinar</option>
+                <option value="Social">Social</option>
+                <option value="Concert">Concert</option>
+                <option value="Exhibition">Exhibition</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Skeleton cards */}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {Array(6)
+              .fill(0)
+              .map((_, i) => (
+                <EventCardSkeleton key={i} />
+              ))}
+          </div>
         </div>
       </DashboardLayout>
     );

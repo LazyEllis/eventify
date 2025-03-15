@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Send, UserCircle, Edit3 } from "lucide-react";
-import io from "socket.io-client";
-import DashboardLayout from "../components/DashboardLayout";
 import { useAuth } from "../hooks/useAuth";
+import io from "socket.io-client";
 import api from "../services/api-client";
+import DashboardLayout from "../components/DashboardLayout";
+import EventMessagesSkeleton from "../components/skeletons/EventMessagesSkeleton";
 
 const EventMessages = () => {
   const { id: eventId } = useParams();
@@ -152,9 +153,7 @@ const EventMessages = () => {
   if (loading) {
     return (
       <DashboardLayout>
-        <div className="flex h-96 items-center justify-center">
-          <div className="text-gray-500">Loading...</div>
-        </div>
+        <EventMessagesSkeleton />
       </DashboardLayout>
     );
   }

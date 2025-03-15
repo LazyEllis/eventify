@@ -151,13 +151,13 @@ const Events = () => {
                 : "Get started by creating a new event"}
             </p>
             {!searchTerm && !category && (
-              <Link
-                to="/events/new"
+              <button
+                onClick={() => setIsCreateModalOpen(true)}
                 className="mt-6 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700"
               >
                 <Plus className="h-4 w-4" />
                 Create Event
-              </Link>
+              </button>
             )}
           </div>
         )}

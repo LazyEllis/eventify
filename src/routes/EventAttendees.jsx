@@ -20,7 +20,7 @@ const EventAttendees = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
-  const [checkingIn, setCheckingIn] = useState(false);
+  const [checkingInAttendees, setCheckingInAttendees] = useState({});
   const itemsPerPage = 10;
 
   const fetchAttendees = async () => {
@@ -52,7 +52,9 @@ const EventAttendees = () => {
   }, [eventId]);
 
   const handleCheckIn = async (attendeeId) => {
-    setCheckingIn(true);
+    // Update state to show this specific attendee is being checked in
+    setCheckingInAttendees((prev) => ({ ...prev, [attendeeId]: true }));
+
     try {
       await api.checkInAttendee(eventId, attendeeId);
       // Refresh attendees list
@@ -62,7 +64,8 @@ const EventAttendees = () => {
     } catch (err) {
       setError(`Failed to check in attendee: ${err.message}`);
     } finally {
-      setCheckingIn(false);
+      // Reset check-in state for this attendee
+      setCheckingInAttendees((prev) => ({ ...prev, [attendeeId]: false }));
     }
   };
 
@@ -279,15 +282,24 @@ const EventAttendees = () => {
                         <div className="flex items-center gap-2">
                           <button
                             onClick={() => handleCheckIn(attendee.id)}
-                            disabled={!!attendee.attendedAt || checkingIn}
+                            disabled={
+                              !!attendee.attendedAt ||
+                              checkingInAttendees[attendee.id]
+                            }
                             className={`inline-flex items-center gap-1 rounded-lg p-1 px-2 text-xs font-medium ${
                               attendee.attendedAt
                                 ? "cursor-not-allowed text-gray-400"
-                                : "text-green-600 hover:bg-green-50"
+                                : checkingInAttendees[attendee.id]
+                                  ? "text-green-300"
+                                  : "text-green-600 hover:bg-green-50"
                             }`}
                           >
                             <CheckCircle className="h-3 w-3" />
-                            {attendee.attendedAt ? "Checked In" : "Check In"}
+                            {attendee.attendedAt
+                              ? "Checked In"
+                              : checkingInAttendees[attendee.id]
+                                ? "Checking In..."
+                                : "Check In"}
                           </button>
                         </div>
                       </td>

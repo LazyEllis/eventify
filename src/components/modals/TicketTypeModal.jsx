@@ -34,6 +34,7 @@ const TicketTypeModal = ({
   const [formData, setFormData] = useState(initialFormData);
   const [isDeleting, setIsDeleting] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,6 +47,7 @@ const TicketTypeModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setIsSubmitting(true);
 
     try {
       const ticketData = {
@@ -66,6 +68,8 @@ const TicketTypeModal = ({
       onClose();
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -294,10 +298,15 @@ const TicketTypeModal = ({
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700 hover:shadow-lg"
+              disabled={isSubmitting}
+              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700 hover:shadow-lg disabled:bg-gray-300"
             >
               <Save className="h-4 w-4" />
-              {submitButtonText}
+              {isSubmitting
+                ? isEditMode
+                  ? "Saving..."
+                  : "Creating..."
+                : submitButtonText}
             </button>
           </div>
         </div>

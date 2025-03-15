@@ -8,6 +8,7 @@ import api from "../../services/api-client";
 const PurchaseTicketsModal = ({ isOpen, onClose, eventId, event }) => {
   const [error, setError] = useState("");
   const [selectedTickets, setSelectedTickets] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Handle both close and reset in one function
   const handleClose = () => {
@@ -37,6 +38,7 @@ const PurchaseTicketsModal = ({ isOpen, onClose, eventId, event }) => {
 
   const handlePurchase = async () => {
     try {
+      setIsSubmitting(true);
       const tickets = Object.entries(selectedTickets)
         .filter(([, quantity]) => quantity > 0)
         .map(([ticketTypeId, quantity]) => ({
@@ -46,6 +48,7 @@ const PurchaseTicketsModal = ({ isOpen, onClose, eventId, event }) => {
 
       if (tickets.length === 0) {
         setError("Please select at least one ticket");
+        setIsSubmitting(false);
         return;
       }
 
@@ -58,6 +61,7 @@ const PurchaseTicketsModal = ({ isOpen, onClose, eventId, event }) => {
       window.location.href = response.authorizationUrl;
     } catch (err) {
       setError(err.message);
+      setIsSubmitting(false);
     }
   };
 
@@ -181,11 +185,14 @@ const PurchaseTicketsModal = ({ isOpen, onClose, eventId, event }) => {
           <button
             type="button"
             onClick={handlePurchase}
-            disabled={calculateTotal() === 0}
+            disabled={
+              isSubmitting ||
+              Object.values(selectedTickets).every((qty) => qty === 0)
+            }
             className="group inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700 disabled:bg-gray-300"
           >
             <ShoppingCart className="h-4 w-4" />
-            Proceed to Payment
+            {isSubmitting ? "Processing..." : "Proceed to Payment"}
           </button>
         </div>
       </div>

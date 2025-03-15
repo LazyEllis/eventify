@@ -8,16 +8,20 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
+    setIsLoggingIn(true);
 
     try {
       await login({ email, password });
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
@@ -69,10 +73,13 @@ const Login = () => {
         </div>
         <button
           type="submit"
-          className="group flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700 hover:shadow-lg"
+          disabled={isLoggingIn}
+          className="group flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700 hover:shadow-lg disabled:bg-gray-300"
         >
-          Sign In
-          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          {isLoggingIn ? "Signing In..." : "Sign In"}
+          <ArrowRight
+            className={`h-4 w-4 ${!isLoggingIn ? "transition-transform group-hover:translate-x-1" : ""}`}
+          />
         </button>
         <p className="text-center text-sm text-gray-600">
           Don&apos;t have an account?{" "}

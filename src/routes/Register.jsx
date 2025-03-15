@@ -10,16 +10,20 @@ const Register = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
+  const [isRegistering, setIsRegistering] = useState(false);
   const { register } = useAuth();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
+    setIsRegistering(true);
 
     try {
       await register({ email, password, firstName, lastName });
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsRegistering(false);
     }
   };
 
@@ -105,10 +109,13 @@ const Register = () => {
         </div>
         <button
           type="submit"
-          className="group flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700 hover:shadow-lg"
+          disabled={isRegistering}
+          className="group flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700 hover:shadow-lg disabled:bg-gray-300"
         >
-          Create Account
-          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          {isRegistering ? "Creating Account..." : "Create Account"}
+          <ArrowRight
+            className={`h-4 w-4 ${!isRegistering ? "transition-transform group-hover:translate-x-1" : ""}`}
+          />
         </button>
         <p className="text-center text-sm text-gray-600">
           Already have an account?{" "}

@@ -14,6 +14,7 @@ const Profile = () => {
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,6 +28,7 @@ const Profile = () => {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setIsUpdating(true);
 
     try {
       const updatedUser = await api.updateProfile(formData);
@@ -35,8 +37,11 @@ const Profile = () => {
       setIsEditing(false);
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsUpdating(false);
     }
   };
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -141,10 +146,11 @@ const Profile = () => {
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  className="group inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700 hover:shadow-lg"
+                  disabled={isUpdating}
+                  className="group inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700 hover:shadow-lg disabled:bg-gray-300"
                 >
                   <Save className="h-4 w-4" />
-                  Save Changes
+                  {isUpdating ? "Saving..." : "Save Changes"}
                 </button>
               </div>
             )}

@@ -7,10 +7,12 @@ const InviteAttendeesModal = ({ isOpen, onClose, onSubmit, eventTitle }) => {
   const [emails, setEmails] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setIsSubmitting(true);
 
     // Basic email validation
     const emailList = emails.split(",").map((email) => email.trim());
@@ -18,6 +20,7 @@ const InviteAttendeesModal = ({ isOpen, onClose, onSubmit, eventTitle }) => {
 
     if (!emailList.every((email) => emailRegex.test(email))) {
       setError("Please enter valid email addresses separated by commas");
+      setIsSubmitting(false);
       return;
     }
 
@@ -28,6 +31,8 @@ const InviteAttendeesModal = ({ isOpen, onClose, onSubmit, eventTitle }) => {
       setMessage("");
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -89,10 +94,11 @@ const InviteAttendeesModal = ({ isOpen, onClose, onSubmit, eventTitle }) => {
           </button>
           <button
             type="submit"
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700"
+            disabled={isSubmitting}
+            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700 disabled:bg-gray-300"
           >
             <Send className="h-4 w-4" />
-            Send Invitations
+            {isSubmitting ? "Sending..." : "Send Invitations"}
           </button>
         </div>
       </form>

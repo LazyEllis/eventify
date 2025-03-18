@@ -6,11 +6,13 @@ import {
   Download,
   CheckCircle,
   AlertCircle,
+  QrCode,
 } from "lucide-react";
 import api from "../services/api-client";
 import DashboardLayout from "../components/DashboardLayout";
 import InviteAttendeesModal from "../components/modals/InviteAttendeesModal";
 import EventAttendeesSkeleton from "../components/skeletons/EventAttendeesSkeleton";
+import CheckInModal from "../components/modals/CheckInModal";
 
 const EventAttendees = () => {
   const { id: eventId } = useParams();
@@ -21,8 +23,23 @@ const EventAttendees = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
-  const [checkingInAttendees, setCheckingInAttendees] = useState({});
+  const [isCheckInModalOpen, setIsCheckInModalOpen] = useState(false);
   const itemsPerPage = 10;
+
+  // Calculate pagination
+  const filteredAttendees = attendees.filter(
+    (attendee) =>
+      attendee.firstName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      attendee.lastName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      attendee.email?.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
+  const totalPages = Math.ceil(filteredAttendees.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedAttendees = filteredAttendees.slice(
+    startIndex,
+    startIndex + itemsPerPage,
+  );
 
   const fetchAttendees = async () => {
     try {
@@ -52,24 +69,6 @@ const EventAttendees = () => {
     fetchData();
   }, [eventId]);
 
-  const handleCheckIn = async (attendeeId) => {
-    // Update state to show this specific attendee is being checked in
-    setCheckingInAttendees((prev) => ({ ...prev, [attendeeId]: true }));
-
-    try {
-      await api.checkInAttendee(eventId, attendeeId);
-      // Refresh attendees list
-      fetchAttendees();
-      // Show success message
-      setError("");
-    } catch (err) {
-      setError(`Failed to check in attendee: ${err.message}`);
-    } finally {
-      // Reset check-in state for this attendee
-      setCheckingInAttendees((prev) => ({ ...prev, [attendeeId]: false }));
-    }
-  };
-
   const handleInviteSubmit = async (inviteData) => {
     try {
       await api.inviteAttendees(eventId, inviteData);
@@ -78,6 +77,11 @@ const EventAttendees = () => {
     } catch (err) {
       setError(err.message);
     }
+  };
+
+  const handleCheckInSuccess = () => {
+    // Refresh attendee data after a successful check-in
+    fetchAttendees();
   };
 
   const exportAttendees = () => {
@@ -90,41 +94,30 @@ const EventAttendees = () => {
       attendee.ticket?.ticketType?.name || "Unknown",
       attendee.attendedAt
         ? new Date(attendee.attendedAt).toLocaleString()
-        : "N/A",
+        : "Not checked in",
     ]);
 
     // Create CSV content
-    const csvContent = [
-      headers.join(","),
-      ...csvData.map((row) => row.join(",")),
-    ].join("\n");
+    const csvContent = [headers, ...csvData]
+      .map((row) => row.join(","))
+      .join("\n");
 
     // Create download link
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.setAttribute("href", url);
-    link.setAttribute("download", `${event.title}-attendees.csv`);
-    link.style.visibility = "hidden";
+    link.setAttribute(
+      "download",
+      `${event?.title || "event"}-attendees-${
+        new Date().toISOString().split("T")[0]
+      }.csv`,
+    );
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
-  const filteredAttendees = attendees.filter(
-    (attendee) =>
-      attendee.firstName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      attendee.lastName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      attendee.email?.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
-
-  const totalPages = Math.ceil(filteredAttendees.length / itemsPerPage);
-  const paginatedAttendees = filteredAttendees.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
-  );
-
-  // In the EventAttendees component:
   if (loading) {
     return (
       <DashboardLayout>
@@ -137,25 +130,36 @@ const EventAttendees = () => {
     <DashboardLayout>
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">Attendees</h1>
-            <p className="mt-1 text-sm text-gray-600">{event?.title}</p>
+            <h1 className="text-2xl font-semibold text-gray-900">
+              {event?.title} - Attendees
+            </h1>
+            <p className="mt-1 text-sm text-gray-500">
+              Manage event attendees and check-ins
+            </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap gap-3">
             <button
               onClick={exportAttendees}
-              className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-700"
+              className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-50"
             >
               <Download className="h-4 w-4" />
-              Export
+              <span className="hidden sm:inline">Export</span>
+            </button>
+            <button
+              onClick={() => setIsCheckInModalOpen(true)}
+              className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-50"
+            >
+              <QrCode className="h-4 w-4" />
+              <span className="hidden sm:inline">Scan Ticket</span>
             </button>
             <button
               onClick={() => setIsInviteModalOpen(true)}
               className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700"
             >
               <UserPlus className="h-4 w-4" />
-              Invite Attendees
+              <span className="hidden sm:inline">Invite Attendees</span>
             </button>
           </div>
         </div>
@@ -186,7 +190,11 @@ const EventAttendees = () => {
             <p className="text-sm font-medium text-gray-600">Attendance Rate</p>
             <p className="mt-2 text-3xl font-semibold text-blue-600">
               {attendees.length
-                ? `${Math.round((attendees.filter((a) => a.attendedAt).length / attendees.length) * 100)}%`
+                ? `${Math.round(
+                    (attendees.filter((a) => a.attendedAt).length /
+                      attendees.length) *
+                      100,
+                  )}%`
                 : "0%"}
             </p>
           </div>
@@ -280,27 +288,12 @@ const EventAttendees = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => handleCheckIn(attendee.id)}
-                            disabled={
-                              !!attendee.attendedAt ||
-                              checkingInAttendees[attendee.id]
-                            }
-                            className={`inline-flex items-center gap-1 rounded-lg p-1 px-2 text-xs font-medium ${
-                              attendee.attendedAt
-                                ? "cursor-not-allowed text-gray-400"
-                                : checkingInAttendees[attendee.id]
-                                  ? "text-green-300"
-                                  : "text-green-600 hover:bg-green-50"
-                            }`}
-                          >
-                            <CheckCircle className="h-3 w-3" />
+                          {/* We're removing the direct check-in button from the table */}
+                          <span className="text-xs text-gray-500">
                             {attendee.attendedAt
-                              ? "Checked In"
-                              : checkingInAttendees[attendee.id]
-                                ? "Checking In..."
-                                : "Check In"}
-                          </button>
+                              ? `Checked in at ${new Date(attendee.attendedAt).toLocaleString()}`
+                              : "Use QR scanner to check in"}
+                          </span>
                         </div>
                       </td>
                     </tr>
@@ -353,6 +346,12 @@ const EventAttendees = () => {
         onClose={() => setIsInviteModalOpen(false)}
         onSubmit={handleInviteSubmit}
         eventTitle={event?.title || ""}
+      />
+
+      <CheckInModal
+        isOpen={isCheckInModalOpen}
+        onClose={() => setIsCheckInModalOpen(false)}
+        onCheckInSuccess={handleCheckInSuccess}
       />
     </DashboardLayout>
   );

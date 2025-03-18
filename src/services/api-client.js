@@ -160,6 +160,12 @@ class ApiClient {
     });
   }
 
+  async ticketCheckIn(ticketId) {
+    return this.request(`/tickets/${ticketId}/check-in`, {
+      method: "POST",
+    });
+  }
+
   // Event message endpoints
   async getEventMessages(eventId) {
     return this.request(`/events/${eventId}/messages`);
@@ -194,12 +200,6 @@ class ApiClient {
   // Event attendee endpoints
   async getEventAttendees(eventId) {
     return this.request(`/events/${eventId}/attendees`);
-  }
-
-  async checkInAttendee(eventId, assigneeId) {
-    return this.request(`/events/${eventId}/attendees/${assigneeId}/check-in`, {
-      method: "POST",
-    });
   }
 
   async inviteAttendees(eventId, invitations) {

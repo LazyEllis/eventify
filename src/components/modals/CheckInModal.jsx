@@ -74,33 +74,59 @@ const CheckInModal = ({ isOpen, onClose, onCheckInSuccess }) => {
         )}
 
         {status === "success" && ticketInfo && (
-          <div className="space-y-4 text-center">
-            <CheckCircle className="mx-auto h-12 w-12 text-green-500" />
-            <h3 className="text-lg font-medium text-gray-900">
-              Check-In Successful
-            </h3>
+          <div className="space-y-5">
+            <div className="text-center">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+                <CheckCircle className="h-10 w-10 text-green-500" />
+              </div>
+              <h3 className="mt-4 text-lg font-semibold text-gray-900">
+                Check-In Successful
+              </h3>
+            </div>
 
-            <div className="rounded-lg bg-green-50 p-4">
-              <div className="flex items-center gap-3">
-                <div>
-                  <p className="font-medium text-gray-900">
-                    {ticketInfo.attendee.firstName}{" "}
-                    {ticketInfo.attendee.lastName}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    {ticketInfo.attendee.email}
-                  </p>
-                  <p className="mt-1 text-sm text-gray-900">
-                    <span className="font-medium">{ticketInfo.ticketType}</span>
-                  </p>
-                  <p className="text-xs text-green-600">
-                    Checked in at {new Date().toLocaleTimeString()}
-                  </p>
+            <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow">
+              <div className="p-4">
+                <div className="mb-3 flex items-center justify-between">
+                  <h4 className="text-sm font-medium text-gray-500 uppercase">
+                    Attendee Details
+                  </h4>
+                  <span className="rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
+                    Checked In
+                  </span>
+                </div>
+
+                <div className="space-y-3">
+                  <div>
+                    <p className="text-lg font-medium text-gray-900">
+                      {ticketInfo.attendee.firstName}{" "}
+                      {ticketInfo.attendee.lastName}
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      {ticketInfo.attendee.email}
+                    </p>
+                  </div>
+
+                  <div className="pt-2">
+                    <div className="flex items-center justify-between border-t border-gray-100 pt-2">
+                      <span className="text-sm text-gray-500">Ticket Type</span>
+                      <span className="font-medium text-gray-900">
+                        {ticketInfo.ticketType}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between pt-1">
+                      <span className="text-sm text-gray-500">
+                        Check-in Time
+                      </span>
+                      <span className="font-medium text-gray-900">
+                        {new Date().toLocaleTimeString()}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="flex justify-center gap-3">
+            <div className="flex justify-center gap-3 pt-2">
               <button
                 onClick={resetModal}
                 className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700"
@@ -109,7 +135,7 @@ const CheckInModal = ({ isOpen, onClose, onCheckInSuccess }) => {
               </button>
               <button
                 onClick={handleClose}
-                className="inline-flex items-center gap-2 rounded-lg bg-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-gray-300"
+                className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-all hover:bg-gray-50"
               >
                 Close
               </button>

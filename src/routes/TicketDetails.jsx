@@ -284,10 +284,14 @@ const TicketDetails = () => {
                   <UserCircle className="h-10 w-10 text-gray-400" />
                   <div>
                     <p className="font-medium text-gray-900">
-                      {ticket.assignee.firstName} {ticket.assignee.lastName}
+                      {ticket.assignee.userId
+                        ? `${ticket.assignee.user.firstName} ${ticket.assignee.user.lastName}`
+                        : `${ticket.assignee.firstName} ${ticket.assignee.lastName}`}
                     </p>
                     <p className="text-sm text-gray-500">
-                      {ticket.assignee.email}
+                      {ticket.assignee.userId
+                        ? ticket.assignee.user.email
+                        : ticket.assignee.email}
                     </p>
                     {ticket.assignee.attendedAt && (
                       <p className="mt-1 text-xs text-green-600">

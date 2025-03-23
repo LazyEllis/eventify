@@ -7,6 +7,7 @@ import {
   CheckCircle,
   AlertCircle,
   QrCode,
+  UserCheck,
 } from "lucide-react";
 import api from "../services/api-client";
 import DashboardLayout from "../components/DashboardLayout";
@@ -27,12 +28,22 @@ const EventAttendees = () => {
   const itemsPerPage = 10;
 
   // Calculate pagination
-  const filteredAttendees = attendees.filter(
-    (attendee) =>
-      attendee.firstName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      attendee.lastName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      attendee.email?.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  const filteredAttendees = attendees.filter((attendee) => {
+    // Get the appropriate name and email to search
+    const firstName = attendee.userId
+      ? attendee.user?.firstName
+      : attendee.firstName;
+    const lastName = attendee.userId
+      ? attendee.user?.lastName
+      : attendee.lastName;
+    const email = attendee.userId ? attendee.user?.email : attendee.email;
+
+    return (
+      firstName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      lastName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      email?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
 
   const totalPages = Math.ceil(filteredAttendees.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -86,16 +97,34 @@ const EventAttendees = () => {
 
   const exportAttendees = () => {
     // Format attendees data for CSV
-    const headers = ["Name", "Email", "Status", "Ticket Type", "Check-in Time"];
-    const csvData = attendees.map((attendee) => [
-      `${attendee.firstName} ${attendee.lastName}`,
-      attendee.email,
-      attendee.attendedAt ? "Checked In" : "Registered",
-      attendee.ticket?.ticketType?.name || "Unknown",
-      attendee.attendedAt
-        ? new Date(attendee.attendedAt).toLocaleString()
-        : "Not checked in",
-    ]);
+    const headers = [
+      "Name",
+      "Email",
+      "Status",
+      "Ticket Type",
+      "Check-in Time",
+      "User Type",
+    ];
+    const csvData = attendees.map((attendee) => {
+      const firstName = attendee.userId
+        ? attendee.user?.firstName
+        : attendee.firstName;
+      const lastName = attendee.userId
+        ? attendee.user?.lastName
+        : attendee.lastName;
+      const email = attendee.userId ? attendee.user?.email : attendee.email;
+
+      return [
+        `${firstName} ${lastName}`,
+        email,
+        attendee.attendedAt ? "Checked In" : "Registered",
+        attendee.ticket?.ticketType?.name || "Unknown",
+        attendee.attendedAt
+          ? new Date(attendee.attendedAt).toLocaleString()
+          : "Not checked in",
+        attendee.userId ? "Registered User" : "Guest",
+      ];
+    });
 
     // Create CSV content
     const csvContent = [headers, ...csvData]
@@ -237,67 +266,89 @@ const EventAttendees = () => {
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {paginatedAttendees.length > 0 ? (
-                  paginatedAttendees.map((attendee) => (
-                    <tr key={attendee.id}>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center gap-3">
-                          <div className="h-8 w-8 rounded-full bg-gray-100 p-1">
-                            <div className="flex h-full w-full items-center justify-center">
-                              <span className="text-sm text-gray-600">
-                                {attendee.firstName?.[0] || "?"}
-                                {attendee.lastName?.[0] || "?"}
-                              </span>
+                  paginatedAttendees.map((attendee) => {
+                    // Determine if this is a registered user or guest
+                    const isRegisteredUser = Boolean(attendee.userId);
+                    const firstName = isRegisteredUser
+                      ? attendee.user?.firstName
+                      : attendee.firstName;
+                    const lastName = isRegisteredUser
+                      ? attendee.user?.lastName
+                      : attendee.lastName;
+                    const email = isRegisteredUser
+                      ? attendee.user?.email
+                      : attendee.email;
+                    const initials = `${firstName?.[0] || "?"}${lastName?.[0] || "?"}`;
+
+                    return (
+                      <tr key={attendee.id}>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center gap-3">
+                            <div
+                              className={`h-8 w-8 rounded-full ${isRegisteredUser ? "bg-blue-100" : "bg-gray-100"} p-1`}
+                            >
+                              <div className="flex h-full w-full items-center justify-center">
+                                <span
+                                  className={`text-sm ${isRegisteredUser ? "text-blue-600" : "text-gray-600"}`}
+                                >
+                                  {initials}
+                                </span>
+                              </div>
+                            </div>
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <p className="font-medium text-gray-900">
+                                  {firstName} {lastName}
+                                </p>
+                                {isRegisteredUser && (
+                                  <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700">
+                                    <UserCheck className="h-3 w-3" />
+                                    User
+                                  </span>
+                                )}
+                              </div>
                             </div>
                           </div>
-                          <div>
-                            <p className="font-medium text-gray-900">
-                              {attendee.firstName} {attendee.lastName}
-                            </p>
-                            {attendee.userId && (
-                              <p className="text-xs text-gray-500">
-                                User ID: {attendee.userId}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-gray-600">
-                        {attendee.email}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-gray-600">
-                        {attendee.ticket?.ticketType?.name || "N/A"}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {attendee.attendedAt ? (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700">
-                            <CheckCircle className="h-3 w-3" />
-                            Checked In
-                            <span className="ml-1">
-                              {new Date(attendee.attendedAt).toLocaleTimeString(
-                                [],
-                                { hour: "2-digit", minute: "2-digit" },
-                              )}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-gray-600">
+                          {email}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-gray-600">
+                          {attendee.ticket?.ticketType?.name || "N/A"}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {attendee.attendedAt ? (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700">
+                              <CheckCircle className="h-3 w-3" />
+                              Checked In
+                              <span className="ml-1">
+                                {new Date(
+                                  attendee.attendedAt,
+                                ).toLocaleTimeString([], {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                })}
+                              </span>
                             </span>
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-700">
-                            <AlertCircle className="h-3 w-3" />
-                            Registered
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center gap-2">
-                          {/* We're removing the direct check-in button from the table */}
-                          <span className="text-xs text-gray-500">
-                            {attendee.attendedAt
-                              ? `Checked in at ${new Date(attendee.attendedAt).toLocaleString()}`
-                              : "Use QR scanner to check in"}
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
+                          ) : (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-700">
+                              <AlertCircle className="h-3 w-3" />
+                              Registered
+                            </span>
+                          )}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-gray-500">
+                              {attendee.attendedAt
+                                ? `Checked in at ${new Date(attendee.attendedAt).toLocaleString()}`
+                                : "Use QR scanner to check in"}
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
                 ) : (
                   <tr>
                     <td
